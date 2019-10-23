@@ -9,11 +9,13 @@ import {RouterModule} from '@angular/router';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import {MaterialAppModule} from './ngmaterial.module';
+import {AddDriverComponent} from './forms/add-driver/add-driver.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DriverListComponent
+    DriverListComponent,
+    AddDriverComponent
   ],
   imports: [
     BrowserModule,

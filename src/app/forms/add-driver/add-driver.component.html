@@ -1,0 +1,46 @@
+<form [formGroup]="driverFormGroup" class="example-form">
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="firstName" matInput
+           placeholder="Имя">
+    <mat-error *ngIf="firstNameFormControl.hasError('maxLength') && !firstNameFormControl.hasError('required')">
+      Максимальная длина 20 символов
+    </mat-error>
+    <mat-error *ngIf="firstNameFormControl.hasError('required')">
+      Обязательное поле
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="lastName" matInput
+           placeholder="Фамилия">
+    <mat-error *ngIf="lastNameFormControl.hasError('maxLength') && !lastNameFormControl.hasError('required')">
+      Максимальная длина 20 символов
+    </mat-error>
+    <mat-error *ngIf="lastNameFormControl.hasError('required')">
+      Обязательное поле
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="driverLicense" matInput
+           placeholder="Водительские права">
+    <mat-error *ngIf="driverLicenseFormControl.hasError('pattern') && !driverLicenseFormControl.hasError('required')">
+      Необходимо ввести 10 цифр
+    </mat-error>
+    <mat-error *ngIf="lastNameFormControl.hasError('required')">
+      Обязательное поле
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!driverFormGroup.valid" value="bold">Регистрация
+  </button>
+
+</form>
+
