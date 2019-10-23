@@ -12,13 +12,15 @@ import {MaterialAppModule} from './ngmaterial.module';
 import {AddDriverComponent} from './forms/add-driver/add-driver.component';
 import {TruckListComponent} from './forms/truck-list/truck-list.component';
 import {TruckService} from './services/truck-service.service';
+import {AddTruckComponent} from './forms/add-truck/add-truck.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DriverListComponent,
     AddDriverComponent,
-    TruckListComponent
+    TruckListComponent,
+    AddTruckComponent
   ],
   imports: [
     BrowserModule,

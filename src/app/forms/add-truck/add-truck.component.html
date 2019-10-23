@@ -1,0 +1,59 @@
+<form [formGroup]="truckFormGroup" class="example-form">
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="registrationNumber" matInput
+           placeholder="Регистрационный номер">
+    <mat-error *ngIf="registrationNumberFormControl.hasError('pattern') && !registrationNumberFormControl.hasError('required')">
+      Необходимо ввести номер в формате АА12345
+    </mat-error>
+    <mat-error *ngIf="registrationNumberFormControl.hasError('required')">
+      Обязательное поле
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="model" matInput
+           placeholder="Модель">
+    <mat-error *ngIf="modelFormControl.hasError('maxLength') && !modelFormControl.hasError('required')">
+      Максимальная длина 15 символов
+    </mat-error>
+    <mat-error *ngIf="modelFormControl.hasError('required')">
+      Обязательное поле
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="shiftSize" matInput
+           placeholder="Размер смены">
+    <mat-error *ngIf="shiftSizeFormControl.hasError('min') && !shiftSizeFormControl.hasError('required')">
+      Минимальное значение 1
+    </mat-error>
+    <mat-error *ngIf="shiftSizeFormControl.hasError('required')">
+      Обязательное поле
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="capacity" matInput
+           placeholder="Вместимость">
+    <mat-error *ngIf="capacityFormControl.hasError('pattern') && !capacityFormControl.hasError('required')">
+      Введите значение в формате 2.5
+    </mat-error>
+    <mat-error *ngIf="capacityFormControl.hasError('required')">
+      Обязательное поле
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!truckFormGroup.valid" value="bold">Регистрация
+  </button>
+
+</form>
+
