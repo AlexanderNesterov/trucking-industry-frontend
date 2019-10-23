@@ -10,12 +10,15 @@ import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import {MaterialAppModule} from './ngmaterial.module';
 import {AddDriverComponent} from './forms/add-driver/add-driver.component';
+import {TruckListComponent} from './forms/truck-list/truck-list.component';
+import {TruckService} from './services/truck-service.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     DriverListComponent,
-    AddDriverComponent
+    AddDriverComponent,
+    TruckListComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +28,7 @@ import {AddDriverComponent} from './forms/add-driver/add-driver.component';
     HttpClientModule,
     MaterialAppModule
   ],
-  providers: [DriverService],
+  providers: [DriverService, TruckService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
