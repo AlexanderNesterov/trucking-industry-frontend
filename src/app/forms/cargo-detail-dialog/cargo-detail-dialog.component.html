@@ -1,0 +1,49 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      First driver
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div>
+    <p>First name: {{driver.user.firstName}}</p>
+    <p>Last name: {{driver.user.lastName}}</p>
+    <p>Driver license: {{driver.driverLicense}}</p>
+    <p>Email: {{driver.user.email}}</p>
+    <p *ngIf="driver.user.phone !== ''"></p>
+  </div>
+</mat-expansion-panel>
+
+<br>
+
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Co-driver driver
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div>
+    <p>First name: {{coDriver.user.firstName}}</p>
+    <p>Last name: {{coDriver.user.lastName}}</p>
+    <p>Driver license: {{coDriver.driverLicense}}</p>
+    <p>Email: {{coDriver.user.email}}</p>
+    <p *ngIf="coDriver.user.phone !== ''"></p>
+  </div>
+</mat-expansion-panel>
+
+<br>
+
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Truck
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div>
+    <p>Model: {{truck.model}}</p>
+    <p>Registration number: {{truck.registrationNumber}}</p>
+    <p>Capacity: {{truck.capacity}}</p>
+  </div>
+</mat-expansion-panel>

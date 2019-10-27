@@ -3,7 +3,7 @@ import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@a
 import {ActivatedRoute, Router} from '@angular/router';
 import {ErrorStateMatcher} from '@angular/material';
 import {Truck} from '../../models/truck';
-import {TruckService} from '../../services/truck-service.service';
+import {TruckService} from '../../services/truck.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {

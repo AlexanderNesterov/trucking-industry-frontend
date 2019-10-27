@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Driver} from '../../models/driver';
-import {DriverService} from '../../services/driver-service.service';
+import {DriverService} from '../../services/driver.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material';

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {DriverService} from '../../services/driver-service.service';
+import {DriverService} from '../../services/driver.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ErrorStateMatcher} from '@angular/material';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';

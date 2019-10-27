@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Truck} from '../../models/truck';
-import {TruckService} from '../../services/truck-service.service';
+import {TruckService} from '../../services/truck.service';
 
 @Component({
   selector: 'app-truck-list',

@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {DriverService} from './services/driver-service.service';
+import {DriverService} from './services/driver.service';
 import {DriverListComponent} from './forms/driver-list/driver-list.component';
 import {RouterModule} from '@angular/router';
 import {AppRoutingModule} from './app-routing.module';
@@ -11,9 +11,12 @@ import {HttpClientModule} from '@angular/common/http';
 import {MaterialAppModule} from './ngmaterial.module';
 import {AddDriverComponent} from './forms/add-driver/add-driver.component';
 import {TruckListComponent} from './forms/truck-list/truck-list.component';
-import {TruckService} from './services/truck-service.service';
+import {TruckService} from './services/truck.service';
 import {AddTruckComponent} from './forms/add-truck/add-truck.component';
 import {UpdateDriverComponent} from './forms/update-driver/update-driver.component';
+import {CargoService} from './services/cargo.service';
+import {CargoListComponent} from './forms/cargo-list/cargo-list.component';
+import {CargoDetailDialogComponent} from './forms/cargo-detail-dialog/cargo-detail-dialog.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,9 @@ import {UpdateDriverComponent} from './forms/update-driver/update-driver.compone
     AddDriverComponent,
     TruckListComponent,
     AddTruckComponent,
-    UpdateDriverComponent
+    UpdateDriverComponent,
+    CargoListComponent,
+    CargoDetailDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +37,8 @@ import {UpdateDriverComponent} from './forms/update-driver/update-driver.compone
     HttpClientModule,
     MaterialAppModule
   ],
-  providers: [DriverService, TruckService],
+  providers: [DriverService, TruckService, CargoService],
+  entryComponents: [CargoDetailDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {
