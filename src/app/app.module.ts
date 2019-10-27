@@ -13,6 +13,7 @@ import {AddDriverComponent} from './forms/add-driver/add-driver.component';
 import {TruckListComponent} from './forms/truck-list/truck-list.component';
 import {TruckService} from './services/truck-service.service';
 import {AddTruckComponent} from './forms/add-truck/add-truck.component';
+import {UpdateDriverComponent} from './forms/update-driver/update-driver.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {AddTruckComponent} from './forms/add-truck/add-truck.component';
     DriverListComponent,
     AddDriverComponent,
     TruckListComponent,
-    AddTruckComponent
+    AddTruckComponent,
+    UpdateDriverComponent
   ],
   imports: [
     BrowserModule,

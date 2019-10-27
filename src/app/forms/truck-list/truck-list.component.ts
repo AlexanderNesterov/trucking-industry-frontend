@@ -11,7 +11,7 @@ import {TruckService} from '../../services/truck-service.service';
 export class TruckListComponent implements OnInit {
 
   trucks: Truck[];
-  displayedColumns: string[] = ['id', 'registrationNumber', 'model', 'shiftSize', 'capacity', 'condition'];
+  displayedColumns: string[] = ['id', 'registrationNumber', 'model', 'capacity', 'condition'];
 
   constructor(private truckService: TruckService, private route: ActivatedRoute, private router: Router) { }
 

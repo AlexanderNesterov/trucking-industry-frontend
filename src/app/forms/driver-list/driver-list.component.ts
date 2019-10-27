@@ -11,7 +11,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class DriverListComponent implements OnInit {
 
   drivers: Driver[];
-  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'driverLicense', 'hoursPerMonth', 'status'];
+  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'status'];
 
   constructor(private driverService: DriverService, private route: ActivatedRoute, private router: Router) { }
 

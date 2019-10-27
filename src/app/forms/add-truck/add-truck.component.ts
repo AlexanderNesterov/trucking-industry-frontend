@@ -26,12 +26,7 @@ export class AddTruckComponent {
 
   modelFormControl = new FormControl('', [
     Validators.required,
-    Validators.maxLength(15)
-  ]);
-
-  shiftSizeFormControl = new FormControl('', [
-    Validators.required,
-    Validators.min(1)
+    Validators.maxLength(32)
   ]);
 
   capacityFormControl = new FormControl('', [
@@ -42,7 +37,6 @@ export class AddTruckComponent {
   truckFormGroup = new FormGroup({
     registrationNumber: this.registrationNumberFormControl,
     model: this.modelFormControl,
-    shiftSize: this.shiftSizeFormControl,
     capacity: this.capacityFormControl
   });
 
@@ -57,7 +51,6 @@ export class AddTruckComponent {
     this.truck = {
       registrationNumber: this.truckFormGroup.controls.registrationNumber.value,
       model: this.truckFormGroup.controls.model.value,
-      shiftSize: this.truckFormGroup.controls.shiftSize.value,
       capacity: this.truckFormGroup.controls.capacity.value
     };
 

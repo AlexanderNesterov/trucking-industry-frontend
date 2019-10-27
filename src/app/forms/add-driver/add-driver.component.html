@@ -1,13 +1,39 @@
 <form [formGroup]="driverFormGroup" class="example-form">
 
   <mat-form-field class="example-full-width">
-    <input [errorStateMatcher]="matcher" formControlName="firstName" matInput
-           placeholder="Имя">
-    <mat-error *ngIf="firstNameFormControl.hasError('maxLength') && !firstNameFormControl.hasError('required')">
-      Максимальная длина 20 символов
+    <input [errorStateMatcher]="matcher" formControlName="login" matInput
+           placeholder="Login">
+    <mat-error *ngIf="loginFormControl.hasError('maxLength') && !firstNameFormControl.hasError('required')">
+      Length not more than 32 symbols
     </mat-error>
     <mat-error *ngIf="firstNameFormControl.hasError('required')">
-      Обязательное поле
+      Required field
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="password" matInput
+           placeholder="Password">
+    <mat-error *ngIf="firstNameFormControl.hasError('maxLength') && !firstNameFormControl.hasError('required')">
+      Length not more 32 symbols
+    </mat-error>
+    <mat-error *ngIf="firstNameFormControl.hasError('required')">
+      Required field
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="firstName" matInput
+           placeholder="First name">
+    <mat-error *ngIf="firstNameFormControl.hasError('pattern') && !firstNameFormControl.hasError('required')">
+      Enter a first name in English(not more than 32 symbols)
+    </mat-error>
+    <mat-error *ngIf="firstNameFormControl.hasError('required')">
+      Required field
     </mat-error>
   </mat-form-field>
 
@@ -15,12 +41,35 @@
 
   <mat-form-field class="example-full-width">
     <input [errorStateMatcher]="matcher" formControlName="lastName" matInput
-           placeholder="Фамилия">
-    <mat-error *ngIf="lastNameFormControl.hasError('maxLength') && !lastNameFormControl.hasError('required')">
-      Максимальная длина 20 символов
+           placeholder="Last name">
+    <mat-error *ngIf="lastNameFormControl.hasError('pattern') && !lastNameFormControl.hasError('required')">
+      Enter a last name in English(not more than 32 symbols)
     </mat-error>
     <mat-error *ngIf="lastNameFormControl.hasError('required')">
-      Обязательное поле
+      Required field
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="phone" matInput
+           placeholder="Phone">
+    <mat-error *ngIf="lastNameFormControl.hasError('pattern')">
+      Enter only numbers(not more than 11 symbols)
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="email" matInput
+           placeholder="Email">
+    <mat-error *ngIf="lastNameFormControl.hasError('pattern') && !lastNameFormControl.hasError('required')">
+      Enter a valid email
+    </mat-error>
+    <mat-error *ngIf="lastNameFormControl.hasError('required')">
+      Required field
     </mat-error>
   </mat-form-field>
 
@@ -28,12 +77,12 @@
 
   <mat-form-field class="example-full-width">
     <input [errorStateMatcher]="matcher" formControlName="driverLicense" matInput
-           placeholder="Водительские права">
+           placeholder="Driver license">
     <mat-error *ngIf="driverLicenseFormControl.hasError('pattern') && !driverLicenseFormControl.hasError('required')">
-      Необходимо ввести 10 цифр
+      Enter 10 numbers
     </mat-error>
     <mat-error *ngIf="lastNameFormControl.hasError('required')">
-      Обязательное поле
+      Required field
     </mat-error>
   </mat-form-field>
 

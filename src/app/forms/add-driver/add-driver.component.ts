@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {DriverService} from '../../services/driver-service.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ErrorStateMatcher} from '@angular/material';
@@ -19,14 +19,33 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class AddDriverComponent {
 
+  loginFormControl = new FormControl('', [
+    Validators.required,
+    Validators.maxLength(32)
+  ]);
+
+  passwordFormControl = new FormControl('', [
+    Validators.required,
+    Validators.maxLength(32)
+  ]);
+
   firstNameFormControl = new FormControl('', [
     Validators.required,
-    Validators.maxLength(20)
+    Validators.pattern('[A-Za-z]{1,32}')
   ]);
 
   lastNameFormControl = new FormControl('', [
     Validators.required,
-    Validators.maxLength(20)
+    Validators.pattern('[A-Za-z]{1,32}')
+  ]);
+
+  phoneFormControl = new FormControl('', [
+    Validators.pattern('\\d{11}')
+  ]);
+
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email
   ]);
 
   driverLicenseFormControl = new FormControl('', [
@@ -35,8 +54,12 @@ export class AddDriverComponent {
   ]);
 
   driverFormGroup = new FormGroup({
+    login: this.loginFormControl,
+    password: this.passwordFormControl,
     firstName: this.firstNameFormControl,
     lastName: this.lastNameFormControl,
+    phone: this.phoneFormControl,
+    email: this.emailFormControl,
     driverLicense: this.driverLicenseFormControl
   });
 
@@ -49,11 +72,17 @@ export class AddDriverComponent {
 
   onSubmit() {
     this.driver = {
-      firstName: this.driverFormGroup.controls.firstName.value,
-      lastName: this.driverFormGroup.controls.lastName.value,
-      driverLicense: this.driverFormGroup.controls.driverLicense.value
+      driverLicense: this.driverFormGroup.controls.driverLicense.value,
+      userDto: {
+        login: this.driverFormGroup.controls.login.value,
+        password: this.driverFormGroup.controls.password.value,
+        firstName: this.driverFormGroup.controls.firstName.value,
+        lastName: this.driverFormGroup.controls.lastName.value,
+        phone: this.driverFormGroup.controls.phone.value,
+        email: this.driverFormGroup.controls.email.value,
+      }
     };
 
-    this.driverService.save(this.driver).subscribe();
+    //this.driverService.save(this.driver).subscribe();
   }
 }
