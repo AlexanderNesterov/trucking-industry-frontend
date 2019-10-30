@@ -17,4 +17,8 @@ export class CargoService {
   public findAll(): Observable<Cargo[]> {
     return this.http.get<Cargo[]>(this.cargoUrl, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
   }
+
+  public addCargo(cargo: Cargo) {
+    return this.http.post(this.cargoUrl, cargo, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+  }
 }

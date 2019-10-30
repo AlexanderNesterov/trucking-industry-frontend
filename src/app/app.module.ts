@@ -17,6 +17,9 @@ import {UpdateDriverComponent} from './forms/update-driver/update-driver.compone
 import {CargoService} from './services/cargo.service';
 import {CargoListComponent} from './forms/cargo-list/cargo-list.component';
 import {CargoDetailDialogComponent} from './forms/cargo-detail-dialog/cargo-detail-dialog.component';
+import {AddCargoComponent} from './forms/add-cargo/add-cargo.component';
+import {MatSortModule} from '@angular/material';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,8 @@ import {CargoDetailDialogComponent} from './forms/cargo-detail-dialog/cargo-deta
     AddTruckComponent,
     UpdateDriverComponent,
     CargoListComponent,
-    CargoDetailDialogComponent
+    CargoDetailDialogComponent,
+    AddCargoComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +39,9 @@ import {CargoDetailDialogComponent} from './forms/cargo-detail-dialog/cargo-deta
     RouterModule,
     AppRoutingModule,
     HttpClientModule,
-    MaterialAppModule
+    MaterialAppModule,
+    MatSortModule,
+    FormsModule
   ],
   providers: [DriverService, TruckService, CargoService],
   entryComponents: [CargoDetailDialogComponent],

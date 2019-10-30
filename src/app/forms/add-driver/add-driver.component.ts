@@ -83,6 +83,6 @@ export class AddDriverComponent {
       }
     };
 
-    //this.driverService.save(this.driver).subscribe();
+    this.driverService.save(this.driver).subscribe();
   }
 }

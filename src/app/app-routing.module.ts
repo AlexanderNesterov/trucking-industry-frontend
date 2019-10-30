@@ -6,6 +6,7 @@ import {TruckListComponent} from './forms/truck-list/truck-list.component';
 import {AddTruckComponent} from './forms/add-truck/add-truck.component';
 import {UpdateDriverComponent} from './forms/update-driver/update-driver.component';
 import {CargoListComponent} from './forms/cargo-list/cargo-list.component';
+import {AddCargoComponent} from './forms/add-cargo/add-cargo.component';
 
 const routes: Routes = [
   {path: 'drivers', component: DriverListComponent},
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'trucks', component: TruckListComponent},
   {path: 'add_truck', component: AddTruckComponent},
   {path: 'update_driver', component: UpdateDriverComponent},
-  {path: 'cargo', component: CargoListComponent}
+  {path: 'cargo', component: CargoListComponent},
+  {path: 'add_cargo', component: AddCargoComponent}
 ];
 
 @NgModule({

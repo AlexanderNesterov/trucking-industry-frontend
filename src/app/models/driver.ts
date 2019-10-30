@@ -1,8 +1,8 @@
 export interface Driver {
   id?: number;
-  driverLicense: string;
+  driverLicense?: string;
   status?: string;
-  userDto: {
+  userDto?: {
     id?: number;
     login: string;
     password?: string;

@@ -5,6 +5,7 @@ export interface Cargo {
   id?: number;
   title: string;
   description?: string;
+  weight: number;
   loadLocation?: string;
   dischargeLocation?: string;
   truck: Truck;
