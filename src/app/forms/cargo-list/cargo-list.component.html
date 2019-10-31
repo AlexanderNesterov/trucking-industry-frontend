@@ -25,6 +25,11 @@
     <td mat-cell *matCellDef="let cargo"> {{cargo.dischargeLocation}} </td>
   </ng-container>
 
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status</th>
+    <td mat-cell *matCellDef="let cargo"> {{cargo.status}} </td>
+  </ng-container>
+
   <ng-container matColumnDef="info">
     <th mat-header-cell *matHeaderCellDef> Info</th>
     <td mat-cell *matCellDef="let cargo">

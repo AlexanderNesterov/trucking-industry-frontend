@@ -13,7 +13,7 @@ import {CargoDetailDialogComponent} from '../cargo-detail-dialog/cargo-detail-di
 export class CargoListComponent implements OnInit {
 
   cargos: Cargo[];
-  displayedColumns: string[] = ['id', 'title', 'weight', 'loadLocation', 'dischargeLocation', 'info'];
+  displayedColumns: string[] = ['id', 'title', 'weight', 'loadLocation', 'dischargeLocation', 'status', 'info'];
 
   constructor(private truckService: CargoService, private route: ActivatedRoute,
               private router: Router, private dialog: MatDialog) {

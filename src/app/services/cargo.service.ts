@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Cargo} from '../models/cargo';
@@ -20,5 +20,17 @@ export class CargoService {
 
   public addCargo(cargo: Cargo) {
     return this.http.post(this.cargoUrl, cargo, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+  }
+
+  public getCargoByDriverId(driverId: number): Observable<Cargo> {
+    return this.http.get<Cargo>(`${this.cargoUrl}/for_driver/${driverId}`, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+  }
+
+  public setAcceptStatus(cargoId: number, driverId: number) {
+    return this.http.put(`${this.cargoUrl}/set_accept_status/${cargoId}/${driverId}`, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+  }
+
+  public setRefuseStatus(cargoId: number, driverId: number) {
+    return this.http.put(`${this.cargoUrl}/set_refuse_status/${cargoId}/${driverId}`, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
   }
 }

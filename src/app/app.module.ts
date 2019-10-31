@@ -20,6 +20,7 @@ import {CargoDetailDialogComponent} from './forms/cargo-detail-dialog/cargo-deta
 import {AddCargoComponent} from './forms/add-cargo/add-cargo.component';
 import {MatSortModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
+import {DriverInfoComponent} from './forms/driver-info/driver-info.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {FormsModule} from '@angular/forms';
     UpdateDriverComponent,
     CargoListComponent,
     CargoDetailDialogComponent,
-    AddCargoComponent
+    AddCargoComponent,
+    DriverInfoComponent
   ],
   imports: [
     BrowserModule,

@@ -23,7 +23,6 @@ export class AddCargoComponent {
   drivers: MatTableDataSource;
   truckSelection = new SelectionModel<Truck>();
   driversSelection = new SelectionModel(true);
-  selectedTruck: Truck;
 
   truckDisplayedColumns: string[] = ['id', 'model', 'registrationNumber', 'capacity', 'select'];
   driverDisplayedColumns: string[] = ['id', 'firstName', 'lastName', 'driverLicense', 'select'];
@@ -46,8 +45,8 @@ export class AddCargoComponent {
     Validators.requiredTrue
   ]);
 
-  driversFormControl = new FormControl('', [
-    Validators.pattern('2')
+  driversFormControl = new FormControl(0, [
+    Validators.min(2)
   ]);
 
   firstFormGroup = new FormGroup({
@@ -75,10 +74,12 @@ export class AddCargoComponent {
   }
 
   getDrivers() {
-    this.driverService.getFreeDrivers().subscribe(data => {
-      this.drivers = new MatTableDataSource(data);
-      console.log('Drivers: ', this.drivers);
-    });
+    if (this.truckSelection.selected.length !== 0) {
+      this.driverService.getFreeDrivers().subscribe(data => {
+        this.drivers = new MatTableDataSource(data);
+        console.log('Drivers: ', this.drivers);
+      });
+    }
   }
 
   applyTrucksFilter(filterValue: string) {
@@ -89,30 +90,24 @@ export class AddCargoComponent {
     this.drivers.filter = filterValue.trim().toLowerCase();
   }
 
-  setTruck() {
-    this.selectedTruck = this.truckSelection.selected.pop();
-    console.log(this.selectedTruck);
-
-    if (this.selectedTruck !== undefined) {
-      this.getDrivers();
-    }
+  confirm() {
+    this.cargoService.addCargo(this.cargo).subscribe();
   }
 
-  confirm() {
-    console.log(this.driversSelection.selected);
-
+  setCargo() {
+    console.log('TRUUUUUUUUUUUCK: ', this.truckSelection.selected);
 
     this.cargo = {
       title: this.firstFormGroup.controls.title.value,
       description: this.firstFormGroup.controls.description.value,
       weight: this.firstFormGroup.controls.weight.value,
-      truck: this.selectedTruck,
+      truck: this.truckSelection.selected[0],
       driver: this.driversSelection.selected.pop(),
       coDriver: this.driversSelection.selected.pop()
     };
+  }
 
-    console.log(this.cargo);
-
-    this.cargoService.addCargo(this.cargo).subscribe();
+  check() {
+    this.thirdFormGroup.patchValue({driversCtrl: this.driversSelection.selected.length});
   }
 }

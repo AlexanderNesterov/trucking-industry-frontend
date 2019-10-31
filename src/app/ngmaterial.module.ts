@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {
-  MatButtonModule, MatCheckboxModule,
+  MatButtonModule, MatCardModule, MatCheckboxModule,
   MatDialogModule, MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatStepperModule,
-  MatTableModule
+  MatInputModule, MatStepperModule, MatTab,
+  MatTableModule, MatTabsModule
 } from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';
 
@@ -23,7 +23,9 @@ import {ReactiveFormsModule} from '@angular/forms';
     MatDialogModule,
     MatExpansionModule,
     MatStepperModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatCardModule,
+    MatTabsModule
   ],
   exports: [
     MatTableModule,
@@ -35,7 +37,9 @@ import {ReactiveFormsModule} from '@angular/forms';
     MatDialogModule,
     MatExpansionModule,
     MatStepperModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatCardModule,
+    MatTabsModule
   ]
 })
 export class MaterialAppModule {

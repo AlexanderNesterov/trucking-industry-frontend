@@ -19,7 +19,7 @@
                min>
       </mat-form-field>
       <div>
-        <button mat-button matStepperNext [disabled]="firstFormGroup.invalid" (click)="getTrucks()">Next</button>
+        <button mat-flat-button matStepperNext color="primary" [disabled]="firstFormGroup.invalid" (click)="getTrucks()">Next</button>
       </div>
     </form>
   </mat-step>
@@ -69,8 +69,8 @@
       </table>
 
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext [disabled]="secondFormGroup.invalid" (click)="setTruck()">Next</button>
+        <button mat-flat-button matStepperPrevious color="primary">Back</button>
+        <button mat-flat-button matStepperNext color="primary" [disabled]="secondFormGroup.invalid" (click)="getDrivers()">Next</button>
       </div>
     </form>
   </mat-step>
@@ -109,7 +109,8 @@
           <th mat-header-cell *matHeaderCellDef>Choice</th>
           <td mat-cell *matCellDef="let driver">
             <mat-checkbox (click)="$event.stopPropagation()"
-                          (change)="$event ? driversSelection.toggle(driver) : null"
+                          (change)="$event ? driversSelection.toggle(driver) : null; check()"
+                          [checked]="driversSelection.isSelected(driver)"
                           [disabled]="!driversSelection.isSelected(driver) && driversSelection.selected.length >= 2">
             </mat-checkbox>
           </td>
@@ -120,23 +121,47 @@
       </table>
 
       <div>
-        <input disabled [(ngModel)]="driversSelection.selected.length" formControlName="driversCtrl">
-      </div>
-
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext [disabled]="thirdFormGroup.invalid">Next</button>
+        <button mat-flat-button matStepperPrevious color="primary">Back</button>
+        <button mat-flat-button matStepperNext color="primary" [disabled]="thirdFormGroup.invalid" (click)="setCargo()">Next</button>
       </div>
     </form>
   </mat-step>
 
   <mat-step>
     <ng-template matStepLabel>Done</ng-template>
-    You are now done.
+
+    <mat-tab-group *ngIf="cargo !== undefined">
+      <mat-tab label="Cargo Information">
+        <p>Title: {{cargo.title}}</p>
+        <p *ngIf="cargo.description !== ''">Description: {{cargo.description}}</p>
+        <p>Weight: {{cargo.weight}}</p>
+      </mat-tab>
+      <mat-tab label="Truck Information">
+        <p>Model: {{cargo.truck.model}}</p>
+        <p>Registration number: {{cargo.truck.registrationNumber}}</p>
+        <p>Capacity: {{cargo.truck.capacity}}</p>
+        <p>Condition: {{cargo.truck.condition}}</p>
+      </mat-tab>
+      <mat-tab label="Driver Information">
+        <p>First name: {{cargo.driver.userDto.firstName}} </p>
+        <p>Last name: {{cargo.driver.userDto.lastName}} </p>
+        <p>Registration number: {{cargo.driver.driverLicense}} </p>
+        <p *ngIf="cargo.driver.userDto.phone !== ''">Phone: {{cargo.driver.userDto.phone}}</p>
+        <p>Email: {{cargo.driver.userDto.email}}</p>
+      </mat-tab>
+      <mat-tab label="Co-Driver Information">
+        <p>First name: {{cargo.coDriver.userDto.firstName}} </p>
+        <p>Last name: {{cargo.coDriver.userDto.lastName}} </p>
+        <p>Registration number: {{cargo.coDriver.driverLicense}} </p>
+        <p *ngIf="cargo.driver.userDto.phone !== ''">Phone: {{cargo.coDriver.userDto.phone}}</p>
+        <p>Email: {{cargo.coDriver.userDto.email}}</p>
+      </mat-tab>
+    </mat-tab-group>
+
     <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-      <button mat-button (click)="confirm()">Confirm</button>
+      <button mat-flat-button color="primary" matStepperPrevious>Back</button>
+      <button mat-flat-button color="primary" (click)="stepper.reset()">Reset</button>
+      <button mat-flat-button color="primary" (click)="confirm()">Confirm</button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>
