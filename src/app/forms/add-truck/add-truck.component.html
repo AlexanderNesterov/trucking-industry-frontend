@@ -39,6 +39,8 @@
 
   <br>
 
+  <p *ngIf="isCreated">Truck has been created</p>
+
   <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!truckFormGroup.valid" value="bold">Регистрация
   </button>
 

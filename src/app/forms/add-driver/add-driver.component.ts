@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ErrorStateMatcher} from '@angular/material';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {Driver} from '../../models/driver';
+import {dashCaseToCamelCase} from '@angular/compiler/src/util';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -64,7 +65,8 @@ export class AddDriverComponent {
   });
 
   matcher = new MyErrorStateMatcher();
-
+  hide = true;
+  isCreated = false;
   driver: Driver;
 
   constructor(private driverService: DriverService, private route: ActivatedRoute, private router: Router) {
@@ -83,6 +85,12 @@ export class AddDriverComponent {
       }
     };
 
-    this.driverService.save(this.driver).subscribe();
+    this.driverService.save(this.driver).subscribe(data => {
+      this.isCreated = true;
+      this.driverFormGroup.reset();
+      console.log(data);
+    }, error => {
+      console.log(error);
+    });
   }
 }

@@ -7,7 +7,6 @@ import {MatTableDataSource} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
 import {DriverService} from '../../services/driver.service';
 import {CargoService} from '../../services/cargo.service';
-import {Driver} from '../../models/driver';
 
 @Component({
   selector: 'app-add-cargo',
@@ -16,6 +15,7 @@ import {Driver} from '../../models/driver';
 })
 export class AddCargoComponent {
 
+  isCreated = false;
   cargo: Cargo;
   // @ts-ignore
   trucks: MatTableDataSource;
@@ -67,6 +67,16 @@ export class AddCargoComponent {
   }
 
   getTrucks() {
+/*    if (this.cargo !== undefined) {
+      return;
+    }*/
+
+    if (this.cargo !== undefined && this.cargo.weight >= this.firstFormGroup.controls.weight.value) {
+      return;
+    }
+
+    this.secondFormGroup.reset();
+
     this.truckService.getFreeTrucks(this.firstFormGroup.controls.weight.value).subscribe(data => {
       this.trucks = new MatTableDataSource(data);
       console.log('Trucks: ', this.trucks);
@@ -74,6 +84,10 @@ export class AddCargoComponent {
   }
 
   getDrivers() {
+    if (this.cargo !== undefined) {
+      return;
+    }
+
     if (this.truckSelection.selected.length !== 0) {
       this.driverService.getFreeDrivers().subscribe(data => {
         this.drivers = new MatTableDataSource(data);
@@ -91,20 +105,26 @@ export class AddCargoComponent {
   }
 
   confirm() {
-    this.cargoService.addCargo(this.cargo).subscribe();
+    this.cargoService.addCargo(this.cargo).subscribe(data => {
+      this.isCreated = true;
+      this.firstFormGroup.reset();
+      this.secondFormGroup.reset();
+      this.thirdFormGroup.reset();
+      this.driversSelection.clear();
+    });
   }
 
   setCargo() {
-    console.log('TRUUUUUUUUUUUCK: ', this.truckSelection.selected);
-
     this.cargo = {
       title: this.firstFormGroup.controls.title.value,
       description: this.firstFormGroup.controls.description.value,
       weight: this.firstFormGroup.controls.weight.value,
-      truck: this.truckSelection.selected[0],
-      driver: this.driversSelection.selected.pop(),
-      coDriver: this.driversSelection.selected.pop()
+      truckDto: this.truckSelection.selected[0],
+      driverDto: this.driversSelection.selected[0],
+      coDriverDto: this.driversSelection.selected[1]
     };
+
+    console.log('Created cargo: ', this.cargo);
   }
 
   check() {

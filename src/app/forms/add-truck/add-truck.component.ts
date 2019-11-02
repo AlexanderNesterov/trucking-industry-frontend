@@ -41,7 +41,7 @@ export class AddTruckComponent {
   });
 
   matcher = new MyErrorStateMatcher();
-
+  isCreated = false;
   truck: Truck;
 
   constructor(private truckService: TruckService, private route: ActivatedRoute, private router: Router) {
@@ -54,7 +54,10 @@ export class AddTruckComponent {
       capacity: this.truckFormGroup.controls.capacity.value
     };
 
-    this.truckService.save(this.truck).subscribe();
+    this.truckService.save(this.truck).subscribe(data => {
+      this.isCreated = true;
+      this.truckFormGroup.reset();
+    });
   }
 
 }

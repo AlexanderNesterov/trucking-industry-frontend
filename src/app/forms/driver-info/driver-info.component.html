@@ -1,7 +1,5 @@
 <br>
 <br>
-<br>
-<br>
 <div *ngIf="personalInformation !== undefined">
   <mat-card>
     <mat-card-title>Personal Information</mat-card-title>
@@ -35,22 +33,22 @@
         <p>Weight: {{cargo.weight}}</p>
       </mat-tab>
       <mat-tab label="Truck Information">
-        <p>Model: {{cargo.truck.model}}</p>
-        <p>Registration number: {{cargo.truck.registrationNumber}}</p>
-        <p>Capacity: {{cargo.truck.capacity}}</p>
-        <p>Condition: {{cargo.truck.condition}}</p>
+        <p>Model: {{cargo.truckDto.model}}</p>
+        <p>Registration number: {{cargo.truckDto.registrationNumber}}</p>
+        <p>Capacity: {{cargo.truckDto.capacity}}</p>
+        <p>Condition: {{cargo.truckDto.condition}}</p>
       </mat-tab>
       <mat-tab label="Driver Information">
-        <p>First name: {{cargo.driver.user.firstName}} </p>
-        <p>Last name: {{cargo.driver.user.lastName}} </p>
-        <p *ngIf="cargo.driver.user.phone !== ''">Phone: {{cargo.driver.user.phone}}</p>
-        <p>Email: {{cargo.driver.user.email}}</p>
+        <p>First name: {{cargo.driverDto.userDto.firstName}} </p>
+        <p>Last name: {{cargo.driverDto.userDto.lastName}} </p>
+        <p *ngIf="cargo.driverDto.userDto.phone !== ''">Phone: {{cargo.driverDto.userDto.phone}}</p>
+        <p>Email: {{cargo.driverDto.userDto.email}}</p>
       </mat-tab>
       <mat-tab label="Co-Driver Information">
-        <p>First name: {{cargo.coDriver.user.firstName}} </p>
-        <p>Last name: {{cargo.coDriver.user.lastName}} </p>
-        <p *ngIf="cargo.driver.user.phone !== ''">Phone: {{cargo.driver.user.phone}}</p>
-        <p>Email: {{cargo.coDriver.user.email}}</p>
+        <p>First name: {{cargo.coDriverDto.userDto.firstName}} </p>
+        <p>Last name: {{cargo.coDriverDto.userDto.lastName}} </p>
+        <p *ngIf="cargo.driverDto.userDto.phone !== ''">Phone: {{cargo.driverDto.userDto.phone}}</p>
+        <p>Email: {{cargo.coDriverDto.userDto.email}}</p>
       </mat-tab>
     </mat-tab-group>
 

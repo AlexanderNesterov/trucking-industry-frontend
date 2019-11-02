@@ -1,28 +1,18 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material';
-import {Driver} from '../../models/driver';
-import {Truck} from '../../models/truck';
+import {Cargo} from '../../models/cargo';
 
 @Component({
   selector: 'app-cargo-detail-dialog',
   templateUrl: './cargo-detail-dialog.component.html',
   styleUrls: ['./cargo-detail-dialog.component.css']
 })
-export class CargoDetailDialogComponent implements OnInit {
+export class CargoDetailDialogComponent {
 
-  driver: Driver;
-  coDriver: Driver;
-  truck: Truck;
+  cargo: Cargo;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
-    this.driver = this.data.cargo.driver;
-    this.coDriver = this.data.cargo.coDriver;
-    this.truck = this.data.cargo.truck;
-
-    console.log(this.driver);
+    this.cargo = this.data.cargo;
+    console.log(this.cargo);
   }
-
-  ngOnInit() {
-  }
-
 }

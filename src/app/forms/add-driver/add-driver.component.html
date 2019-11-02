@@ -15,7 +15,10 @@
 
   <mat-form-field class="example-full-width">
     <input [errorStateMatcher]="matcher" formControlName="password" matInput
-           placeholder="Password">
+           placeholder="Password" [type]="hide ? 'password' : 'text'">
+    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
     <mat-error *ngIf="firstNameFormControl.hasError('maxLength') && !firstNameFormControl.hasError('required')">
       Length not more 32 symbols
     </mat-error>
@@ -87,6 +90,8 @@
   </mat-form-field>
 
   <br>
+
+  <p *ngIf="isCreated">User has been created</p>
 
   <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!driverFormGroup.valid" value="bold">Регистрация
   </button>

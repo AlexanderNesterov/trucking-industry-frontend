@@ -1,49 +1,60 @@
-<mat-expansion-panel>
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      First driver
-    </mat-panel-title>
-  </mat-expansion-panel-header>
+<mat-card>
+  <mat-card-title>Cargo Information</mat-card-title>
 
-  <div>
-    <p>First name: {{driver.user.firstName}}</p>
-    <p>Last name: {{driver.user.lastName}}</p>
-    <p>Driver license: {{driver.driverLicense}}</p>
-    <p>Email: {{driver.user.email}}</p>
-    <p *ngIf="driver.user.phone !== ''"></p>
-  </div>
-</mat-expansion-panel>
+  <mat-card-content>Title: {{cargo.title}}</mat-card-content>
+  <mat-card-content *ngIf="cargo.description !== ''">Description: {{cargo.description}}</mat-card-content>
+  <mat-card-content>Weight: {{cargo.weight}}</mat-card-content>
 
-<br>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        First driver
+      </mat-panel-title>
+    </mat-expansion-panel-header>
 
-<mat-expansion-panel>
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      Co-driver driver
-    </mat-panel-title>
-  </mat-expansion-panel-header>
+    <div>
+      <p>First name: {{cargo.driverDto.userDto.firstName}}</p>
+      <p>Last name: {{cargo.driverDto.userDto.lastName}}</p>
+      <p>Driver license: {{cargo.driverDto.driverLicense}}</p>
+      <p>Email: {{cargo.driverDto.userDto.email}}</p>
+      <!--<p *ngIf="cargo.driverDto.userDto.phone !== ''"></p>-->
+    </div>
+  </mat-expansion-panel>
 
-  <div>
-    <p>First name: {{coDriver.user.firstName}}</p>
-    <p>Last name: {{coDriver.user.lastName}}</p>
-    <p>Driver license: {{coDriver.driverLicense}}</p>
-    <p>Email: {{coDriver.user.email}}</p>
-    <p *ngIf="coDriver.user.phone !== ''"></p>
-  </div>
-</mat-expansion-panel>
+  <br>
 
-<br>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Co-driver
+      </mat-panel-title>
+    </mat-expansion-panel-header>
 
-<mat-expansion-panel>
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      Truck
-    </mat-panel-title>
-  </mat-expansion-panel-header>
+    <div>
+      <p>First name: {{cargo.coDriverDto.userDto.firstName}}</p>
+      <p>Last name: {{cargo.coDriverDto.userDto.lastName}}</p>
+      <p>Co-driver license: {{cargo.coDriverDto.driverLicense}}</p>
+      <p>Email: {{cargo.coDriverDto.userDto.email}}</p>
+<!--
+      <p *ngIf="cargo.coDriverDto.userDto.phone !== ''"></p>
+-->
+    </div>
+  </mat-expansion-panel>
 
-  <div>
-    <p>Model: {{truck.model}}</p>
-    <p>Registration number: {{truck.registrationNumber}}</p>
-    <p>Capacity: {{truck.capacity}}</p>
-  </div>
-</mat-expansion-panel>
+  <br>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Truck
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div>
+      <p>Model: {{cargo.truckDto.model}}</p>
+      <p>Registration number: {{cargo.truckDto.registrationNumber}}</p>
+      <p>Capacity: {{cargo.truckDto.capacity}}</p>
+    </div>
+  </mat-expansion-panel>
+
+</mat-card>

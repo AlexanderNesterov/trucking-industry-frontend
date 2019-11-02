@@ -20,8 +20,8 @@ export class DriverService {
     return this.http.get<Driver[]>(`${this.driversUrl}/free`, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
   }
 
-  public save(driver: Driver) {
-    return this.http.post(this.driversUrl, driver, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+  public save(driver: Driver): Observable<Driver> {
+    return this.http.post<Driver>(this.driversUrl, driver, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
   }
 
   public update(driver: Driver): Observable<Driver> {
