@@ -24,6 +24,9 @@
       <mat-panel-title>
         Cargo
       </mat-panel-title>
+      <mat-panel-title>
+        {{cargo.status}}
+      </mat-panel-title>
     </mat-expansion-panel-header>
 
     <mat-tab-group>
@@ -52,9 +55,17 @@
       </mat-tab>
     </mat-tab-group>
 
-    <div>
-      <button mat-flat-button color="primary" (click)="accept()">Accept</button>
-      <button mat-flat-button color="warn" (click)="refuse()">Refuse</button>
+    <div *ngIf="hardCodedDriverId === cargo.driverDto.id">
+      <div *ngIf="cargo.status === 'CREATED'">
+        <button mat-flat-button color="primary" (click)="accept()">Accept</button>
+        <button mat-flat-button color="warn" (click)="refuse()">Refuse</button>
+      </div>
+
+      <!--<p [hidden]="!isAcceptOrRefuseActivate">{{message}}</p>-->
+      <button mat-flat-button color="primary"
+              *ngIf="isCargoInProgress" (click)="deliver()">Delivered
+      </button>
     </div>
+
   </mat-expansion-panel>
 </div>

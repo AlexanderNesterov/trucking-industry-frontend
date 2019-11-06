@@ -33,4 +33,8 @@ export class CargoService {
   public setRefuseStatus(cargoId: number, driverId: number) {
     return this.http.put(`${this.cargoUrl}/set_refuse_status/${cargoId}/${driverId}`, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
   }
+
+  public setDeliverStatus(cargoId: number, driverId: number) {
+    return this.http.put(`${this.cargoUrl}/set_deliver_status/${cargoId}/${driverId}`, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+  }
 }

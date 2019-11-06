@@ -17,7 +17,7 @@
       <p>Last name: {{cargo.driverDto.userDto.lastName}}</p>
       <p>Driver license: {{cargo.driverDto.driverLicense}}</p>
       <p>Email: {{cargo.driverDto.userDto.email}}</p>
-      <!--<p *ngIf="cargo.driverDto.userDto.phone !== ''"></p>-->
+      <p *ngIf="cargo.driverDto.userDto.phone !== ''">Phone: {{cargo.driverDto.userDto.phone}}</p>
     </div>
   </mat-expansion-panel>
 
@@ -35,9 +35,7 @@
       <p>Last name: {{cargo.coDriverDto.userDto.lastName}}</p>
       <p>Co-driver license: {{cargo.coDriverDto.driverLicense}}</p>
       <p>Email: {{cargo.coDriverDto.userDto.email}}</p>
-<!--
-      <p *ngIf="cargo.coDriverDto.userDto.phone !== ''"></p>
--->
+      <p *ngIf="cargo.coDriverDto.userDto.phone !== ''">Phone: {{cargo.coDriverDto.userDto.phone}}</p>
     </div>
   </mat-expansion-panel>
 

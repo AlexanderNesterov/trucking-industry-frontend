@@ -85,6 +85,8 @@ export class AddDriverComponent {
       }
     };
 
+    console.log(this.driver);
+
     this.driverService.save(this.driver).subscribe(data => {
       this.isCreated = true;
       this.driverFormGroup.reset();

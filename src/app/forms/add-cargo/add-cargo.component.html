@@ -164,7 +164,8 @@
 <!--
       <button mat-flat-button color="primary" (click)="stepper.reset()">Reset</button>
 -->
-      <button mat-flat-button color="primary" (click)="confirm()">Confirm</button>
+      <button mat-flat-button color="primary" (click)="confirm()"
+              [disabled]="firstFormGroup.invalid || secondFormGroup.invalid || thirdFormGroup.invalid">Confirm</button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>
