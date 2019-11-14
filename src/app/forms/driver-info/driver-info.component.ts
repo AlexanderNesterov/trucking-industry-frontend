@@ -14,7 +14,7 @@ export class DriverInfoComponent implements OnInit {
   isCargoInProgress = false;
   personalInformation: Driver;
   cargo: Cargo = undefined;
-  hardCodedDriverId = 1;
+  hardCodedDriverId = 5;
 
   constructor(private driverService: DriverService, private cargoService: CargoService) {
   }
@@ -56,7 +56,7 @@ export class DriverInfoComponent implements OnInit {
   }
 
   deliver() {
-    if (this.hardCodedDriverId !== this.cargo.driverDto.id) {
+    if (this.hardCodedDriverId !== this.cargo.driver.id) {
       return;
     }
 

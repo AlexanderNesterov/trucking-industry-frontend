@@ -9,7 +9,7 @@ export interface Cargo {
   status?: string;
   loadLocation?: string;
   dischargeLocation?: string;
-  truckDto: Truck;
-  driverDto: Driver;
-  coDriverDto: Driver;
+  truck: Truck;
+  driver: Driver;
+  coDriver: Driver;
 }

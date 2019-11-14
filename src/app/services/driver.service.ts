@@ -13,22 +13,27 @@ export class DriverService {
   }
 
   public findAll(): Observable<Driver[]> {
-    return this.http.get<Driver[]>(this.driversUrl, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    return this.http.get<Driver[]>(this.driversUrl,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')});
   }
 
   public getFreeDrivers(): Observable<Driver[]> {
-    return this.http.get<Driver[]>(`${this.driversUrl}/free`, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    return this.http.get<Driver[]>(`${this.driversUrl}/free`,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')});
   }
 
   public save(driver: Driver): Observable<Driver> {
-    return this.http.post<Driver>(this.driversUrl, driver, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    return this.http.post<Driver>(this.driversUrl, driver,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')});
   }
 
   public update(driver: Driver): Observable<Driver> {
-    return this.http.put<Driver>(this.driversUrl, driver, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    return this.http.put<Driver>(this.driversUrl, driver,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')});
   }
 
   public findById(driverId: number): Observable<Driver> {
-    return this.http.get<Driver>(`${this.driversUrl}/${driverId}`, {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    return this.http.get<Driver>(`${this.driversUrl}/${driverId}`,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')});
   }
 }

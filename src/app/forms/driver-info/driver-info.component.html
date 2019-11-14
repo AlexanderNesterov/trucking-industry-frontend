@@ -4,13 +4,13 @@
   <mat-card>
     <mat-card-title>Personal Information</mat-card-title>
 
-    <mat-card-content>Login: {{personalInformation.userDto.login}}</mat-card-content>
-    <mat-card-content>First name: {{personalInformation.userDto.firstName}}</mat-card-content>
-    <mat-card-content>Last name: {{personalInformation.userDto.lastName}}</mat-card-content>
+    <mat-card-content>Login: {{personalInformation.user.login}}</mat-card-content>
+    <mat-card-content>First name: {{personalInformation.user.firstName}}</mat-card-content>
+    <mat-card-content>Last name: {{personalInformation.user.lastName}}</mat-card-content>
     <mat-card-content>Driver license: {{personalInformation.driverLicense}}</mat-card-content>
-    <mat-card-content>Email: {{personalInformation.userDto.email}}</mat-card-content>
-    <mat-card-content *ngIf="personalInformation.userDto.phone !== ''">
-      Phone: {{personalInformation.userDto.phone}}
+    <mat-card-content>Email: {{personalInformation.user.email}}</mat-card-content>
+    <mat-card-content *ngIf="personalInformation.user.phone !== ''">
+      Phone: {{personalInformation.user.phone}}
     </mat-card-content>
     <mat-card-content>Status: {{personalInformation.status}}</mat-card-content>
   </mat-card>
@@ -36,26 +36,26 @@
         <p>Weight: {{cargo.weight}}</p>
       </mat-tab>
       <mat-tab label="Truck Information">
-        <p>Model: {{cargo.truckDto.model}}</p>
-        <p>Registration number: {{cargo.truckDto.registrationNumber}}</p>
-        <p>Capacity: {{cargo.truckDto.capacity}}</p>
-        <p>Condition: {{cargo.truckDto.condition}}</p>
+        <p>Model: {{cargo.truck.model}}</p>
+        <p>Registration number: {{cargo.truck.registrationNumber}}</p>
+        <p>Capacity: {{cargo.truck.capacity}}</p>
+        <p>Condition: {{cargo.truck.condition}}</p>
       </mat-tab>
       <mat-tab label="Driver Information">
-        <p>First name: {{cargo.driverDto.userDto.firstName}} </p>
-        <p>Last name: {{cargo.driverDto.userDto.lastName}} </p>
-        <p *ngIf="cargo.driverDto.userDto.phone !== ''">Phone: {{cargo.driverDto.userDto.phone}}</p>
-        <p>Email: {{cargo.driverDto.userDto.email}}</p>
+        <p>First name: {{cargo.driver.user.firstName}} </p>
+        <p>Last name: {{cargo.driver.user.lastName}} </p>
+        <p *ngIf="cargo.driver.user.phone !== null">Phone: {{cargo.driver.user.phone}}</p>
+        <p>Email: {{cargo.driver.user.email}}</p>
       </mat-tab>
       <mat-tab label="Co-Driver Information">
-        <p>First name: {{cargo.coDriverDto.userDto.firstName}} </p>
-        <p>Last name: {{cargo.coDriverDto.userDto.lastName}} </p>
-        <p *ngIf="cargo.driverDto.userDto.phone !== ''">Phone: {{cargo.driverDto.userDto.phone}}</p>
-        <p>Email: {{cargo.coDriverDto.userDto.email}}</p>
+        <p>First name: {{cargo.coDriver.user.firstName}} </p>
+        <p>Last name: {{cargo.coDriver.user.lastName}} </p>
+        <p *ngIf="cargo.driver.user.phone !== null">Phone: {{cargo.driver.user.phone}}</p>
+        <p>Email: {{cargo.coDriver.user.email}}</p>
       </mat-tab>
     </mat-tab-group>
 
-    <div *ngIf="hardCodedDriverId === cargo.driverDto.id">
+    <div *ngIf="hardCodedDriverId === cargo.driver.id">
       <div *ngIf="cargo.status === 'CREATED'">
         <button mat-flat-button color="primary" (click)="accept()">Accept</button>
         <button mat-flat-button color="warn" (click)="refuse()">Refuse</button>

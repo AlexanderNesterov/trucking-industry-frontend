@@ -119,9 +119,9 @@ export class AddCargoComponent {
       title: this.firstFormGroup.controls.title.value,
       description: this.firstFormGroup.controls.description.value,
       weight: this.firstFormGroup.controls.weight.value,
-      truckDto: this.truckSelection.selected[0],
-      driverDto: this.driversSelection.selected[0],
-      coDriverDto: this.driversSelection.selected[1]
+      truck: this.truckSelection.selected[0],
+      driver: this.driversSelection.selected[0],
+      coDriver: this.driversSelection.selected[1]
     };
 
     console.log('Created cargo: ', this.cargo);

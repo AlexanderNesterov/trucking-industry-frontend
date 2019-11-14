@@ -75,7 +75,7 @@ export class AddDriverComponent {
   onSubmit() {
     this.driver = {
       driverLicense: this.driverFormGroup.controls.driverLicense.value,
-      userDto: {
+      user: {
         login: this.driverFormGroup.controls.login.value,
         password: this.driverFormGroup.controls.password.value,
         firstName: this.driverFormGroup.controls.firstName.value,

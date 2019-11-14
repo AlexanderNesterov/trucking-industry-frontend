@@ -21,7 +21,7 @@ export class UpdateDriverComponent implements OnInit {
 
   updatedDriver: Driver = undefined;
   isUpdated = false;
-  hardcodedDriver = 19;
+  hardcodedDriver = 5;
 
   firstNameFormControl = new FormControl('', [
     Validators.pattern('[A-Za-z]{1,20}')
@@ -65,16 +65,16 @@ export class UpdateDriverComponent implements OnInit {
   putData() {
 
     let changedData = this.driverFormGroup.controls.firstName.value;
-    this.updatedDriver.userDto.firstName = changedData === '' ? this.updatedDriver.userDto.firstName : changedData;
+    this.updatedDriver.user.firstName = changedData === '' ? this.updatedDriver.user.firstName : changedData;
 
     changedData = this.driverFormGroup.controls.lastName.value;
-    this.updatedDriver.userDto.lastName = changedData === '' ? this.updatedDriver.userDto.lastName : changedData;
+    this.updatedDriver.user.lastName = changedData === '' ? this.updatedDriver.user.lastName : changedData;
 
     changedData = this.driverFormGroup.controls.email.value;
-    this.updatedDriver.userDto.email = changedData === '' ? this.updatedDriver.userDto.email : changedData;
+    this.updatedDriver.user.email = changedData === '' ? this.updatedDriver.user.email : changedData;
 
     changedData = this.driverFormGroup.controls.phone.value;
-    this.updatedDriver.userDto.phone = changedData === '' ? this.updatedDriver.userDto.phone : changedData;
+    this.updatedDriver.user.phone = changedData === '' ? this.updatedDriver.user.phone : changedData;
 
     changedData = this.driverFormGroup.controls.driverLicense.value;
     this.updatedDriver.driverLicense = changedData === '' ? this.updatedDriver.driverLicense : changedData;
