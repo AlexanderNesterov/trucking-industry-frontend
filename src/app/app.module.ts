@@ -7,7 +7,7 @@ import {DriverService} from './services/driver.service';
 import {DriverListComponent} from './forms/driver-list/driver-list.component';
 import {RouterModule} from '@angular/router';
 import {AppRoutingModule} from './app-routing.module';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MaterialAppModule} from './ngmaterial.module';
 import {AddDriverComponent} from './forms/add-driver/add-driver.component';
 import {TruckListComponent} from './forms/truck-list/truck-list.component';
@@ -21,6 +21,8 @@ import {AddCargoComponent} from './forms/add-cargo/add-cargo.component';
 import {MatSortModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {DriverInfoComponent} from './forms/driver-info/driver-info.component';
+import {Interceptor} from './interceptors/interceptor';
+import {NotFoundComponent} from './forms/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import {DriverInfoComponent} from './forms/driver-info/driver-info.component';
     CargoListComponent,
     CargoDetailDialogComponent,
     AddCargoComponent,
-    DriverInfoComponent
+    DriverInfoComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,15 @@ import {DriverInfoComponent} from './forms/driver-info/driver-info.component';
     MatSortModule,
     FormsModule
   ],
-  providers: [DriverService, TruckService, CargoService],
+  providers: [
+    DriverService,
+    TruckService,
+    CargoService,
+    {
+    provide: HTTP_INTERCEPTORS,
+    useClass: Interceptor,
+    multi: true
+  }],
   entryComponents: [CargoDetailDialogComponent],
   bootstrap: [AppComponent]
 })

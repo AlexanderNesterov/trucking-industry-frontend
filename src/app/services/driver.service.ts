@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Driver} from '../models/driver';
 
@@ -13,27 +13,22 @@ export class DriverService {
   }
 
   public findAll(): Observable<Driver[]> {
-    return this.http.get<Driver[]>(this.driversUrl,
-      {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    return this.http.get<Driver[]>(this.driversUrl);
   }
 
   public getFreeDrivers(): Observable<Driver[]> {
-    return this.http.get<Driver[]>(`${this.driversUrl}/free`,
-      {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    return this.http.get<Driver[]>(`${this.driversUrl}/free`);
   }
 
   public save(driver: Driver): Observable<Driver> {
-    return this.http.post<Driver>(this.driversUrl, driver,
-      {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    return this.http.post<Driver>(this.driversUrl, driver);
   }
 
   public update(driver: Driver): Observable<Driver> {
-    return this.http.put<Driver>(this.driversUrl, driver,
-      {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    return this.http.put<Driver>(this.driversUrl, driver);
   }
 
   public findById(driverId: number): Observable<Driver> {
-    return this.http.get<Driver>(`${this.driversUrl}/${driverId}`,
-      {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    return this.http.get<Driver>(`${this.driversUrl}/${driverId}`);
   }
 }

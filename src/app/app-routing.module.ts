@@ -8,16 +8,19 @@ import {UpdateDriverComponent} from './forms/update-driver/update-driver.compone
 import {CargoListComponent} from './forms/cargo-list/cargo-list.component';
 import {AddCargoComponent} from './forms/add-cargo/add-cargo.component';
 import {DriverInfoComponent} from './forms/driver-info/driver-info.component';
+import {NotFoundComponent} from './forms/not-found/not-found.component';
+import {AppComponent} from './app.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {path: 'drivers', component: DriverListComponent},
-  {path: 'add_driver', component: AddDriverComponent},
+  {path: 'add-driver', component: AddDriverComponent},
   {path: 'trucks', component: TruckListComponent},
-  {path: 'add_truck', component: AddTruckComponent},
-  {path: 'update_driver', component: UpdateDriverComponent},
+  {path: 'add-truck', component: AddTruckComponent},
+  {path: 'update-driver', component: UpdateDriverComponent},
   {path: 'cargo', component: CargoListComponent},
-  {path: 'add_cargo', component: AddCargoComponent},
-  {path: 'driver_info', component: DriverInfoComponent}
+  {path: 'add-cargo', component: AddCargoComponent},
+  {path: 'driver-info', component: DriverInfoComponent},
+  {path: '**', component: NotFoundComponent}
 ];
 
 @NgModule({

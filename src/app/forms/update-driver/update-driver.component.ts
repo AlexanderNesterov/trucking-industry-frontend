@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Driver} from '../../models/driver';
 import {DriverService} from '../../services/driver.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material';
+import {Subscription} from 'rxjs';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -17,10 +18,11 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './update-driver.component.html',
   styleUrls: ['./update-driver.component.css']
 })
-export class UpdateDriverComponent implements OnInit {
+export class UpdateDriverComponent implements OnInit, OnDestroy {
 
   updatedDriver: Driver = undefined;
   isUpdated = false;
+  subscription: Subscription;
   hardcodedDriver = 5;
 
   firstNameFormControl = new FormControl('', [
@@ -57,9 +59,16 @@ export class UpdateDriverComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.driverService.findById(this.hardcodedDriver).subscribe((data) => {
+    this.subscription = this.driverService.findById(this.hardcodedDriver).subscribe((data) => {
       this.updatedDriver = data;
     });
+    /*this.driverService.findById(this.hardcodedDriver).subscribe((data) => {
+      this.updatedDriver = data;
+    });*/
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   putData() {
@@ -82,10 +91,8 @@ export class UpdateDriverComponent implements OnInit {
 
   onSubmit() {
     this.putData();
-    //console.log(this.updatedDriver);
     this.driverService.update(this.updatedDriver).subscribe(data => {
       this.isUpdated = true;
-      //this.driverFormGroup.reset();
       console.log(data);
     });
   }

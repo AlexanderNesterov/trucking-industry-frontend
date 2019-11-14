@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Truck} from '../models/truck';
 
@@ -13,17 +13,14 @@ export class TruckService {
   }
 
   public findAll(): Observable<Truck[]> {
-    return this.http.get<Truck[]>(this.trucksUrl,
-      {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    return this.http.get<Truck[]>(this.trucksUrl);
   }
 
   public getFreeTrucks(weight: number): Observable<Truck[]> {
-    return this.http.get<Truck[]>(`${this.trucksUrl}/free/${weight}`,
-      {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    return this.http.get<Truck[]>(`${this.trucksUrl}/free/${weight}`);
   }
 
   public save(truck: Truck) {
-    return this.http.post(this.trucksUrl, truck,
-      {headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    return this.http.post(this.trucksUrl, truck);
   }
 }
