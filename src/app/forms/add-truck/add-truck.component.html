@@ -40,6 +40,7 @@
   <br>
 
   <p *ngIf="isCreated">Truck has been created</p>
+  <p *ngIf="registrationNumberExists" class="mat-error">{{errorMessage}}</p>
 
   <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!truckFormGroup.valid" value="bold">Submit
   </button>

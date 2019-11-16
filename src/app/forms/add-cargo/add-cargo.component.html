@@ -77,11 +77,9 @@
   <mat-step [stepControl]="thirdFormGroup">
     <form [formGroup]="thirdFormGroup">
       <ng-template matStepLabel>Choose drivers</ng-template>
-
-      <mat-form-field>
+<!--      <mat-form-field>
         <input matInput (keyup)="applyDriversFilter($event.target.value)" placeholder="Filter">
-      </mat-form-field>
-
+      </mat-form-field>-->
       <table mat-table [dataSource]="drivers" class="mat-elevation-z8">
 
         <ng-container matColumnDef="id">

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, DoCheck, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Truck} from '../../models/truck';
 import {TruckService} from '../../services/truck.service';
@@ -7,13 +7,14 @@ import {MatTableDataSource} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
 import {DriverService} from '../../services/driver.service';
 import {CargoService} from '../../services/cargo.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-add-cargo',
   templateUrl: './add-cargo.component.html',
   styleUrls: ['./add-cargo.component.css']
 })
-export class AddCargoComponent {
+export class AddCargoComponent implements DoCheck, OnDestroy {
 
   isCreated = false;
   cargo: Cargo;
@@ -23,6 +24,10 @@ export class AddCargoComponent {
   drivers: MatTableDataSource;
   truckSelection = new SelectionModel<Truck>();
   driversSelection = new SelectionModel(true);
+  truckSubscription: Subscription;
+  driverSubscription: Subscription;
+  cargoSubscription: Subscription;
+
 
   truckDisplayedColumns: string[] = ['id', 'model', 'registrationNumber', 'capacity', 'select'];
   driverDisplayedColumns: string[] = ['id', 'firstName', 'lastName', 'driverLicense', 'select'];
@@ -66,10 +71,16 @@ export class AddCargoComponent {
   constructor(private truckService: TruckService, private driverService: DriverService, private cargoService: CargoService) {
   }
 
+  ngDoCheck(): void {
+    if (this.firstFormGroup.valid && this.secondFormGroup.valid && this.thirdFormGroup.valid) {
+      this.setCargo();
+    }
+  }
+
   getTrucks() {
-/*    if (this.cargo !== undefined) {
-      return;
-    }*/
+    /*    if (this.cargo !== undefined) {
+          return;
+        }*/
 
     if (this.cargo !== undefined && this.cargo.weight >= this.firstFormGroup.controls.weight.value) {
       return;
@@ -77,7 +88,7 @@ export class AddCargoComponent {
 
     this.secondFormGroup.reset();
 
-    this.truckService.getFreeTrucks(this.firstFormGroup.controls.weight.value).subscribe(data => {
+    this.truckSubscription = this.truckService.getFreeTrucks(this.firstFormGroup.controls.weight.value).subscribe(data => {
       this.trucks = new MatTableDataSource(data);
       console.log('Trucks: ', this.trucks);
     });
@@ -89,7 +100,7 @@ export class AddCargoComponent {
     }
 
     if (this.truckSelection.selected.length !== 0) {
-      this.driverService.getFreeDrivers().subscribe(data => {
+      this.driverSubscription = this.driverService.getFreeDrivers().subscribe(data => {
         this.drivers = new MatTableDataSource(data);
         console.log('Drivers: ', this.drivers);
       });
@@ -102,16 +113,6 @@ export class AddCargoComponent {
 
   applyDriversFilter(filterValue: string) {
     this.drivers.filter = filterValue.trim().toLowerCase();
-  }
-
-  confirm() {
-    this.cargoService.addCargo(this.cargo).subscribe(data => {
-      this.isCreated = true;
-      this.firstFormGroup.reset();
-      this.secondFormGroup.reset();
-      this.thirdFormGroup.reset();
-      this.driversSelection.clear();
-    });
   }
 
   setCargo() {
@@ -127,7 +128,31 @@ export class AddCargoComponent {
     console.log('Created cargo: ', this.cargo);
   }
 
+  confirm() {
+    this.cargoSubscription = this.cargoService.addCargo(this.cargo).subscribe(data => {
+      this.isCreated = true;
+      this.firstFormGroup.reset();
+      this.secondFormGroup.reset();
+      this.thirdFormGroup.reset();
+      this.driversSelection.clear();
+    });
+  }
+
   check() {
     this.thirdFormGroup.patchValue({driversCtrl: this.driversSelection.selected.length});
+  }
+
+  ngOnDestroy(): void {
+    if (this.truckSubscription !== undefined) {
+      this.truckSubscription.unsubscribe();
+    }
+
+    if (this.driverSubscription !== undefined) {
+      this.driverSubscription.unsubscribe();
+    }
+
+    if (this.cargoSubscription !== undefined) {
+      this.cargoSubscription.unsubscribe();
+    }
   }
 }

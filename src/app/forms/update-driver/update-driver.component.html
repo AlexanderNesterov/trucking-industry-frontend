@@ -24,7 +24,7 @@
     <mat-form-field class="example-full-width">
       <input [errorStateMatcher]="matcher" formControlName="phone" matInput
              placeholder="Phone" [value]="updatedDriver.user.phone">
-      <mat-error *ngIf="lastNameFormControl.hasError('pattern')">
+      <mat-error *ngIf="phoneFormControl.hasError('pattern')">
         Enter only numbers(not more than 11 symbols)
       </mat-error>
     </mat-form-field>
@@ -34,7 +34,7 @@
     <mat-form-field class="example-full-width">
       <input [errorStateMatcher]="matcher" formControlName="email" matInput
              placeholder="Email" [value]="updatedDriver.user.email">
-      <mat-error *ngIf="lastNameFormControl.hasError('pattern')">
+      <mat-error *ngIf="emailFormControl.hasError('pattern')">
         Enter a valid email
       </mat-error>
     </mat-form-field>
@@ -54,9 +54,7 @@
 <!--    {{driverFormGroup.controls.registrationNumber.value}}-->
 
     <p *ngIf="isUpdated">User data has been updated</p>
-<!--    <p *ngIf="isDriverExist" class="mat-error">
-      Driver with driver license:  already exists!
-    </p>-->
+    <p *ngIf="driverLicenseExists" class="mat-error">{{errorMessage}}</p>
 
     <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!driverFormGroup.valid" value="bold">Apply
     </button>

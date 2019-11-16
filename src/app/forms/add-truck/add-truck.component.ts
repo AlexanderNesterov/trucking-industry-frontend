@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, DoCheck, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
 import {ErrorStateMatcher} from '@angular/material';
 import {Truck} from '../../models/truck';
 import {TruckService} from '../../services/truck.service';
+import {Subscription} from 'rxjs';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -17,7 +17,14 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './add-truck.component.html',
   styleUrls: ['./add-truck.component.css']
 })
-export class AddTruckComponent {
+export class AddTruckComponent implements DoCheck, OnDestroy {
+
+  matcher = new MyErrorStateMatcher();
+  isCreated = false;
+  registrationNumberExists = false;
+  errorMessage = '';
+  truck: Truck;
+  subscription: Subscription;
 
   registrationNumberFormControl = new FormControl('', [
     Validators.required,
@@ -40,24 +47,41 @@ export class AddTruckComponent {
     capacity: this.capacityFormControl
   });
 
-  matcher = new MyErrorStateMatcher();
-  isCreated = false;
-  truck: Truck;
-
-  constructor(private truckService: TruckService, private route: ActivatedRoute, private router: Router) {
+  constructor(private truckService: TruckService) {
   }
 
-  onSubmit() {
+  ngDoCheck(): void {
+    if (this.registrationNumberExists && this.truckFormGroup.controls.registrationNumber.value !== '') {
+      this.registrationNumberExists = false;
+    }
+  }
+
+  putData() {
     this.truck = {
       registrationNumber: this.truckFormGroup.controls.registrationNumber.value,
       model: this.truckFormGroup.controls.model.value,
       capacity: this.truckFormGroup.controls.capacity.value
     };
+  }
 
-    this.truckService.save(this.truck).subscribe(data => {
+  onSubmit() {
+    this.putData();
+
+    this.subscription = this.truckService.save(this.truck).subscribe(data => {
       this.isCreated = true;
       this.truckFormGroup.reset();
+    }, error => {
+      if ((error.error.message as string).includes('Truck with registration number')) {
+        this.truckFormGroup.patchValue({registrationNumber: ''});
+        this.registrationNumberExists = true;
+        this.errorMessage = error.error.message;
+      }
     });
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription !== undefined) {
+      this.subscription.unsubscribe();
+    }
+  }
 }

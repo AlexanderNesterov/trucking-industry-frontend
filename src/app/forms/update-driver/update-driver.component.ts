@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {Driver} from '../../models/driver';
 import {DriverService} from '../../services/driver.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -18,11 +18,16 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './update-driver.component.html',
   styleUrls: ['./update-driver.component.css']
 })
-export class UpdateDriverComponent implements OnInit, OnDestroy {
+export class UpdateDriverComponent implements OnInit, OnDestroy, DoCheck {
 
+  matcher = new MyErrorStateMatcher();
+  driverLicenseExists = false;
+  errorMessage = '';
   updatedDriver: Driver = undefined;
   isUpdated = false;
-  subscription: Subscription;
+  findSubscription: Subscription;
+  updateSubscription: Subscription;
+
   hardcodedDriver = 5;
 
   firstNameFormControl = new FormControl('', [
@@ -53,13 +58,11 @@ export class UpdateDriverComponent implements OnInit, OnDestroy {
     driverLicense: this.driverLicenseFormControl
   });
 
-  matcher = new MyErrorStateMatcher();
-
-  constructor(private driverService: DriverService, private route: ActivatedRoute, private router: Router) {
+  constructor(private driverService: DriverService) {
   }
 
   ngOnInit() {
-    this.subscription = this.driverService.findById(this.hardcodedDriver).subscribe((data) => {
+    this.findSubscription = this.driverService.findById(this.hardcodedDriver).subscribe((data) => {
       this.updatedDriver = data;
     });
     /*this.driverService.findById(this.hardcodedDriver).subscribe((data) => {
@@ -67,8 +70,10 @@ export class UpdateDriverComponent implements OnInit, OnDestroy {
     });*/
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  ngDoCheck(): void {
+    if (this.driverLicenseExists && this.driverFormGroup.controls.driverLicense.value !== '') {
+      this.driverLicenseExists = false;
+    }
   }
 
   putData() {
@@ -91,9 +96,26 @@ export class UpdateDriverComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.putData();
-    this.driverService.update(this.updatedDriver).subscribe(data => {
+    this.updateSubscription = this.driverService.update(this.updatedDriver).subscribe(data => {
       this.isUpdated = true;
       console.log(data);
+    }, error => {
+      console.log(error);
+      if ((error.error.message as string).includes('Driver with driver license')) {
+        this.driverFormGroup.patchValue({driverLicense: ''});
+        this.driverLicenseExists = true;
+        this.errorMessage = error.error.message;
+      }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.findSubscription !== undefined) {
+      this.findSubscription.unsubscribe();
+    }
+
+    if (this.updateSubscription !== undefined) {
+      this.updateSubscription.unsubscribe();
+    }
   }
 }

@@ -1,25 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Driver} from '../../models/driver';
 import {DriverService} from '../../services/driver.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-driver-list',
   templateUrl: './driver-list.component.html',
   styleUrls: ['./driver-list.component.css']
 })
-export class DriverListComponent implements OnInit {
+export class DriverListComponent implements OnInit, OnDestroy {
 
   drivers: Driver[];
   displayedColumns: string[] = ['id', 'firstName', 'lastName', 'status'];
+  subscription: Subscription;
 
-  constructor(private driverService: DriverService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private driverService: DriverService) { }
 
   ngOnInit() {
-    this.driverService.findAll().subscribe((data: Driver[]) => {
+    this.subscription = this.driverService.findAll().subscribe((data: Driver[]) => {
       this.drivers = data;
       console.log(this.drivers);
     });
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription !== undefined) {
+      this.subscription.unsubscribe();
+    }
+  }
 }

@@ -1,10 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, DoCheck, OnDestroy} from '@angular/core';
 import {DriverService} from '../../services/driver.service';
-import {ActivatedRoute, Router} from '@angular/router';
 import {ErrorStateMatcher} from '@angular/material';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {Driver} from '../../models/driver';
-import {dashCaseToCamelCase} from '@angular/compiler/src/util';
+import {Subscription} from 'rxjs';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -18,7 +17,16 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './add-driver.component.html',
   styleUrls: ['./add-driver.component.css']
 })
-export class AddDriverComponent {
+export class AddDriverComponent implements DoCheck, OnDestroy {
+
+  matcher = new MyErrorStateMatcher();
+  hide = true;
+  isCreated = false;
+  loginExists = false;
+  driverLicenseExists = false;
+  errorMessage = '';
+  driver: Driver;
+  subscription: Subscription;
 
   loginFormControl = new FormControl('', [
     Validators.required,
@@ -64,15 +72,19 @@ export class AddDriverComponent {
     driverLicense: this.driverLicenseFormControl
   });
 
-  matcher = new MyErrorStateMatcher();
-  hide = true;
-  isCreated = false;
-  driver: Driver;
-
-  constructor(private driverService: DriverService, private route: ActivatedRoute, private router: Router) {
+  constructor(private driverService: DriverService) {
   }
 
-  onSubmit() {
+  ngDoCheck(): void {
+    if (this.loginExists && this.driverFormGroup.controls.login.value !== '') {
+      this.loginExists = false;
+    }
+    if (this.driverLicenseExists && this.driverFormGroup.controls.driverLicense.value !== '') {
+      this.driverLicenseExists = false;
+    }
+  }
+
+  putData() {
     this.driver = {
       driverLicense: this.driverFormGroup.controls.driverLicense.value,
       user: {
@@ -84,15 +96,35 @@ export class AddDriverComponent {
         email: this.driverFormGroup.controls.email.value,
       }
     };
+  }
 
-    console.log(this.driver);
+  onSubmit() {
+    this.putData();
 
-    this.driverService.save(this.driver).subscribe(data => {
+    this.subscription = this.driverService.save(this.driver).subscribe(data => {
       this.isCreated = true;
+      setTimeout(() => {
+        this.isCreated = false;
+      }, 10000);
+
       this.driverFormGroup.reset();
-      console.log(data);
     }, error => {
-      console.log(error);
+      if ((error.error.message as string).includes('Driver with login: ')) {
+        this.driverFormGroup.patchValue({login: ''});
+        this.errorMessage = error.error.message;
+        this.loginExists = true;
+      }
+      if ((error.error.message as string).includes('Driver with driver license: ')) {
+        this.driverFormGroup.patchValue({driverLicense: ''});
+        this.errorMessage = error.error.message;
+        this.driverLicenseExists = true;
+      }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription !== undefined) {
+      this.subscription.unsubscribe();
+    }
   }
 }
