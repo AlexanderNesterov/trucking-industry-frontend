@@ -8,6 +8,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {DriverService} from '../../services/driver.service';
 import {CargoService} from '../../services/cargo.service';
 import {Subscription} from 'rxjs';
+import {Driver} from '../../models/driver';
 
 @Component({
   selector: 'app-add-cargo',
@@ -109,8 +110,8 @@ export class AddCargoComponent implements DoCheck, OnDestroy {
       description: this.firstFormGroup.controls.description.value,
       weight: this.firstFormGroup.controls.weight.value,
       truck: this.truckSelection.selected[0],
-      driver: this.driversSelection.selected[0],
-      coDriver: this.driversSelection.selected[1]
+      driver: this.driversSelection.selected[0] as Driver,
+      coDriver: this.driversSelection.selected[1] as Driver
     };
   }
 

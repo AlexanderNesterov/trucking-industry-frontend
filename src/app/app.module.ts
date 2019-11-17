@@ -23,6 +23,8 @@ import {FormsModule} from '@angular/forms';
 import {DriverInfoComponent} from './forms/driver-info/driver-info.component';
 import {Interceptor} from './interceptors/interceptor';
 import {NotFoundComponent} from './forms/not-found/not-found.component';
+import {ManagersListComponent} from './forms/managers-list/managers-list.component';
+import {ManagerService} from './services/manager.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import {NotFoundComponent} from './forms/not-found/not-found.component';
     CargoDetailDialogComponent,
     AddCargoComponent,
     DriverInfoComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ManagersListComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +55,7 @@ import {NotFoundComponent} from './forms/not-found/not-found.component';
     DriverService,
     TruckService,
     CargoService,
+    ManagerService,
     {
     provide: HTTP_INTERCEPTORS,
     useClass: Interceptor,
