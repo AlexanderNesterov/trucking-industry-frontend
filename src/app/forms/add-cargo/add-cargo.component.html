@@ -1,4 +1,4 @@
-<mat-horizontal-stepper [linear]="true" #stepper>
+<mat-horizontal-stepper [linear]="true">
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Fill out cargo description</ng-template>
@@ -26,10 +26,6 @@
   <mat-step [stepControl]="secondFormGroup">
     <form [formGroup]="secondFormGroup">
       <ng-template matStepLabel>Choose truck</ng-template>
-
-      <mat-form-field>
-        <input matInput (keyup)="applyTrucksFilter($event.target.value)" placeholder="Filter">
-      </mat-form-field>
 
       <table mat-table [dataSource]="trucks" class="mat-elevation-z8">
 
@@ -77,9 +73,6 @@
   <mat-step [stepControl]="thirdFormGroup">
     <form [formGroup]="thirdFormGroup">
       <ng-template matStepLabel>Choose drivers</ng-template>
-<!--      <mat-form-field>
-        <input matInput (keyup)="applyDriversFilter($event.target.value)" placeholder="Filter">
-      </mat-form-field>-->
       <table mat-table [dataSource]="drivers" class="mat-elevation-z8">
 
         <ng-container matColumnDef="id">
@@ -119,7 +112,9 @@
 
       <div>
         <button mat-flat-button matStepperPrevious color="primary">Back</button>
-        <button mat-flat-button matStepperNext color="primary" [disabled]="thirdFormGroup.invalid" (click)="setCargo()">Next</button>
+        <button mat-flat-button matStepperNext color="primary" [disabled]="thirdFormGroup.invalid" (click)="setCargo()">
+          Next
+        </button>
       </div>
     </form>
   </mat-step>
@@ -159,11 +154,10 @@
 
     <div>
       <button mat-flat-button color="primary" matStepperPrevious>Back</button>
-<!--
-      <button mat-flat-button color="primary" (click)="stepper.reset()">Reset</button>
--->
       <button mat-flat-button color="primary" (click)="confirm()"
-              [disabled]="firstFormGroup.invalid || secondFormGroup.invalid || thirdFormGroup.invalid">Confirm</button>
+              [disabled]="firstFormGroup.invalid || secondFormGroup.invalid || thirdFormGroup.invalid">
+        Confirm
+      </button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

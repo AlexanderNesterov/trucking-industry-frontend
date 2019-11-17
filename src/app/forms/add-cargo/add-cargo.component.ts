@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
+import {Component, DoCheck, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Truck} from '../../models/truck';
 import {TruckService} from '../../services/truck.service';
@@ -78,10 +78,6 @@ export class AddCargoComponent implements DoCheck, OnDestroy {
   }
 
   getTrucks() {
-    /*    if (this.cargo !== undefined) {
-          return;
-        }*/
-
     if (this.cargo !== undefined && this.cargo.weight >= this.firstFormGroup.controls.weight.value) {
       return;
     }
@@ -107,14 +103,6 @@ export class AddCargoComponent implements DoCheck, OnDestroy {
     }
   }
 
-  applyTrucksFilter(filterValue: string) {
-    this.trucks.filter = filterValue.trim().toLowerCase();
-  }
-
-  applyDriversFilter(filterValue: string) {
-    this.drivers.filter = filterValue.trim().toLowerCase();
-  }
-
   setCargo() {
     this.cargo = {
       title: this.firstFormGroup.controls.title.value,
@@ -124,8 +112,6 @@ export class AddCargoComponent implements DoCheck, OnDestroy {
       driver: this.driversSelection.selected[0],
       coDriver: this.driversSelection.selected[1]
     };
-
-    console.log('Created cargo: ', this.cargo);
   }
 
   confirm() {

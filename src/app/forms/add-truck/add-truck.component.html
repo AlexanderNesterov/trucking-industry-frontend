@@ -29,6 +29,7 @@
   <mat-form-field class="example-full-width">
     <input [errorStateMatcher]="matcher" formControlName="capacity" matInput
            placeholder="Capacity">
+    <span matSuffix>kg</span>
     <mat-error *ngIf="capacityFormControl.hasError('pattern') && !capacityFormControl.hasError('required')">
       Enter number in format 2.5
     </mat-error>
@@ -42,7 +43,8 @@
   <p *ngIf="isCreated">Truck has been created</p>
   <p *ngIf="registrationNumberExists" class="mat-error">{{errorMessage}}</p>
 
-  <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!truckFormGroup.valid" value="bold">Submit
+  <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!truckFormGroup.valid" value="bold">
+    Submit
   </button>
 
 </form>
