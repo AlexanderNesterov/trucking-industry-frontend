@@ -25,6 +25,7 @@ import {Interceptor} from './interceptors/interceptor';
 import {NotFoundComponent} from './forms/not-found/not-found.component';
 import {ManagersListComponent} from './forms/managers-list/managers-list.component';
 import {ManagerService} from './services/manager.service';
+import {AddManagerComponent} from './forms/add-manager/add-manager.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {ManagerService} from './services/manager.service';
     AddCargoComponent,
     DriverInfoComponent,
     NotFoundComponent,
-    ManagersListComponent
+    ManagersListComponent,
+    AddManagerComponent
   ],
   imports: [
     BrowserModule,

@@ -1,10 +1,11 @@
-import {Component, DoCheck, OnDestroy} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {DriverService} from '../../services/driver.service';
 import {ErrorStateMatcher} from '@angular/material';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {Driver} from '../../models/driver';
 import {Subscription} from 'rxjs';
 import {User} from '../../models/user';
+import {ManagerService} from '../../services/manager.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -14,19 +15,18 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  selector: 'app-add-driver',
-  templateUrl: './add-driver.component.html',
-  styleUrls: ['./add-driver.component.css']
+  selector: 'app-add-manager',
+  templateUrl: './add-manager.component.html',
+  styleUrls: ['./add-manager.component.css']
 })
-export class AddDriverComponent implements DoCheck, OnDestroy {
+export class AddManagerComponent implements OnDestroy, DoCheck {
 
   matcher = new MyErrorStateMatcher();
   hide = true;
   isCreated = false;
   loginExists = false;
-  driverLicenseExists = false;
   errorMessage = '';
-  driver: Driver;
+  manager: User;
   subscription: Subscription;
 
   loginFormControl = new FormControl('', [
@@ -58,70 +58,52 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
     Validators.email
   ]);
 
-  driverLicenseFormControl = new FormControl('', [
-    Validators.required,
-    Validators.pattern('\\d{10}')
-  ]);
-
-  driverFormGroup = new FormGroup({
+  managerFormGroup = new FormGroup({
     login: this.loginFormControl,
     password: this.passwordFormControl,
     firstName: this.firstNameFormControl,
     lastName: this.lastNameFormControl,
     phone: this.phoneFormControl,
     email: this.emailFormControl,
-    driverLicense: this.driverLicenseFormControl
   });
 
-  constructor(private driverService: DriverService) {
+  constructor(private managerService: ManagerService) {
   }
 
   ngDoCheck(): void {
-    if (this.loginExists && this.driverFormGroup.controls.login.value !== '') {
+    if (this.loginExists && this.managerFormGroup.controls.login.value !== '') {
       this.loginExists = false;
-    }
-    if (this.driverLicenseExists && this.driverFormGroup.controls.driverLicense.value !== '') {
-      this.driverLicenseExists = false;
     }
   }
 
   putData() {
-    const innerUser = {
-      login: this.driverFormGroup.controls.login.value,
-      password: this.driverFormGroup.controls.password.value,
-      firstName: this.driverFormGroup.controls.firstName.value,
-      lastName: this.driverFormGroup.controls.lastName.value,
-      phone: this.driverFormGroup.controls.phone.value,
-      email: this.driverFormGroup.controls.email.value
-    };
-
-    this.driver = {
-      driverLicense: this.driverFormGroup.controls.driverLicense.value,
-      user: innerUser as User
+    this.manager = {
+      login: this.managerFormGroup.controls.login.value,
+      password: this.managerFormGroup.controls.password.value,
+      firstName: this.managerFormGroup.controls.firstName.value,
+      lastName: this.managerFormGroup.controls.lastName.value,
+      phone: this.managerFormGroup.controls.phone.value,
+      email: this.managerFormGroup.controls.email.value,
     };
   }
 
   onSubmit() {
     this.putData();
 
-    this.subscription = this.driverService.save(this.driver).subscribe(data => {
+    this.subscription = this.managerService.save(this.manager).subscribe(data => {
       this.isCreated = true;
       setTimeout(() => {
         this.isCreated = false;
       }, 10000);
 
-      this.driverFormGroup.reset();
+      this.managerFormGroup.reset();
     }, error => {
-      if ((error.error.message as string).includes('Driver with login: ')) {
-        this.driverFormGroup.patchValue({login: ''});
+      if ((error.error.message as string).includes('Manager with login: ')) {
+        this.managerFormGroup.patchValue({login: ''});
         this.errorMessage = error.error.message;
         this.loginExists = true;
       }
-      if ((error.error.message as string).includes('Driver with driver license: ')) {
-        this.driverFormGroup.patchValue({driverLicense: ''});
-        this.errorMessage = error.error.message;
-        this.driverLicenseExists = true;
-      }
+
     });
   }
 

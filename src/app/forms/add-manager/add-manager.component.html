@@ -1,0 +1,82 @@
+<form [formGroup]="managerFormGroup" class="example-form">
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="login" matInput
+           placeholder="Login" maxlength="32">
+    <mat-error *ngIf="loginFormControl.hasError('required')">
+      Required field
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="password" matInput maxlength="32"
+           placeholder="Password" [type]="hide ? 'password' : 'text'">
+    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+    <mat-error *ngIf="passwordFormControl.hasError('required')">
+      Required field
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="firstName" matInput
+           placeholder="First name">
+    <mat-error *ngIf="firstNameFormControl.hasError('pattern')">
+      Enter a first name in English(not more than 32 symbols)
+    </mat-error>
+    <mat-error *ngIf="firstNameFormControl.hasError('required')">
+      Required field
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="lastName" matInput
+           placeholder="Last name">
+    <mat-error *ngIf="lastNameFormControl.hasError('pattern')">
+      Enter a last name in English(not more than 32 symbols)
+    </mat-error>
+    <mat-error *ngIf="lastNameFormControl.hasError('required')">
+      Required field
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="phone" matInput
+           placeholder="Phone">
+    <mat-error *ngIf="phoneFormControl.hasError('pattern')">
+      Enter only numbers(not more than 11 symbols)
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field class="example-full-width">
+    <input [errorStateMatcher]="matcher" formControlName="email" matInput
+           placeholder="Email">
+    <mat-error *ngIf="emailFormControl.hasError('pattern')">
+      Enter a valid email
+    </mat-error>
+    <mat-error *ngIf="emailFormControl.hasError('required')">
+      Required field
+    </mat-error>
+  </mat-form-field>
+
+  <br>
+
+  <p *ngIf="isCreated">User has been created</p>
+  <p *ngIf="loginExists" class="mat-error">{{errorMessage}}</p>
+
+  <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!managerFormGroup.valid" value="bold">Submit
+  </button>
+
+</form>
+

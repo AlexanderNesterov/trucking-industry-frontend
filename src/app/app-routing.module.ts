@@ -11,11 +11,13 @@ import {DriverInfoComponent} from './forms/driver-info/driver-info.component';
 import {NotFoundComponent} from './forms/not-found/not-found.component';
 import {AppComponent} from './app.component';
 import {ManagersListComponent} from './forms/managers-list/managers-list.component';
+import {AddManagerComponent} from './forms/add-manager/add-manager.component';
 
 export const routes: Routes = [
   {path: 'drivers', component: DriverListComponent},
   {path: 'managers', component: ManagersListComponent},
   {path: 'add-driver', component: AddDriverComponent},
+  {path: 'add-manager', component: AddManagerComponent},
   {path: 'trucks', component: TruckListComponent},
   {path: 'add-truck', component: AddTruckComponent},
   {path: 'update-driver', component: UpdateDriverComponent},
