@@ -27,6 +27,7 @@ import {ManagersListComponent} from './forms/managers-list/managers-list.compone
 import {ManagerService} from './services/manager.service';
 import {AddManagerComponent} from './forms/add-manager/add-manager.component';
 import {UpdateManagerComponent} from './forms/update-manager/update-manager.component';
+import {UpdateTruckComponent} from './forms/update-truck/update-truck.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {UpdateManagerComponent} from './forms/update-manager/update-manager.comp
     NotFoundComponent,
     ManagersListComponent,
     AddManagerComponent,
-    UpdateManagerComponent
+    UpdateManagerComponent,
+    UpdateTruckComponent
   ],
   imports: [
     BrowserModule,

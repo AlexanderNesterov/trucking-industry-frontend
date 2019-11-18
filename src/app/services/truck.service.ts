@@ -12,6 +12,10 @@ export class TruckService {
     this.trucksUrl = 'http://localhost:8080/trucks';
   }
 
+  public findById(truckId: number): Observable<Truck> {
+    return this.http.get<Truck>(`${this.trucksUrl}/${truckId}`);
+  }
+
   public findAll(): Observable<Truck[]> {
     return this.http.get<Truck[]>(this.trucksUrl);
   }
@@ -22,5 +26,9 @@ export class TruckService {
 
   public save(truck: Truck) {
     return this.http.post(this.trucksUrl, truck);
+  }
+
+  public update(truck: Truck) {
+    return this.http.put(this.trucksUrl, truck);
   }
 }

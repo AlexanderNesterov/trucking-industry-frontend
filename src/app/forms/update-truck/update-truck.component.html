@@ -1,0 +1,43 @@
+<div *ngIf="oldTruck !== undefined">
+  <form [formGroup]="truckFormGroup" class="example-form">
+
+    <mat-form-field class="example-full-width">
+      <input [errorStateMatcher]="matcher" formControlName="registrationNumber" matInput
+             placeholder="Registration number" [value]="oldTruck.registrationNumber">
+      <mat-error *ngIf="registrationNumberFormControl.hasError('pattern')">
+        Enter a number in format АА12345
+      </mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field class="example-full-width">
+      <input [errorStateMatcher]="matcher" formControlName="model" matInput
+             placeholder="Model" [value]="oldTruck.model">
+      <mat-error *ngIf="modelFormControl.hasError('maxLength')">
+        Length not more than 32
+      </mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field class="example-full-width">
+      <input [errorStateMatcher]="matcher" formControlName="capacity" matInput
+             placeholder="Capacity" [value]="oldTruck.capacity">
+      <span matSuffix>kg</span>
+      <mat-error *ngIf="capacityFormControl.hasError('pattern')">
+        Enter number in format 2.5
+      </mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <p *ngIf="isUpdated">Truck has been updated</p>
+    <p *ngIf="errorMessage !== ''" class="mat-error">{{errorMessage}}</p>
+
+    <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!truckFormGroup.valid" value="bold">
+      Submit
+    </button>
+  </form>
+</div>
+
