@@ -14,6 +14,10 @@ export class CargoService {
     this.cargoUrl = 'http://localhost:8080/cargo';
   }
 
+  public findById(cargoId: number): Observable<Cargo> {
+    return this.http.get<Cargo>(`${this.cargoUrl}/${cargoId}`);
+  }
+
   public findAll(): Observable<Cargo[]> {
     return this.http.get<Cargo[]>(this.cargoUrl);
   }
