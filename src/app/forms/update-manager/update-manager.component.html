@@ -1,9 +1,9 @@
-<div *ngIf="updatedDriver !== undefined">
-  <form [formGroup]="driverFormGroup" class="example-form">
+<div *ngIf="updatedManager !== undefined">
+  <form [formGroup]="managerFormGroup" class="example-form">
 
     <mat-form-field class="example-full-width">
       <input [errorStateMatcher]="matcher" formControlName="firstName" matInput
-             placeholder="First name" [value]="updatedDriver.user.firstName">
+             placeholder="First name" [value]="updatedManager.firstName">
       <mat-error *ngIf="firstNameFormControl.hasError('pattern')">
         Enter a first name in English(not more than 32 symbols)
       </mat-error>
@@ -13,7 +13,7 @@
 
     <mat-form-field class="example-full-width">
       <input [errorStateMatcher]="matcher" formControlName="lastName" matInput
-             placeholder="Last name" [value]="updatedDriver.user.lastName">
+             placeholder="Last name" [value]="updatedManager.lastName">
       <mat-error *ngIf="lastNameFormControl.hasError('pattern')">
         Enter a last name in English(not more than 32 symbols)
       </mat-error>
@@ -23,7 +23,7 @@
 
     <mat-form-field class="example-full-width">
       <input [errorStateMatcher]="matcher" formControlName="phone" matInput
-             placeholder="Phone" [value]="updatedDriver.user.phone">
+             placeholder="Phone" [value]="updatedManager.phone">
       <mat-error *ngIf="phoneFormControl.hasError('pattern')">
         Enter only numbers(not more than 11 symbols)
       </mat-error>
@@ -33,7 +33,7 @@
 
     <mat-form-field class="example-full-width">
       <input [errorStateMatcher]="matcher" formControlName="email" matInput
-             placeholder="Email" [value]="updatedDriver.user.email">
+             placeholder="Email" [value]="updatedManager.email">
       <mat-error *ngIf="emailFormControl.hasError('pattern')">
         Enter a valid email
       </mat-error>
@@ -41,20 +41,9 @@
 
     <br>
 
-    <mat-form-field class="example-full-width">
-      <input [errorStateMatcher]="matcher" formControlName="driverLicense" matInput
-             placeholder="Driver license" [value]="updatedDriver.driverLicense">
-      <mat-error *ngIf="driverLicenseFormControl.hasError('pattern')">
-        Enter 10 numbers
-      </mat-error>
-    </mat-form-field>
-
-    <br>
-
     <p *ngIf="isUpdated">User data has been updated</p>
-    <p *ngIf="driverLicenseExists" class="mat-error">{{errorMessage}}</p>
 
-    <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!driverFormGroup.valid" value="bold">Apply
+    <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!managerFormGroup.valid" value="bold">Apply
     </button>
 
   </form>

@@ -12,6 +12,7 @@ import {NotFoundComponent} from './forms/not-found/not-found.component';
 import {AppComponent} from './app.component';
 import {ManagersListComponent} from './forms/managers-list/managers-list.component';
 import {AddManagerComponent} from './forms/add-manager/add-manager.component';
+import {UpdateManagerComponent} from './forms/update-manager/update-manager.component';
 
 export const routes: Routes = [
   {path: 'drivers', component: DriverListComponent},
@@ -21,6 +22,7 @@ export const routes: Routes = [
   {path: 'trucks', component: TruckListComponent},
   {path: 'add-truck', component: AddTruckComponent},
   {path: 'update-driver', component: UpdateDriverComponent},
+  {path: 'update-manager', component: UpdateManagerComponent},
   {path: 'cargo', component: CargoListComponent},
   {path: 'add-cargo', component: AddCargoComponent},
   {path: 'driver-info', component: DriverInfoComponent},

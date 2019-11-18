@@ -26,6 +26,7 @@ import {NotFoundComponent} from './forms/not-found/not-found.component';
 import {ManagersListComponent} from './forms/managers-list/managers-list.component';
 import {ManagerService} from './services/manager.service';
 import {AddManagerComponent} from './forms/add-manager/add-manager.component';
+import {UpdateManagerComponent} from './forms/update-manager/update-manager.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import {AddManagerComponent} from './forms/add-manager/add-manager.component';
     DriverInfoComponent,
     NotFoundComponent,
     ManagersListComponent,
-    AddManagerComponent
+    AddManagerComponent,
+    UpdateManagerComponent
   ],
   imports: [
     BrowserModule,
