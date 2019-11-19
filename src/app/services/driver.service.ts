@@ -20,12 +20,12 @@ export class DriverService {
     return this.http.get<Driver[]>(`${this.driversUrl}/free`);
   }
 
-  public save(driver: Driver): Observable<Driver> {
-    return this.http.post<Driver>(this.driversUrl, driver);
+  public save(driver: Driver): Observable<boolean> {
+    return this.http.post<boolean>(this.driversUrl, driver);
   }
 
-  public update(driver: Driver): Observable<Driver> {
-    return this.http.put<Driver>(this.driversUrl, driver);
+  public update(driver: Driver): Observable<boolean> {
+    return this.http.put<boolean>(this.driversUrl, driver);
   }
 
   public findById(driverId: number): Observable<Driver> {

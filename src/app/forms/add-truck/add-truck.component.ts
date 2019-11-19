@@ -7,8 +7,7 @@ import {Subscription} from 'rxjs';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    return control && control.invalid && (control.dirty || control.touched);
   }
 }
 
@@ -68,7 +67,12 @@ export class AddTruckComponent implements DoCheck, OnDestroy {
     this.putData();
 
     this.subscription = this.truckService.save(this.truck).subscribe(data => {
-      this.isCreated = true;
+      this.isCreated = data;
+
+      setTimeout(() => {
+        this.isCreated = false;
+      }, 3000);
+
       this.truckFormGroup.reset();
     }, error => {
       if ((error.error.message as string).includes('Truck with registration number')) {

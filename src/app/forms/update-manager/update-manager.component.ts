@@ -27,11 +27,11 @@ export class UpdateManagerComponent implements OnInit, OnDestroy {
   hardcodedManager = 35;
 
   firstNameFormControl = new FormControl('', [
-    Validators.pattern('[A-Za-z]{1,20}')
+    Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
   ]);
 
   lastNameFormControl = new FormControl('', [
-    Validators.pattern('[A-Za-z]{1,20}')
+    Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
   ]);
 
   emailFormControl = new FormControl('', [
@@ -76,7 +76,7 @@ export class UpdateManagerComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.putData();
     this.updateSubscription = this.managerService.update(this.updatedManager).subscribe(data => {
-      this.isUpdated = true;
+      this.isUpdated = data;
       console.log(data);
     });
   }

@@ -18,6 +18,8 @@
 
 <br>
 
+<p *ngIf="isFreeDriver">You don't have any cargo</p>
+
 <div *ngIf="cargo !== undefined && cargo !== null">
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -61,7 +63,6 @@
         <button mat-flat-button color="warn" (click)="refuse()">Refuse</button>
       </div>
 
-      <!--<p [hidden]="!isAcceptOrRefuseActivate">{{message}}</p>-->
       <button mat-flat-button color="primary"
               *ngIf="isCargoInProgress" (click)="deliver()">Delivered
       </button>

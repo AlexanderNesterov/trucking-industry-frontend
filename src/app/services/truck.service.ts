@@ -24,11 +24,11 @@ export class TruckService {
     return this.http.get<Truck[]>(`${this.trucksUrl}/free/${weight}`);
   }
 
-  public save(truck: Truck) {
-    return this.http.post(this.trucksUrl, truck);
+  public save(truck: Truck): Observable<boolean> {
+    return this.http.post<boolean>(this.trucksUrl, truck);
   }
 
-  public update(truck: Truck) {
-    return this.http.put(this.trucksUrl, truck);
+  public update(truck: Truck): Observable<boolean> {
+    return this.http.put<boolean>(this.trucksUrl, truck);
   }
 }

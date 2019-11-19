@@ -8,8 +8,7 @@ import {Subscription} from 'rxjs';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    return control && control.invalid && (control.dirty || control.touched);
   }
 }
 
@@ -27,14 +26,14 @@ export class UpdateDriverComponent implements OnInit, OnDestroy, DoCheck {
   isUpdated = false;
   findSubscription: Subscription;
   updateSubscription: Subscription;
-  hardcodedDriver = 5;
+  hardcodedDriver = 26;
 
   firstNameFormControl = new FormControl('', [
-    Validators.pattern('[A-Za-z]{1,20}')
+    Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
   ]);
 
   lastNameFormControl = new FormControl('', [
-    Validators.pattern('[A-Za-z]{1,20}')
+    Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
   ]);
 
   emailFormControl = new FormControl('', [
@@ -93,7 +92,7 @@ export class UpdateDriverComponent implements OnInit, OnDestroy, DoCheck {
   onSubmit() {
     this.putData();
     this.updateSubscription = this.driverService.update(this.updatedDriver).subscribe(data => {
-      this.isUpdated = true;
+      this.isUpdated = data;
       console.log(data);
     }, error => {
       console.log(error);

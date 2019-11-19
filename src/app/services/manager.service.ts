@@ -21,11 +21,11 @@ export class ManagerService {
     return this.http.get<Driver>(`${this.managersUrl}/${managerId}`);
   }
 
-  public save(user: User): Observable<User> {
-    return this.http.post<User>(this.managersUrl, user);
+  public save(user: User): Observable<boolean> {
+    return this.http.post<boolean>(this.managersUrl, user);
   }
 
-  public update(user: User): Observable<User> {
-    return this.http.put<User>(this.managersUrl, user);
+  public update(user: User): Observable<boolean> {
+    return this.http.put<boolean>(this.managersUrl, user);
   }
 }

@@ -8,8 +8,7 @@ import {User} from '../../models/user';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    return control && control.invalid && (control.dirty || control.touched);
   }
 }
 
@@ -41,12 +40,12 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
 
   firstNameFormControl = new FormControl('', [
     Validators.required,
-    Validators.pattern('[A-Za-z]{1,32}')
+    Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
   ]);
 
   lastNameFormControl = new FormControl('', [
     Validators.required,
-    Validators.pattern('[A-Za-z]{1,32}')
+    Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
   ]);
 
   phoneFormControl = new FormControl('', [
@@ -105,10 +104,10 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
     this.putData();
 
     this.subscription = this.driverService.save(this.driver).subscribe(data => {
-      this.isCreated = true;
+      this.isCreated = data;
       setTimeout(() => {
         this.isCreated = false;
-      }, 10000);
+      }, 3000);
 
       this.driverFormGroup.reset();
     }, error => {

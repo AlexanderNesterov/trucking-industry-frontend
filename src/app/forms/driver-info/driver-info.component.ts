@@ -4,7 +4,6 @@ import {Cargo} from '../../models/cargo';
 import {CargoService} from '../../services/cargo.service';
 import {Driver} from '../../models/driver';
 import {Subscription} from 'rxjs';
-import {unsupported} from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'app-driver-info',
@@ -13,12 +12,13 @@ import {unsupported} from '@angular/compiler/src/render3/view/util';
 })
 export class DriverInfoComponent implements OnInit, OnDestroy {
 
+  isFreeDriver = false;
   isCargoInProgress = false;
   personalInformation: Driver;
   cargo: Cargo = undefined;
   driverSubscription: Subscription;
   cargoSubscription: Subscription;
-  hardCodedDriverId = 11;
+  hardCodedDriverId = 29;
 
   constructor(private driverService: DriverService, private cargoService: CargoService) {
   }
@@ -35,15 +35,15 @@ export class DriverInfoComponent implements OnInit, OnDestroy {
     this.cargoSubscription = this.cargoService.getCargoByDriverId(this.hardCodedDriverId).subscribe(data => {
       this.cargo = data;
 
-      if (this.cargo === null) {
-        return;
-      }
-
       if (this.cargo.status === 'IN_PROGRESS') {
         this.isCargoInProgress = true;
       }
 
       console.log(this.cargo);
+    }, error => {
+      if ((error.error.message as string).includes('Cargo with driver id')) {
+        this.isFreeDriver = true;
+      }
     });
   }
 
@@ -55,7 +55,7 @@ export class DriverInfoComponent implements OnInit, OnDestroy {
 
   refuse() {
     this.cargoService.setRefuseStatus(this.cargo.id, this.hardCodedDriverId).subscribe(() => {
-      this.getCargo();
+      this.cargo = null;
     });
   }
 

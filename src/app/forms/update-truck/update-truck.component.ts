@@ -7,8 +7,7 @@ import {Subscription} from 'rxjs';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    return control && control.invalid && (control.dirty || control.touched);
   }
 }
 
@@ -26,7 +25,7 @@ export class UpdateTruckComponent implements OnInit, OnDestroy {
   errorMessage = '';
   updateSubscription: Subscription;
   findSubscription: Subscription;
-  hardcodedTruck = 7;
+  hardcodedTruck = 15;
 
   registrationNumberFormControl = new FormControl('', [
     Validators.pattern('[A-Z]{2}\\d{5}')
@@ -63,21 +62,14 @@ export class UpdateTruckComponent implements OnInit, OnDestroy {
       registrationNumber: this.truckFormGroup.controls.registrationNumber.value === '' ?
         this.oldTruck.registrationNumber : this.truckFormGroup.controls.registrationNumber.value
     };
-    /*    let changedData = this.truckFormGroup.controls.model.value;
-        this.newTruck.model = changedData === '' ? this.oldTruck.model : changedData;
-
-        changedData = this.truckFormGroup.controls.capacity.value;
-        this.newTruck.capacity = changedData === '' ? this.oldTruck.capacity : changedData;
-
-        changedData = this.truckFormGroup.controls.registrationNumber.value;
-        this.newTruck.registrationNumber = changedData === '' ? this.oldTruck.registrationNumber : changedData;*/
   }
 
   onSubmit() {
     this.putData();
 
     this.updateSubscription = this.truckService.update(this.newTruck).subscribe(data => {
-      this.isUpdated = true;
+      this.isUpdated = data;
+      this.oldTruck = this.newTruck;
     }, error => {
       if ((error.error.message as string).includes('Truck with registration number: ')) {
         this.errorMessage = error.error.message;
