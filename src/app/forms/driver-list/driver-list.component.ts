@@ -11,7 +11,7 @@ import {Subscription} from 'rxjs';
 export class DriverListComponent implements OnInit, OnDestroy {
 
   drivers: Driver[];
-  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'status'];
+  displayedColumns: string[] = ['id', 'name', 'driverLicense', 'contact' , 'status'];
   subscription: Subscription;
 
   constructor(private driverService: DriverService) { }
