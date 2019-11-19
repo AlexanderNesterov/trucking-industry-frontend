@@ -22,26 +22,28 @@ export class CargoService {
     return this.http.get<Cargo[]>(this.cargoUrl);
   }
 
-  public addCargo(cargo: Cargo) {
-    return this.http.post(this.cargoUrl, cargo);
+  public addCargo(cargo: Cargo): Observable<boolean> {
+    return this.http.post<boolean>(this.cargoUrl, cargo);
   }
+
+ public updateCargo(cargo: Cargo): Observable<boolean> {
+    return this.http.put<boolean>(this.cargoUrl, cargo);
+ }
+ //
 
   public getCargoByDriverId(driverId: number): Observable<Cargo> {
     return this.http.get<Cargo>(`${this.cargoUrl}/for-driver/${driverId}`);
   }
 
-  public setAcceptStatus(cargoId: number, driverId: number) {
-    // @ts-ignore
-    return this.http.put(`${this.cargoUrl}/set-accept-status/${cargoId}/${driverId}`);
+  public setAcceptStatus(cargoId: number, driverId: number): Observable<boolean> {
+    return this.http.put<boolean>(`${this.cargoUrl}/set-accept-status/${cargoId}/${driverId}`, null);
   }
 
-  public setRefuseStatus(cargoId: number, driverId: number) {
-    // @ts-ignore
-    return this.http.put(`${this.cargoUrl}/set-refuse-status/${cargoId}/${driverId}`);
+  public setRefuseStatus(cargoId: number, driverId: number): Observable<boolean> {
+    return this.http.put<boolean>(`${this.cargoUrl}/set-refuse-status/${cargoId}/${driverId}`, null);
   }
 
-  public setDeliverStatus(cargoId: number, driverId: number) {
-    // @ts-ignore
-    return this.http.put(`${this.cargoUrl}/set-deliver-status/${cargoId}/${driverId}`);
+  public setDeliverStatus(cargoId: number, driverId: number): Observable<boolean> {
+    return this.http.put<boolean>(`${this.cargoUrl}/set-deliver-status/${cargoId}/${driverId}`, null);
   }
 }

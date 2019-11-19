@@ -12,10 +12,10 @@ import {Driver} from '../../models/driver';
 
 @Component({
   selector: 'app-add-cargo',
-  templateUrl: './add-cargo.component.html',
+  templateUrl: './add-cargo-two.component.html',
   styleUrls: ['./add-cargo.component.css']
 })
-export class AddCargoComponent implements DoCheck, OnDestroy {
+export class AddCargoComponent implements OnDestroy {
 
   isCreated = false;
   cargo: Cargo;
@@ -23,15 +23,20 @@ export class AddCargoComponent implements DoCheck, OnDestroy {
   trucks: MatTableDataSource;
   // @ts-ignore
   drivers: MatTableDataSource;
+  firstFormDisable = false;
+  secondFormDisable = false;
+  thirdFormDisable = false;
+  isReady = false;
   truckSelection = new SelectionModel<Truck>();
   driversSelection = new SelectionModel(true);
   truckSubscription: Subscription;
   driverSubscription: Subscription;
+
+
   cargoSubscription: Subscription;
-
-
   truckDisplayedColumns: string[] = ['id', 'model', 'registrationNumber', 'capacity', 'select'];
-  driverDisplayedColumns: string[] = ['id', 'firstName', 'lastName', 'driverLicense', 'select'];
+
+  driverDisplayedColumns: string[] = ['id', 'name', 'driverLicense', 'select'];
 
   titleFormControl = new FormControl('', [
     Validators.required,
@@ -64,7 +69,6 @@ export class AddCargoComponent implements DoCheck, OnDestroy {
   secondFormGroup = new FormGroup({
     truck: this.truckFormControl
   });
-
   thirdFormGroup = new FormGroup({
     driversCtrl: this.driversFormControl
   });
@@ -72,19 +76,7 @@ export class AddCargoComponent implements DoCheck, OnDestroy {
   constructor(private truckService: TruckService, private driverService: DriverService, private cargoService: CargoService) {
   }
 
-  ngDoCheck(): void {
-    if (this.firstFormGroup.valid && this.secondFormGroup.valid && this.thirdFormGroup.valid) {
-      this.setCargo();
-    }
-  }
-
   getTrucks() {
-    if (this.cargo !== undefined && this.cargo.weight >= this.firstFormGroup.controls.weight.value) {
-      return;
-    }
-
-    this.secondFormGroup.reset();
-
     this.truckSubscription = this.truckService.getFreeTrucks(this.firstFormGroup.controls.weight.value).subscribe(data => {
       this.trucks = new MatTableDataSource(data);
       console.log('Trucks: ', this.trucks);
@@ -92,36 +84,40 @@ export class AddCargoComponent implements DoCheck, OnDestroy {
   }
 
   getDrivers() {
-    if (this.cargo !== undefined) {
-      return;
-    }
-
-    if (this.truckSelection.selected.length !== 0) {
-      this.driverSubscription = this.driverService.getFreeDrivers().subscribe(data => {
-        this.drivers = new MatTableDataSource(data);
-        console.log('Drivers: ', this.drivers);
-      });
-    }
+    this.driverSubscription = this.driverService.getFreeDrivers().subscribe(data => {
+      this.drivers = new MatTableDataSource(data);
+      console.log('Drivers: ', this.drivers);
+    });
   }
 
-  setCargo() {
+  setInfo() {
     this.cargo = {
       title: this.firstFormGroup.controls.title.value,
       description: this.firstFormGroup.controls.description.value,
-      weight: this.firstFormGroup.controls.weight.value,
-      truck: this.truckSelection.selected[0],
-      driver: this.driversSelection.selected[0] as Driver,
-      coDriver: this.driversSelection.selected[1] as Driver
+      weight: this.firstFormGroup.controls.weight.value
     };
+
+    this.firstFormDisable = true;
+  }
+
+  setTruck() {
+    this.cargo.truck = this.truckSelection.selected[0];
+    this.secondFormDisable = true;
+  }
+
+  setDrivers() {
+    this.cargo.driver = this.driversSelection.selected[0];
+    this.cargo.coDriver = this.driversSelection.selected[1];
+    this.isReady = true;
+    this.thirdFormDisable = true;
   }
 
   confirm() {
     this.cargoSubscription = this.cargoService.addCargo(this.cargo).subscribe(data => {
-      this.isCreated = true;
       this.firstFormGroup.reset();
       this.secondFormGroup.reset();
       this.thirdFormGroup.reset();
-      this.driversSelection.clear();
+      this.isCreated = data;
     });
   }
 
