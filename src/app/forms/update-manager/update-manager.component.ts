@@ -24,7 +24,7 @@ export class UpdateManagerComponent implements OnInit, OnDestroy {
   isUpdated = false;
   findSubscription: Subscription;
   updateSubscription: Subscription;
-  hardcodedManager = 23;
+  hardcodedManager = 35;
 
   firstNameFormControl = new FormControl('', [
     Validators.pattern('[A-Za-z]{1,20}')

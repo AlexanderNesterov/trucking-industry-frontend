@@ -11,7 +11,7 @@ import {ManagerService} from '../../services/manager.service';
 export class ManagersListComponent implements OnInit, OnDestroy {
 
   managers: User[];
-  displayedColumns: string[] = ['id', 'Name', 'Phone', 'Email'];
+  displayedColumns: string[] = ['id', 'name', 'contact'];
   subscription: Subscription;
 
   constructor(private managerService: ManagerService) { }
