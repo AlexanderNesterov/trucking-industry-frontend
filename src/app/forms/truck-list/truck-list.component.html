@@ -1,11 +1,6 @@
-<br>
-
 <button mat-flat-button color="primary" (click)="addNewTruck()">Add new truck</button>
 
-<br>
-<br>
-
-<table mat-table [dataSource]="trucks" class="mat-elevation-z8">
+<table mat-table [dataSource]="trucks">
 
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef> Id</th>

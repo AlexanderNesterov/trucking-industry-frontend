@@ -1,11 +1,6 @@
-<br>
-
 <button mat-flat-button color="primary" (click)="addNewDriver()">Add new driver</button>
 
-<br>
-<br>
-
-<table mat-table [dataSource]="drivers" class="mat-elevation-z8">
+<table mat-table [dataSource]="drivers">
 
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef> Id</th>

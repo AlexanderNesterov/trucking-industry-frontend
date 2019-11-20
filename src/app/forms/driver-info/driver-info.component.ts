@@ -18,7 +18,7 @@ export class DriverInfoComponent implements OnInit, OnDestroy {
   cargo: Cargo = undefined;
   driverSubscription: Subscription;
   cargoSubscription: Subscription;
-  hardCodedDriverId = 29;
+  hardCodedDriverId = 23;
 
   constructor(private driverService: DriverService, private cargoService: CargoService) {
   }

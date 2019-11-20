@@ -1,7 +1,8 @@
 <div *ngIf="updatedManager !== undefined">
-  <form [formGroup]="managerFormGroup" class="example-form">
+  <form [formGroup]="managerFormGroup" class="form">
 
-    <mat-form-field class="example-full-width">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>First name</mat-label>
       <input [errorStateMatcher]="matcher" formControlName="firstName" matInput
              placeholder="First name" [value]="updatedManager.firstName">
       <mat-error *ngIf="firstNameFormControl.hasError('pattern')">
@@ -9,9 +10,8 @@
       </mat-error>
     </mat-form-field>
 
-    <br>
-
-    <mat-form-field class="example-full-width">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Last name</mat-label>
       <input [errorStateMatcher]="matcher" formControlName="lastName" matInput
              placeholder="Last name" [value]="updatedManager.lastName">
       <mat-error *ngIf="lastNameFormControl.hasError('pattern')">
@@ -19,9 +19,8 @@
       </mat-error>
     </mat-form-field>
 
-    <br>
-
-    <mat-form-field class="example-full-width">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Phone</mat-label>
       <input [errorStateMatcher]="matcher" formControlName="phone" matInput
              placeholder="Phone" [value]="updatedManager.phone">
       <mat-error *ngIf="phoneFormControl.hasError('pattern')">
@@ -29,17 +28,14 @@
       </mat-error>
     </mat-form-field>
 
-    <br>
-
-    <mat-form-field class="example-full-width">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Email</mat-label>
       <input [errorStateMatcher]="matcher" formControlName="email" matInput
              placeholder="Email" [value]="updatedManager.email">
       <mat-error *ngIf="emailFormControl.hasError('pattern')">
         Enter a valid email
       </mat-error>
     </mat-form-field>
-
-    <br>
 
     <p *ngIf="isUpdated">User data has been updated</p>
 

@@ -1,6 +1,7 @@
-<form [formGroup]="driverFormGroup" class="example-form">
+<form [formGroup]="driverFormGroup" class="form">
 
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>Login</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="login" matInput
            placeholder="Login" maxlength="32">
     <mat-error *ngIf="loginFormControl.hasError('required')">
@@ -8,9 +9,8 @@
     </mat-error>
   </mat-form-field>
 
-  <br>
-
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>Password</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="password" matInput maxlength="32"
            placeholder="Password" [type]="hide ? 'password' : 'text'">
     <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
@@ -21,9 +21,8 @@
     </mat-error>
   </mat-form-field>
 
-  <br>
-
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>First Name</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="firstName" matInput
            placeholder="First name">
     <mat-error *ngIf="firstNameFormControl.hasError('pattern')">
@@ -34,9 +33,8 @@
     </mat-error>
   </mat-form-field>
 
-  <br>
-
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>Last Name</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="lastName" matInput
            placeholder="Last name">
     <mat-error *ngIf="lastNameFormControl.hasError('pattern')">
@@ -47,9 +45,8 @@
     </mat-error>
   </mat-form-field>
 
-  <br>
-
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>Phone</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="phone" matInput
            placeholder="Phone">
     <mat-error *ngIf="phoneFormControl.hasError('pattern')">
@@ -57,9 +54,8 @@
     </mat-error>
   </mat-form-field>
 
-  <br>
-
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>Email</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="email" matInput
            placeholder="Email">
     <mat-error *ngIf="emailFormControl.hasError('pattern')">
@@ -70,9 +66,8 @@
     </mat-error>
   </mat-form-field>
 
-  <br>
-
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>Driver License</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="driverLicense" matInput
            placeholder="Driver license">
     <mat-error *ngIf="driverLicenseFormControl.hasError('pattern')">
@@ -83,13 +78,12 @@
     </mat-error>
   </mat-form-field>
 
-  <br>
-
   <p *ngIf="isCreated">User has been created</p>
   <p *ngIf="loginExists" class="mat-error">{{errorMessage}}</p>
   <p *ngIf="driverLicenseExists" class="mat-error">{{errorMessage}}</p>
 
-  <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!driverFormGroup.valid" value="bold">Submit
+  <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!driverFormGroup.valid" value="bold">
+    Submit
   </button>
 
 </form>

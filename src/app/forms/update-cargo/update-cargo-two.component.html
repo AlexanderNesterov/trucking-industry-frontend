@@ -9,23 +9,25 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <form [formGroup]="firstFormGroup">
-        <ng-template matStepLabel>Fill out cargo description</ng-template>
-        <mat-form-field>
+      <form [formGroup]="firstFormGroup" class="form">
+        <mat-label>Title</mat-label>
+        <mat-form-field class="full-width" appearance="fill">
           <input matInput placeholder="Title" formControlName="title">
         </mat-form-field>
 
         <br>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Weight</mat-label>
+          <input matInput placeholder="Amount" type="number" formControlName="weight">
+        </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Description</mat-label>
           <input matInput placeholder="Description" formControlName="description">
         </mat-form-field>
 
         <br>
 
-        <mat-form-field>
-          <input matInput placeholder="Amount" type="number" class="example-right-align" formControlName="weight">
-        </mat-form-field>
         <div>
           <button mat-flat-button color="primary"
                   (click)="getTrucks(); setInfo()" [disabled]="firstFormGroup.invalid">Apply
@@ -34,8 +36,6 @@
       </form>
     </mat-expansion-panel>
   </div>
-
-  <br>
 
   <div [hidden]="secondFormDisable">
     <mat-expansion-panel [disabled]="!firstFormDisable || firstFormGroup.invalid" [expanded]="firstFormDisable">
@@ -46,7 +46,7 @@
       </mat-expansion-panel-header>
 
       <form [formGroup]="secondFormGroup">
-        <table mat-table [dataSource]="trucks" class="mat-elevation-z8">
+        <table mat-table [dataSource]="trucks">
 
           <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef> Id</th>
@@ -89,11 +89,10 @@
     </mat-expansion-panel>
   </div>
 
-  <br>
-
   <div [hidden]="thirdFormDisable">
     <mat-expansion-panel
-      [disabled]="!secondFormDisable || firstFormGroup.invalid || secondFormGroup.invalid" [expanded]="secondFormDisable">
+      [disabled]="!secondFormDisable || firstFormGroup.invalid || secondFormGroup.invalid"
+      [expanded]="secondFormDisable">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Choose drivers
@@ -101,7 +100,7 @@
       </mat-expansion-panel-header>
 
       <form [formGroup]="thirdFormGroup">
-        <table mat-table [dataSource]="drivers" class="mat-elevation-z8">
+        <table mat-table [dataSource]="drivers">
 
           <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef> Id</th>
@@ -140,48 +139,50 @@
     </mat-expansion-panel>
   </div>
 
-  <br>
+  <div>
+    <mat-expansion-panel
+      [disabled]="!thirdFormDisable || firstFormGroup.invalid || secondFormGroup.invalid || thirdFormGroup.invalid"
+      [expanded]="thirdFormDisable">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Done
+        </mat-panel-title>
+      </mat-expansion-panel-header>
 
-  <mat-expansion-panel [disabled]="!thirdFormDisable || firstFormGroup.invalid || secondFormGroup.invalid || thirdFormGroup.invalid" [expanded]="thirdFormDisable">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Done
-      </mat-panel-title>
-    </mat-expansion-panel-header>
+      <mat-tab-group *ngIf="isReady">
+        <mat-tab label="Cargo Information">
+          <p>Title: {{cargo.title}}</p>
+          <p *ngIf="cargo.description !== ''">Description: {{cargo.description}}</p>
+          <p>Weight: {{cargo.weight}}</p>
+        </mat-tab>
+        <mat-tab label="Truck Information">
+          <p>Model: {{cargo.truck.model}}</p>
+          <p>Registration number: {{cargo.truck.registrationNumber}}</p>
+          <p>Capacity: {{cargo.truck.capacity}}</p>
+          <p>Condition: {{cargo.truck.condition}}</p>
+        </mat-tab>
+        <mat-tab label="Driver Information">
+          <p>First name: {{cargo.driver.user.firstName}} </p>
+          <p>Last name: {{cargo.driver.user.lastName}} </p>
+          <p>Driver license: {{cargo.driver.driverLicense}} </p>
+          <p *ngIf="cargo.driver.user.phone !== null">Phone: {{cargo.driver.user.phone}}</p>
+          <p>Email: {{cargo.driver.user.email}}</p>
+        </mat-tab>
+        <mat-tab label="Co-Driver Information">
+          <p>First name: {{cargo.coDriver.user.firstName}} </p>
+          <p>Last name: {{cargo.coDriver.user.lastName}} </p>
+          <p>Driver license: {{cargo.coDriver.driverLicense}} </p>
+          <p *ngIf="cargo.coDriver.user.phone !== null">Phone: {{cargo.coDriver.user.phone}}</p>
+          <p>Email: {{cargo.coDriver.user.email}}</p>
+        </mat-tab>
+      </mat-tab-group>
 
-    <mat-tab-group *ngIf="isReady">
-      <mat-tab label="Cargo Information">
-        <p>Title: {{cargo.title}}</p>
-        <p *ngIf="cargo.description !== ''">Description: {{cargo.description}}</p>
-        <p>Weight: {{cargo.weight}}</p>
-      </mat-tab>
-      <mat-tab label="Truck Information">
-        <p>Model: {{cargo.truck.model}}</p>
-        <p>Registration number: {{cargo.truck.registrationNumber}}</p>
-        <p>Capacity: {{cargo.truck.capacity}}</p>
-        <p>Condition: {{cargo.truck.condition}}</p>
-      </mat-tab>
-      <mat-tab label="Driver Information">
-        <p>First name: {{cargo.driver.user.firstName}} </p>
-        <p>Last name: {{cargo.driver.user.lastName}} </p>
-        <p>Driver license: {{cargo.driver.driverLicense}} </p>
-        <p *ngIf="cargo.driver.user.phone !== null">Phone: {{cargo.driver.user.phone}}</p>
-        <p>Email: {{cargo.driver.user.email}}</p>
-      </mat-tab>
-      <mat-tab label="Co-Driver Information">
-        <p>First name: {{cargo.coDriver.user.firstName}} </p>
-        <p>Last name: {{cargo.coDriver.user.lastName}} </p>
-        <p>Driver license: {{cargo.coDriver.driverLicense}} </p>
-        <p *ngIf="cargo.coDriver.user.phone !== null">Phone: {{cargo.coDriver.user.phone}}</p>
-        <p>Email: {{cargo.coDriver.user.email}}</p>
-      </mat-tab>
-    </mat-tab-group>
+      <p *ngIf="isCreated">Cargo has been updated</p>
 
-    <p *ngIf="isCreated">Cargo has been updated</p>
-
-    <button mat-flat-button color="primary" (click)="confirm()"
-            [disabled]="firstFormGroup.invalid || secondFormGroup.invalid || thirdFormGroup.invalid">
-      Confirm
-    </button>
-  </mat-expansion-panel>
+      <button mat-flat-button color="primary" (click)="confirm()"
+              [disabled]="firstFormGroup.invalid || secondFormGroup.invalid || thirdFormGroup.invalid">
+        Confirm
+      </button>
+    </mat-expansion-panel>
+  </div>
 </mat-card>

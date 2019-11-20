@@ -1,7 +1,8 @@
 <div *ngIf="oldTruck !== undefined">
-  <form [formGroup]="truckFormGroup" class="example-form">
+  <form [formGroup]="truckFormGroup" class="form">
 
-    <mat-form-field class="example-full-width">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Registration number</mat-label>
       <input [errorStateMatcher]="matcher" formControlName="registrationNumber" matInput
              placeholder="Registration number" [value]="oldTruck.registrationNumber">
       <mat-error *ngIf="registrationNumberFormControl.hasError('pattern')">
@@ -11,7 +12,8 @@
 
     <br>
 
-    <mat-form-field class="example-full-width">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Model</mat-label>
       <input [errorStateMatcher]="matcher" formControlName="model" matInput
              placeholder="Model" [value]="oldTruck.model">
       <mat-error *ngIf="modelFormControl.hasError('maxLength')">
@@ -21,7 +23,8 @@
 
     <br>
 
-    <mat-form-field class="example-full-width">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Capacity</mat-label>
       <input [errorStateMatcher]="matcher" formControlName="capacity" matInput
              placeholder="Capacity" [value]="oldTruck.capacity">
       <span matSuffix>kg</span>

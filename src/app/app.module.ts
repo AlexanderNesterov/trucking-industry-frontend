@@ -29,6 +29,9 @@ import {AddManagerComponent} from './forms/add-manager/add-manager.component';
 import {UpdateManagerComponent} from './forms/update-manager/update-manager.component';
 import {UpdateTruckComponent} from './forms/update-truck/update-truck.component';
 import {UpdateCargoComponent} from './forms/update-cargo/update-cargo.component';
+import {HeaderComponent} from './forms/header/header.component';
+import {BodyComponent} from './forms/body/body.component';
+import {FooterComponent} from './forms/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +50,10 @@ import {UpdateCargoComponent} from './forms/update-cargo/update-cargo.component'
     AddManagerComponent,
     UpdateManagerComponent,
     UpdateTruckComponent,
-    UpdateCargoComponent
+    UpdateCargoComponent,
+    HeaderComponent,
+    BodyComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

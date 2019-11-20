@@ -1,7 +1,8 @@
 <div *ngIf="updatedDriver !== undefined">
-  <form [formGroup]="driverFormGroup" class="example-form">
+  <form [formGroup]="driverFormGroup" class="form">
 
-    <mat-form-field class="example-full-width">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>First Name</mat-label>
       <input [errorStateMatcher]="matcher" formControlName="firstName" matInput
              placeholder="First name" [value]="updatedDriver.user.firstName">
       <mat-error *ngIf="firstNameFormControl.hasError('pattern')">
@@ -9,9 +10,8 @@
       </mat-error>
     </mat-form-field>
 
-    <br>
-
-    <mat-form-field class="example-full-width">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Last Name</mat-label>
       <input [errorStateMatcher]="matcher" formControlName="lastName" matInput
              placeholder="Last name" [value]="updatedDriver.user.lastName">
       <mat-error *ngIf="lastNameFormControl.hasError('pattern')">
@@ -19,9 +19,8 @@
       </mat-error>
     </mat-form-field>
 
-    <br>
-
-    <mat-form-field class="example-full-width">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Phone</mat-label>
       <input [errorStateMatcher]="matcher" formControlName="phone" matInput
              placeholder="Phone" [value]="updatedDriver.user.phone">
       <mat-error *ngIf="phoneFormControl.hasError('pattern')">
@@ -29,9 +28,8 @@
       </mat-error>
     </mat-form-field>
 
-    <br>
-
-    <mat-form-field class="example-full-width">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Email</mat-label>
       <input [errorStateMatcher]="matcher" formControlName="email" matInput
              placeholder="Email" [value]="updatedDriver.user.email">
       <mat-error *ngIf="emailFormControl.hasError('pattern')">
@@ -41,15 +39,14 @@
 
     <br>
 
-    <mat-form-field class="example-full-width">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Driver license</mat-label>
       <input [errorStateMatcher]="matcher" formControlName="driverLicense" matInput
              placeholder="Driver license" [value]="updatedDriver.driverLicense">
       <mat-error *ngIf="driverLicenseFormControl.hasError('pattern')">
         Enter 10 numbers
       </mat-error>
     </mat-form-field>
-
-    <br>
 
     <p *ngIf="isUpdated">User data has been updated</p>
     <p *ngIf="driverLicenseExists" class="mat-error">{{errorMessage}}</p>

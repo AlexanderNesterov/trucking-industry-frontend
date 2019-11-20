@@ -1,9 +1,10 @@
-<form [formGroup]="truckFormGroup" class="example-form">
+<form [formGroup]="truckFormGroup" class="form">
 
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>Registration number</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="registrationNumber" matInput
            placeholder="Registration number">
-    <mat-error *ngIf="registrationNumberFormControl.hasError('pattern') && !registrationNumberFormControl.hasError('required')">
+    <mat-error *ngIf="registrationNumberFormControl.hasError('pattern')">
       Enter a number in format АА12345
     </mat-error>
     <mat-error *ngIf="registrationNumberFormControl.hasError('required')">
@@ -11,12 +12,11 @@
     </mat-error>
   </mat-form-field>
 
-  <br>
-
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>Model</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="model" matInput
            placeholder="Model">
-    <mat-error *ngIf="modelFormControl.hasError('maxLength') && !modelFormControl.hasError('required')">
+    <mat-error *ngIf="modelFormControl.hasError('maxLength')">
       Length not more than 32
     </mat-error>
     <mat-error *ngIf="modelFormControl.hasError('required')">
@@ -24,21 +24,18 @@
     </mat-error>
   </mat-form-field>
 
-  <br>
-
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>Capacity</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="capacity" matInput
            placeholder="Capacity">
     <span matSuffix>kg</span>
-    <mat-error *ngIf="capacityFormControl.hasError('pattern') && !capacityFormControl.hasError('required')">
+    <mat-error *ngIf="capacityFormControl.hasError('pattern')">
       Enter number in format 2.5
     </mat-error>
     <mat-error *ngIf="capacityFormControl.hasError('required')">
       Required field
     </mat-error>
   </mat-form-field>
-
-  <br>
 
   <p *ngIf="isCreated">Truck has been created</p>
   <p *ngIf="registrationNumberExists" class="mat-error">{{errorMessage}}</p>
