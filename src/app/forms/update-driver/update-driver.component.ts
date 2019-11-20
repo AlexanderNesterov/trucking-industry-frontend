@@ -26,7 +26,6 @@ export class UpdateDriverComponent implements OnInit, OnDestroy, DoCheck {
   isUpdated = false;
   findSubscription: Subscription;
   updateSubscription: Subscription;
-  hardcodedDriver = 26;
 
   firstNameFormControl = new FormControl('', [
     Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
@@ -56,13 +55,17 @@ export class UpdateDriverComponent implements OnInit, OnDestroy, DoCheck {
     driverLicense: this.driverLicenseFormControl
   });
 
-  constructor(private driverService: DriverService) {
+  constructor(private driverService: DriverService, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.findSubscription = this.driverService.findById(this.hardcodedDriver).subscribe((data) => {
-      this.updatedDriver = data;
+    const subscription = this.activatedRoute.queryParams.subscribe(param => {
+      this.findSubscription = this.driverService.findById(param.id).subscribe((data) => {
+        this.updatedDriver = data;
+      });
     });
+
+    subscription.unsubscribe();
   }
 
   ngDoCheck(): void {

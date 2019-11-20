@@ -4,6 +4,7 @@ import {ErrorStateMatcher} from '@angular/material';
 import {Truck} from '../../models/truck';
 import {TruckService} from '../../services/truck.service';
 import {Subscription} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -25,7 +26,6 @@ export class UpdateTruckComponent implements OnInit, OnDestroy {
   errorMessage = '';
   updateSubscription: Subscription;
   findSubscription: Subscription;
-  hardcodedTruck = 15;
 
   registrationNumberFormControl = new FormControl('', [
     Validators.pattern('[A-Z]{2}\\d{5}')
@@ -45,13 +45,17 @@ export class UpdateTruckComponent implements OnInit, OnDestroy {
     capacity: this.capacityFormControl
   });
 
-  constructor(private truckService: TruckService) {
+  constructor(private truckService: TruckService, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.findSubscription = this.truckService.findById(this.hardcodedTruck).subscribe(data => {
-      this.oldTruck = data;
+    const subscription = this.activatedRoute.queryParams.subscribe(param => {
+      this.findSubscription = this.truckService.findById(param.id).subscribe(data => {
+        this.oldTruck = data;
+      });
     });
+
+    subscription.unsubscribe();
   }
 
   putData() {

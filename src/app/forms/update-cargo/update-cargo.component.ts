@@ -8,6 +8,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {DriverService} from '../../services/driver.service';
 import {CargoService} from '../../services/cargo.service';
 import {Subscription} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-update-cargo',
@@ -23,7 +24,7 @@ export class UpdateCargoComponent implements OnInit, OnDestroy {
   drivers: MatTableDataSource;
   truckSelection = new SelectionModel<Truck>();
   driversSelection = new SelectionModel(true);
-  hardcodedCargo = 16;
+  cargoId: number;
   isReady = false;
   isCreated = false;
   truckSubscription: Subscription;
@@ -70,18 +71,24 @@ export class UpdateCargoComponent implements OnInit, OnDestroy {
   secondFormDisable = false;
   thirdFormDisable = false;
 
-  constructor(private truckService: TruckService, private driverService: DriverService, private cargoService: CargoService) {
+  constructor(private truckService: TruckService, private driverService: DriverService,
+              private cargoService: CargoService, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.cargoService.findById(this.hardcodedCargo).subscribe(data => {
-      console.log(data);
-      this.firstFormGroup.patchValue({
-        title: data.title,
-        description: data.description,
-        weight: data.weight
+    const subscription = this.activatedRoute.queryParams.subscribe(param => {
+      this.cargoId = param.id;
+
+      this.cargoService.findById(this.cargoId).subscribe(data => {
+        this.firstFormGroup.patchValue({
+          title: data.title,
+          description: data.description,
+          weight: data.weight
+        });
       });
     });
+
+    subscription.unsubscribe();
   }
 
   getTrucks() {
@@ -100,7 +107,7 @@ export class UpdateCargoComponent implements OnInit, OnDestroy {
 
   setInfo() {
     this.cargo = {
-      id: this.hardcodedCargo,
+      id: this.cargoId,
       title: this.firstFormGroup.controls.title.value,
       description: this.firstFormGroup.controls.description.value,
       weight: this.firstFormGroup.controls.weight.value
@@ -121,16 +128,16 @@ export class UpdateCargoComponent implements OnInit, OnDestroy {
     this.thirdFormDisable = true;
   }
 
-/*  setCargo() {
-    this.cargo = {
-      title: this.firstFormGroup.controls.title.value,
-      description: this.firstFormGroup.controls.description.value,
-      weight: this.firstFormGroup.controls.weight.value,
-      truck: this.truckSelection.selected[0],
-      driver: this.driversSelection.selected[0] as Driver,
-      coDriver: this.driversSelection.selected[1] as Driver
-    };
-  }*/
+  /*  setCargo() {
+      this.cargo = {
+        title: this.firstFormGroup.controls.title.value,
+        description: this.firstFormGroup.controls.description.value,
+        weight: this.firstFormGroup.controls.weight.value,
+        truck: this.truckSelection.selected[0],
+        driver: this.driversSelection.selected[0] as Driver,
+        coDriver: this.driversSelection.selected[1] as Driver
+      };
+    }*/
 
   confirm() {
     this.cargoSubscription = this.cargoService.updateCargo(this.cargo).subscribe(data => {

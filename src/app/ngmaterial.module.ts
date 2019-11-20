@@ -5,7 +5,7 @@ import {
   MatDialogModule, MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatStepperModule, MatTab,
+  MatInputModule, MatStepperModule,
   MatTableModule, MatTabsModule
 } from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';

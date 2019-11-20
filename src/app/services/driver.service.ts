@@ -12,6 +12,10 @@ export class DriverService {
     this.driversUrl = 'http://localhost:8080/drivers';
   }
 
+  public findById(driverId: number): Observable<Driver> {
+    return this.http.get<Driver>(`${this.driversUrl}/${driverId}`);
+  }
+
   public findAll(): Observable<Driver[]> {
     return this.http.get<Driver[]>(this.driversUrl);
   }
@@ -26,9 +30,5 @@ export class DriverService {
 
   public update(driver: Driver): Observable<boolean> {
     return this.http.put<boolean>(this.driversUrl, driver);
-  }
-
-  public findById(driverId: number): Observable<Driver> {
-    return this.http.get<Driver>(`${this.driversUrl}/${driverId}`);
   }
 }

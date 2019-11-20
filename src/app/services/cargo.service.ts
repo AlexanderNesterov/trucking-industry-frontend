@@ -29,7 +29,6 @@ export class CargoService {
  public updateCargo(cargo: Cargo): Observable<boolean> {
     return this.http.put<boolean>(this.cargoUrl, cargo);
  }
- //
 
   public getCargoByDriverId(driverId: number): Observable<Cargo> {
     return this.http.get<Cargo>(`${this.cargoUrl}/for-driver/${driverId}`);

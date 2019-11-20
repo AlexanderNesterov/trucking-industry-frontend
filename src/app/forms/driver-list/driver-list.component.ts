@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Driver} from '../../models/driver';
 import {DriverService} from '../../services/driver.service';
 import {Subscription} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-driver-list',
@@ -11,16 +12,28 @@ import {Subscription} from 'rxjs';
 export class DriverListComponent implements OnInit, OnDestroy {
 
   drivers: Driver[];
-  displayedColumns: string[] = ['id', 'name', 'driverLicense', 'contact' , 'status'];
+  displayedColumns: string[] = ['id', 'name', 'driverLicense', 'contact', 'status', 'action'];
   subscription: Subscription;
 
-  constructor(private driverService: DriverService) { }
+  constructor(private driverService: DriverService, private router: Router) {
+  }
 
   ngOnInit() {
+    this.findAllDrivers();
+  }
+
+  findAllDrivers() {
     this.subscription = this.driverService.findAll().subscribe((data: Driver[]) => {
       this.drivers = data;
-      console.log(this.drivers);
     });
+  }
+
+  addNewDriver() {
+    this.router.navigate(['/add-driver']);
+  }
+
+  updateDriver(id: number) {
+    this.router.navigate([`/update-driver`], {queryParams: {id}});
   }
 
   ngOnDestroy(): void {
