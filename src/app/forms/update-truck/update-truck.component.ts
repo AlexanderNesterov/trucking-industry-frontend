@@ -1,10 +1,11 @@
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {ErrorStateMatcher} from '@angular/material';
+import {ErrorStateMatcher, MatDialog, MatDialogRef} from '@angular/material';
 import {Truck} from '../../models/truck';
 import {TruckService} from '../../services/truck.service';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -45,7 +46,7 @@ export class UpdateTruckComponent implements OnInit, OnDestroy {
     capacity: this.capacityFormControl
   });
 
-  constructor(private truckService: TruckService, private activatedRoute: ActivatedRoute) {
+  constructor(private truckService: TruckService, private dialog: MatDialog, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -68,17 +69,31 @@ export class UpdateTruckComponent implements OnInit, OnDestroy {
     };
   }
 
-  onSubmit() {
-    this.putData();
+  openDialog(): MatDialogRef<ConfirmationDialogComponent> {
+    return this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        message: 'edit truck'
+      }, width: '25%', height: '30%'
+    });
+  }
 
-    this.updateSubscription = this.truckService.update(this.newTruck).subscribe(data => {
-      this.isUpdated = data;
-      this.oldTruck = this.newTruck;
-    }, error => {
-      if ((error.error.message as string).includes('Truck with registration number: ')) {
-        this.errorMessage = error.error.message;
-        this.truckFormGroup.patchValue({registrationNumber: this.oldTruck.registrationNumber});
+  onSubmit() {
+    this.openDialog().afterClosed().subscribe(result => {
+      if (!result) {
+        return;
       }
+
+      this.putData();
+
+      this.updateSubscription = this.truckService.update(this.newTruck).subscribe(data => {
+        this.isUpdated = data;
+        this.oldTruck = this.newTruck;
+      }, error => {
+        if ((error.error.message as string).includes('Truck with registration number: ')) {
+          this.errorMessage = error.error.message;
+          this.truckFormGroup.patchValue({registrationNumber: this.oldTruck.registrationNumber});
+        }
+      });
     });
   }
 

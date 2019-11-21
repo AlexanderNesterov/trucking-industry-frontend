@@ -1,10 +1,11 @@
 import {Component, DoCheck, OnDestroy} from '@angular/core';
 import {DriverService} from '../../services/driver.service';
-import {ErrorStateMatcher} from '@angular/material';
+import {ErrorStateMatcher, MatDialog, MatDialogRef} from '@angular/material';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {Driver} from '../../models/driver';
 import {Subscription} from 'rxjs';
 import {User} from '../../models/user';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -72,7 +73,7 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
     driverLicense: this.driverLicenseFormControl
   });
 
-  constructor(private driverService: DriverService) {
+  constructor(private driverService: DriverService, private dialog: MatDialog) {
   }
 
   ngDoCheck(): void {
@@ -100,27 +101,42 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
     };
   }
 
+  openDialog(): MatDialogRef<ConfirmationDialogComponent> {
+    return this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        message: 'add a new driver'
+      }, width: '25%', height: '30%'
+    });
+  }
+
   onSubmit() {
-    this.putData();
-
-    this.subscription = this.driverService.save(this.driver).subscribe(data => {
-      this.isCreated = data;
-      setTimeout(() => {
-        this.isCreated = false;
-      }, 3000);
-
-      this.driverFormGroup.reset();
-    }, error => {
-      if ((error.error.message as string).includes('Driver with login: ')) {
-        this.driverFormGroup.patchValue({login: ''});
-        this.errorMessage = error.error.message;
-        this.loginExists = true;
+    this.openDialog().afterClosed().subscribe(result => {
+      if (!result) {
+        return;
       }
-      if ((error.error.message as string).includes('Driver with driver license: ')) {
-        this.driverFormGroup.patchValue({driverLicense: ''});
-        this.errorMessage = error.error.message;
-        this.driverLicenseExists = true;
-      }
+
+      this.putData();
+
+      this.subscription = this.driverService.save(this.driver).subscribe(data => {
+        this.isCreated = data;
+        setTimeout(() => {
+          this.isCreated = false;
+        }, 3000);
+
+        this.driverFormGroup.reset();
+      }, error => {
+        console.log(error);
+        if ((error.error.message as string).includes('Driver with login: ')) {
+          this.driverFormGroup.patchValue({login: ''});
+          this.errorMessage = error.error.message;
+          this.loginExists = true;
+        }
+        if ((error.error.message as string).includes('Driver with driver license: ')) {
+          this.driverFormGroup.patchValue({driverLicense: ''});
+          this.errorMessage = error.error.message;
+          this.driverLicenseExists = true;
+        }
+      });
     });
   }
 

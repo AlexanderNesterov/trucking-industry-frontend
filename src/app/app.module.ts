@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {DriverService} from './services/driver.service';
 import {DriverListComponent} from './forms/driver-list/driver-list.component';
 import {RouterModule} from '@angular/router';
@@ -32,6 +32,8 @@ import {UpdateCargoComponent} from './forms/update-cargo/update-cargo.component'
 import {HeaderComponent} from './forms/header/header.component';
 import {BodyComponent} from './forms/body/body.component';
 import {FooterComponent} from './forms/footer/footer.component';
+import {ConfirmationDialogComponent} from './forms/confirmation-dialog/confirmation-dialog.component';
+import {SpinnerComponent} from './forms/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import {FooterComponent} from './forms/footer/footer.component';
     UpdateCargoComponent,
     HeaderComponent,
     BodyComponent,
-    FooterComponent
+    FooterComponent,
+    ConfirmationDialogComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +67,8 @@ import {FooterComponent} from './forms/footer/footer.component';
     HttpClientModule,
     MaterialAppModule,
     MatSortModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     DriverService,
@@ -75,7 +80,7 @@ import {FooterComponent} from './forms/footer/footer.component';
     useClass: Interceptor,
     multi: true
   }],
-  entryComponents: [CargoDetailDialogComponent],
+  entryComponents: [CargoDetailDialogComponent, ConfirmationDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

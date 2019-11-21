@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {ErrorStateMatcher} from '@angular/material';
+import {ErrorStateMatcher, MatDialog, MatDialogRef} from '@angular/material';
 import {Subscription} from 'rxjs';
 import {User} from '../../models/user';
 import {ManagerService} from '../../services/manager.service';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -49,7 +50,7 @@ export class UpdateManagerComponent implements OnInit, OnDestroy {
     phone: this.phoneFormControl,
   });
 
-  constructor(private managerService: ManagerService) {
+  constructor(private managerService: ManagerService, private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -73,11 +74,25 @@ export class UpdateManagerComponent implements OnInit, OnDestroy {
     this.updatedManager.phone = changedData === '' ? this.updatedManager.phone : changedData;
   }
 
+  openDialog(): MatDialogRef<ConfirmationDialogComponent> {
+    return this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        message: 'edit manager'
+      }, width: '25%', height: '30%'
+    });
+  }
+
   onSubmit() {
-    this.putData();
-    this.updateSubscription = this.managerService.update(this.updatedManager).subscribe(data => {
-      this.isUpdated = data;
-      console.log(data);
+    this.openDialog().afterClosed().subscribe(result => {
+      if (!result) {
+        return;
+      }
+
+      this.putData();
+      this.updateSubscription = this.managerService.update(this.updatedManager).subscribe(data => {
+        this.isUpdated = data;
+        console.log(data);
+      });
     });
   }
 

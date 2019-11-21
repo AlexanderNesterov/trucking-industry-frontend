@@ -3,8 +3,9 @@ import {Driver} from '../../models/driver';
 import {DriverService} from '../../services/driver.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {ErrorStateMatcher} from '@angular/material';
+import {ErrorStateMatcher, MatDialog, MatDialogRef} from '@angular/material';
 import {Subscription} from 'rxjs';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -55,7 +56,7 @@ export class UpdateDriverComponent implements OnInit, OnDestroy, DoCheck {
     driverLicense: this.driverLicenseFormControl
   });
 
-  constructor(private driverService: DriverService, private activatedRoute: ActivatedRoute) {
+  constructor(private driverService: DriverService, private dialog: MatDialog, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -92,18 +93,32 @@ export class UpdateDriverComponent implements OnInit, OnDestroy, DoCheck {
     this.updatedDriver.driverLicense = changedData === '' ? this.updatedDriver.driverLicense : changedData;
   }
 
+  openDialog(): MatDialogRef<ConfirmationDialogComponent> {
+    return this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        message: 'edit driver'
+      }, width: '25%', height: '30%'
+    });
+  }
+
   onSubmit() {
-    this.putData();
-    this.updateSubscription = this.driverService.update(this.updatedDriver).subscribe(data => {
-      this.isUpdated = data;
-      console.log(data);
-    }, error => {
-      console.log(error);
-      if ((error.error.message as string).includes('Driver with driver license')) {
-        this.driverFormGroup.patchValue({driverLicense: ''});
-        this.driverLicenseExists = true;
-        this.errorMessage = error.error.message;
+    this.openDialog().afterClosed().subscribe(result => {
+      if (!result) {
+        return;
       }
+
+      this.putData();
+      this.updateSubscription = this.driverService.update(this.updatedDriver).subscribe(data => {
+        this.isUpdated = data;
+        console.log(data);
+      }, error => {
+        console.log(error);
+        if ((error.error.message as string).includes('Driver with driver license')) {
+          this.driverFormGroup.patchValue({driverLicense: ''});
+          this.driverLicenseExists = true;
+          this.errorMessage = error.error.message;
+        }
+      });
     });
   }
 

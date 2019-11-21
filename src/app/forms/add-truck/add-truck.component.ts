@@ -1,9 +1,10 @@
 import {Component, DoCheck, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {ErrorStateMatcher} from '@angular/material';
+import {ErrorStateMatcher, MatDialog, MatDialogRef} from '@angular/material';
 import {Truck} from '../../models/truck';
 import {TruckService} from '../../services/truck.service';
 import {Subscription} from 'rxjs';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -46,7 +47,7 @@ export class AddTruckComponent implements DoCheck, OnDestroy {
     capacity: this.capacityFormControl
   });
 
-  constructor(private truckService: TruckService) {
+  constructor(private truckService: TruckService, private dialog: MatDialog) {
   }
 
   ngDoCheck(): void {
@@ -63,23 +64,37 @@ export class AddTruckComponent implements DoCheck, OnDestroy {
     };
   }
 
+  openDialog(): MatDialogRef<ConfirmationDialogComponent> {
+    return this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        message: 'add new truck'
+      }, width: '25%', height: '30%'
+    });
+  }
+
   onSubmit() {
-    this.putData();
-
-    this.subscription = this.truckService.save(this.truck).subscribe(data => {
-      this.isCreated = data;
-
-      setTimeout(() => {
-        this.isCreated = false;
-      }, 3000);
-
-      this.truckFormGroup.reset();
-    }, error => {
-      if ((error.error.message as string).includes('Truck with registration number')) {
-        this.truckFormGroup.patchValue({registrationNumber: ''});
-        this.registrationNumberExists = true;
-        this.errorMessage = error.error.message;
+    this.openDialog().afterClosed().subscribe(result => {
+      if (!result) {
+        return;
       }
+
+      this.putData();
+
+      this.subscription = this.truckService.save(this.truck).subscribe(data => {
+        this.isCreated = data;
+
+        setTimeout(() => {
+          this.isCreated = false;
+        }, 3000);
+
+        this.truckFormGroup.reset();
+      }, error => {
+        if ((error.error.message as string).includes('Truck with registration number')) {
+          this.truckFormGroup.patchValue({registrationNumber: ''});
+          this.registrationNumberExists = true;
+          this.errorMessage = error.error.message;
+        }
+      });
     });
   }
 

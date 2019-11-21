@@ -1,11 +1,12 @@
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {DriverService} from '../../services/driver.service';
-import {ErrorStateMatcher} from '@angular/material';
+import {ErrorStateMatcher, MatDialog, MatDialogRef} from '@angular/material';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {Driver} from '../../models/driver';
 import {Subscription} from 'rxjs';
 import {User} from '../../models/user';
 import {ManagerService} from '../../services/manager.service';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -66,7 +67,7 @@ export class AddManagerComponent implements OnDestroy, DoCheck {
     email: this.emailFormControl,
   });
 
-  constructor(private managerService: ManagerService) {
+  constructor(private managerService: ManagerService, private dialog: MatDialog) {
   }
 
   ngDoCheck(): void {
@@ -87,22 +88,36 @@ export class AddManagerComponent implements OnDestroy, DoCheck {
   }
 
   onSubmit() {
-    this.putData();
-
-    this.subscription = this.managerService.save(this.manager).subscribe(data => {
-      this.isCreated = data;
-      setTimeout(() => {
-        this.isCreated = false;
-      }, 3000);
-
-      this.managerFormGroup.reset();
-    }, error => {
-      if ((error.error.message as string).includes('Manager with login: ')) {
-        this.managerFormGroup.patchValue({login: ''});
-        this.errorMessage = error.error.message;
-        this.loginExists = true;
+    this.openDialog().afterClosed().subscribe(result => {
+      if (!result) {
+        return;
       }
 
+      this.putData();
+
+      this.subscription = this.managerService.save(this.manager).subscribe(data => {
+        this.isCreated = data;
+        setTimeout(() => {
+          this.isCreated = false;
+        }, 3000);
+
+        this.managerFormGroup.reset();
+      }, error => {
+        if ((error.error.message as string).includes('Manager with login: ')) {
+          this.managerFormGroup.patchValue({login: ''});
+          this.errorMessage = error.error.message;
+          this.loginExists = true;
+        }
+
+      });
+    });
+  }
+
+  openDialog(): MatDialogRef<ConfirmationDialogComponent> {
+    return this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        message: 'add new manager'
+      }, width: '25%', height: '30%'
     });
   }
 

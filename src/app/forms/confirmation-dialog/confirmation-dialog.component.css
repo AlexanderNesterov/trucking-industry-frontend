@@ -1,0 +1,25 @@
+/*:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}*/
+
+.center {
+  margin: 0 auto;
+  width: 60%;
+}
+
+.bottom {
+  padding-top: 25%;
+}
+
+.left-button {
+
+}
+
+.right-button {
+  margin-left: 45%;
+}
+
+
+

@@ -1,21 +1,25 @@
 <button mat-flat-button color="primary" (click)="addNewManager()">Add new manager</button>
 
-<table mat-table [dataSource]="managers">
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef> Id </th>
-    <td mat-cell *matCellDef="let manager"> {{manager.id}} </td>
-  </ng-container>
+<app-spinner *ngIf="managers === undefined; else table"></app-spinner>
 
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let manager"> {{manager.firstName}} {{manager.lastName}} </td>
-  </ng-container>
+<ng-template #table>
+  <table mat-table [dataSource]="managers">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Id</th>
+      <td mat-cell *matCellDef="let manager"> {{manager.id}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="contact">
-    <th mat-header-cell *matHeaderCellDef> Email / Phone </th>
-    <td mat-cell *matCellDef="let manager"> {{manager.email}} <br> {{manager.phone}} </td>
-  </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name</th>
+      <td mat-cell *matCellDef="let manager"> {{manager.firstName}} {{manager.lastName}} </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    <ng-container matColumnDef="contact">
+      <th mat-header-cell *matHeaderCellDef> Email / Phone</th>
+      <td mat-cell *matCellDef="let manager"> {{manager.email}} <br> {{manager.phone}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</ng-template>
