@@ -6,7 +6,7 @@ import {TruckListComponent} from './forms/list-components/truck-list/truck-list.
 import {AddTruckComponent} from './forms/add-components/add-truck/add-truck.component';
 import {UpdateDriverComponent} from './forms/update-components/update-driver/update-driver.component';
 import {CargoListComponent} from './forms/list-components/cargo-list/cargo-list.component';
-import {DriverInfoComponent} from './forms/core-components/driver-info/driver-info.component';
+import {HomepageComponent} from './forms/core-components/homepage/homepage.component';
 import {NotFoundComponent} from './forms/core-components/not-found/not-found.component';
 import {ManagersListComponent} from './forms/list-components/managers-list/managers-list.component';
 import {AddManagerComponent} from './forms/add-components/add-manager/add-manager.component';
@@ -33,7 +33,7 @@ export const routes: Routes = [
   {path: 'update-cargo', component: UpdateCargoComponent, canActivate: [AdminGuard]},
   {path: 'cargo', component: CargoListComponent, canActivate: [AdminGuard]},
   {path: 'add-cargo', component: AddCargoComponent, canActivate: [AdminGuard]},
-  {path: 'driver-info', component: DriverInfoComponent, canActivate: [AdminDriverGuard]},
+  {path: 'homepage', component: HomepageComponent, canActivate: [AdminDriverGuard]},
   {path: 'login', component: LoginComponent},
   {path: '**', component: NotFoundComponent}
 ];

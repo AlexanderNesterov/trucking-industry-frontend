@@ -24,7 +24,6 @@ export class DriverListComponent implements OnInit, OnDestroy {
 
   findAllDrivers() {
     this.subscription = this.driverService.findAll().subscribe((data: Driver[]) => {
-      console.log(data);
       this.drivers = data;
     });
   }

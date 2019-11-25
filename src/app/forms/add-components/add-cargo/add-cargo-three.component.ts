@@ -8,7 +8,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {DriverService} from '../../../services/driver.service';
 import {CargoService} from '../../../services/cargo.service';
 import {Subscription} from 'rxjs';
-import {ConfirmationDialogComponent} from '../../core-components/confirmation-dialog/confirmation-dialog.component';
+import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {Driver} from '../../../models/driver';
 
 @Component({

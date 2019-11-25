@@ -8,9 +8,8 @@ export class PermissionService {
   constructor() {
   }
 
-  watch(permittedRole: string): boolean {
+  check(permittedRole: string): boolean {
     const role = localStorage.getItem('role');
-    console.log(role, permittedRole);
     return role === permittedRole;
   }
 }

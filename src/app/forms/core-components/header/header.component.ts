@@ -1,5 +1,6 @@
 import {Component, DoCheck, OnChanges, OnInit, Renderer2, SimpleChanges} from '@angular/core';
 import {Router} from '@angular/router';
+import {PermissionService} from '../../../services/permision.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,7 @@ export class HeaderComponent implements DoCheck {
   title = 'Trucking Industry';
   login: string;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private permissionService: PermissionService) {
 
   }
 
@@ -18,9 +19,8 @@ export class HeaderComponent implements DoCheck {
     this.login = localStorage.getItem('login');
   }
 
-  checkRole(role: string) {
-    const loc = localStorage.getItem('role');
-    return loc === role;
+  checkRole(role: string): boolean {
+    return this.permissionService.check(role);
   }
 
   logout() {

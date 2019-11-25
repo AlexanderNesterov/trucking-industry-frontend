@@ -4,7 +4,8 @@ import {ErrorStateMatcher, MatDialog, MatDialogRef} from '@angular/material';
 import {Subscription} from 'rxjs';
 import {User} from '../../../models/user';
 import {ManagerService} from '../../../services/manager.service';
-import {ConfirmationDialogComponent} from '../../core-components/confirmation-dialog/confirmation-dialog.component';
+import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
+import {ActivatedRoute} from '@angular/router';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -25,7 +26,6 @@ export class UpdateManagerComponent implements OnInit, OnDestroy {
   isUpdated = false;
   findSubscription: Subscription;
   updateSubscription: Subscription;
-  hardcodedManager = 35;
 
   firstNameFormControl = new FormControl('', [
     Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
@@ -50,13 +50,17 @@ export class UpdateManagerComponent implements OnInit, OnDestroy {
     phone: this.phoneFormControl,
   });
 
-  constructor(private managerService: ManagerService, private dialog: MatDialog) {
+  constructor(private managerService: ManagerService, private dialog: MatDialog, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.findSubscription = this.managerService.findById(this.hardcodedManager).subscribe((data) => {
-      this.updatedManager = data;
+    const subscription = this.activatedRoute.queryParams.subscribe(param => {
+      this.findSubscription = this.managerService.findById(param.id).subscribe((data) => {
+        this.updatedManager = data;
+      });
     });
+
+    subscription.unsubscribe();
   }
 
   putData() {

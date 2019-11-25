@@ -5,7 +5,7 @@ import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@a
 import {Driver} from '../../../models/driver';
 import {Subscription} from 'rxjs';
 import {User} from '../../../models/user';
-import {ConfirmationDialogComponent} from '../../core-components/confirmation-dialog/confirmation-dialog.component';
+import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {

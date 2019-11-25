@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material';
-import {Cargo} from '../../../models/cargo';
+import {Cargo} from '../../../../models/cargo';
 
 @Component({
   selector: 'app-cargo-detail-dialog',

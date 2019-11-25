@@ -31,8 +31,7 @@ export class LoginComponent {
     };
 
     this.loginService.login(user).subscribe(result => {
-      console.log(result);
-      this.router.navigate(['/driver-info']);
+      this.router.navigate(['/homepage']);
     });
   }
 }

@@ -16,10 +16,10 @@ import {AddTruckComponent} from './forms/add-components/add-truck/add-truck.comp
 import {UpdateDriverComponent} from './forms/update-components/update-driver/update-driver.component';
 import {CargoService} from './services/cargo.service';
 import {CargoListComponent} from './forms/list-components/cargo-list/cargo-list.component';
-import {CargoDetailDialogComponent} from './forms/core-components/cargo-detail-dialog/cargo-detail-dialog.component';
+import {CargoDetailDialogComponent} from './forms/core-components/dialogs/cargo-detail-dialog/cargo-detail-dialog.component';
 import {MatSortModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
-import {DriverInfoComponent} from './forms/core-components/driver-info/driver-info.component';
+import {HomepageComponent} from './forms/core-components/homepage/homepage.component';
 import {Interceptor} from './interceptors/interceptor';
 import {NotFoundComponent} from './forms/core-components/not-found/not-found.component';
 import {ManagersListComponent} from './forms/list-components/managers-list/managers-list.component';
@@ -31,7 +31,7 @@ import {UpdateCargoComponent} from './forms/update-components/update-cargo/updat
 import {HeaderComponent} from './forms/core-components/header/header.component';
 import {BodyComponent} from './forms/core-components/body/body.component';
 import {FooterComponent} from './forms/core-components/footer/footer.component';
-import {ConfirmationDialogComponent} from './forms/core-components/confirmation-dialog/confirmation-dialog.component';
+import {ConfirmationDialogComponent} from './forms/core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {SpinnerComponent} from './forms/core-components/spinner/spinner.component';
 import {LoginComponent} from './forms/auth/login/login.component';
 import {CargoInfoComponent} from './forms/add-components/cargo-info/cargo-info.component';
@@ -53,7 +53,7 @@ import {filter, map} from 'rxjs/operators';
     CargoListComponent,
     CargoDetailDialogComponent,
     AddCargoComponent,
-    DriverInfoComponent,
+    HomepageComponent,
     NotFoundComponent,
     ManagersListComponent,
     AddManagerComponent,

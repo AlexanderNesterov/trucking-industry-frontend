@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Cargo} from '../../../models/cargo';
 import {CargoService} from '../../../services/cargo.service';
 import {MatDialog} from '@angular/material';
-import {CargoDetailDialogComponent} from '../../core-components/cargo-detail-dialog/cargo-detail-dialog.component';
+import {CargoDetailDialogComponent} from '../../core-components/dialogs/cargo-detail-dialog/cargo-detail-dialog.component';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 
