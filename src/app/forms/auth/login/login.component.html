@@ -1,0 +1,39 @@
+<form [formGroup]="loginFormGroup" class="login">
+  <mat-card>
+    <mat-card-header class="entry">
+      <mat-card-title class="entry-text">
+        Login
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="auth-content">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Login</mat-label>
+        <input matInput placeholder="Login" formControlName="login">
+        <mat-error *ngIf="loginFormControl.hasError('required')">Required field</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Password" formControlName="password" [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="passwordFormControl.hasError('required')">Required field</mat-error>
+      </mat-form-field>
+
+      <!--    <div *ngIf="notExists">
+            <p>Неправильное имя пользователя или пароль</p>
+          </div>-->
+
+      <mat-card-actions align="end">
+        <button class="font" mat-flat-button color="primary" [disabled]="loginFormGroup.invalid" (click)="login()">
+          Log in
+        </button>
+      </mat-card-actions>
+    </mat-card-content>
+  </mat-card>
+</form>
+
+

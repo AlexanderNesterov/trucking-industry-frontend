@@ -1,0 +1,20 @@
+<mat-horizontal-stepper [linear]="true" #stepper>
+  <mat-step [completed]="isFirstGroupValid" [editable]="false">
+    <ng-template matStepLabel>Fill out cargo description</ng-template>
+    <app-cargo-info (onValidFirstGroup)="setUpFirstFormGroup($event, stepper)"></app-cargo-info>
+  </mat-step>
+
+  <mat-step [completed]="isSecondGroupValid" [editable]="false">
+    <ng-template matStepLabel>Choose truck</ng-template>
+    <app-truck-info [cargoWeight]="cargoWeight" (onValidSecondGroup)="setUpSecondFormGroup($event)"></app-truck-info>
+  </mat-step>
+
+  <mat-step [completed]="isThirdGroupValid" [editable]="false">
+    <ng-template matStepLabel>Choose truck</ng-template>
+    <app-drivers-info [getDrivers]="isSecondGroupValid" (onValidThirdGroup)="setUpThirdFormGroup($event)"></app-drivers-info>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+  </mat-step>
+</mat-horizontal-stepper>

@@ -1,0 +1,18 @@
+<mat-toolbar color="primary">
+  <span class="title">{{ title }}</span>
+
+  <button *ngIf="checkRole('ADMIN')" mat-button routerLink="/drivers">Driver list</button>
+  <button *ngIf="checkRole('ADMIN')" mat-button routerLink="/trucks">Truck list</button>
+  <button *ngIf="checkRole('ADMIN')" mat-button routerLink="/cargo">Cargo list</button>
+  <button *ngIf="checkRole('ADMIN')" mat-button routerLink="/managers">Manager list</button>
+  <button *ngIf="checkRole('ADMIN')" mat-button routerLink="/update-manager">Edit manager</button>
+  <button *ngIf="checkRole('ADMIN') || checkRole('DRIVER')" mat-button routerLink="/driver-info">Cabinet</button>
+  <span class="spacer"></span>
+<!--  <button *ngIf="!showLogout()" mat-button routerLink="/login">Log in</button>-->
+<!--  <button *ngIf="showLogout()" mat-button (click)="logout()">{{login}}</button>-->
+  <button mat-button *ngIf="showLogout()" [matMenuTriggerFor]="current">{{login}}</button>
+  <mat-menu #current="matMenu">
+    <button mat-menu-item routerLink="/driver-info">Cabinet</button>
+    <button mat-menu-item (click)="logout()">Log out</button>
+  </mat-menu>
+</mat-toolbar>
