@@ -15,9 +15,7 @@ import {UpdateTruckComponent} from './forms/update-components/update-truck/updat
 import {UpdateCargoComponent} from './forms/update-components/update-cargo/update-cargo.component';
 import {LoginComponent} from './forms/auth/login/login.component';
 import {AddCargoComponent} from './forms/add-components/add-cargo/add-cargo-three.component';
-import {DriverGuard} from './forms/auth/guards/driver.guard';
 import {AdminGuard} from './forms/auth/guards/admin.guard';
-import {NoLoggedUserGuard} from './forms/auth/guards/no-logged-user.guard';
 import {AdminDriverGuard} from './forms/auth/guards/admin-driver.guard';
 
 export const routes: Routes = [

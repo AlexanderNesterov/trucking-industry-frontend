@@ -12,7 +12,6 @@ export class HeaderComponent implements DoCheck {
   login: string;
 
   constructor(private router: Router, private permissionService: PermissionService) {
-
   }
 
   ngDoCheck(): void {

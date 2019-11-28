@@ -6,7 +6,6 @@ import {tap} from 'rxjs/operators';
 
 export interface TokenPair {
   authToken: string;
-  refreshToken: string;
 }
 
 export interface UserCredentials {
@@ -28,7 +27,8 @@ export class LoginService {
       tap(authTokenRaw => {
         localStorage.setItem('authToken', authTokenRaw);
         const authToken = jwt_decode(authTokenRaw);
-        localStorage.setItem('id', authToken.id);
+        localStorage.setItem('userId', authToken.userId);
+        localStorage.setItem('driverId', authToken.driverId);
         localStorage.setItem('role', authToken.role);
         localStorage.setItem('login', authToken.sub);
       })

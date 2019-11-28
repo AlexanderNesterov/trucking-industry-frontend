@@ -18,7 +18,8 @@ import {Router} from '@angular/router';
 })
 export class HomepageComponent implements OnInit, OnDestroy {
 
-  id: number;
+  managerId: number;
+  driverId: number;
   isFreeDriver = false;
   isCargoInProgress = false;
   personalInformation: User;
@@ -33,9 +34,9 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.id = parseInt(localStorage.getItem('id'), 10);
     if (this.permissionService.check('DRIVER')) {
-      this.userSubscription = this.driverService.findById(this.id).subscribe(data => {
+      this.driverId = parseInt(localStorage.getItem('driverId'), 10);
+      this.userSubscription = this.driverService.findById(this.driverId).subscribe(data => {
         this.personalInformation = data.user;
         this.driverInformation = data;
         this.getCargo();
@@ -43,14 +44,15 @@ export class HomepageComponent implements OnInit, OnDestroy {
     }
 
     if (this.permissionService.check('ADMIN')) {
-      this.userSubscription = this.managerService.findById(this.id).subscribe(data => {
+      this.managerId = parseInt(localStorage.getItem('userId'), 10)
+      this.userSubscription = this.managerService.findById(this.managerId).subscribe(data => {
         this.personalInformation = data;
       });
     }
   }
 
   getCargo() {
-    this.cargoSubscription = this.cargoService.getCargoByDriverId(this.id).subscribe(data => {
+    this.cargoSubscription = this.cargoService.getCargoByDriverId(this.driverId).subscribe(data => {
       this.cargo = data;
 
       console.log('data', this.cargo);
@@ -81,7 +83,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.cargoService.setAcceptStatus(this.cargo.id, this.id).subscribe(() => {
+      this.cargoService.setAcceptStatus(this.cargo.id, this.driverId).subscribe(() => {
         this.getCargo();
       });
     });
@@ -93,7 +95,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.cargoService.setRefuseStatus(this.cargo.id, this.id).subscribe(data => {
+      this.cargoService.setRefuseStatus(this.cargo.id, this.driverId).subscribe(data => {
         if (data) {
           this.isFreeDriver = true;
           this.cargo = undefined;
@@ -108,7 +110,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.cargoService.setDeliverStatus(this.cargo.id, this.id).subscribe(data => {
+      this.cargoService.setDeliverStatus(this.cargo.id, this.driverId).subscribe(data => {
         if (data) {
           this.cargo = undefined;
           this.isFreeDriver = true;
@@ -118,7 +120,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   edit() {
-    this.router.navigate([`/update-manager`], {queryParams: {id: this.id}});
+    this.router.navigate([`/update-manager`], {queryParams: {id: this.managerId}});
   }
 
   checkRole(role: string): boolean {

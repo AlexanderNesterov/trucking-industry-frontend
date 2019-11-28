@@ -1,6 +1,11 @@
-<button mat-flat-button color="primary" (click)="addNewDriver()">Add new driver</button>
+<button mat-flat-button color="primary" (click)="addNewDriver()">
+  Add new driver
+</button>
 
-<app-spinner *ngIf="drivers === undefined; else table"></app-spinner>
+<app-spinner *ngIf="drivers === undefined; else emptyList"></app-spinner>
+<ng-template #emptyList>
+  <p *ngIf="drivers !== undefined && drivers.length === 0; else table">List is empty</p>
+</ng-template>
 
 <ng-template #table>
   <table mat-table [dataSource]="drivers">

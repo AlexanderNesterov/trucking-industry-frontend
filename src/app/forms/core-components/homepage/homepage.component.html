@@ -68,7 +68,7 @@
           </mat-tab>
         </mat-tab-group>
 
-        <div *ngIf="id === cargo.driver.id">
+        <div *ngIf="driverId === cargo.driver.id">
           <div *ngIf="cargo.status === 'CREATED'">
             <button mat-flat-button color="primary" (click)="accept()">Accept</button>
             <button mat-flat-button color="warn" (click)="refuse()">Refuse</button>

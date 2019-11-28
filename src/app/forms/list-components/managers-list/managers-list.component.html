@@ -1,6 +1,11 @@
-<button mat-flat-button color="primary" (click)="addNewManager()">Add new manager</button>
+<button mat-flat-button color="primary" (click)="addNewManager()">
+  Add new manager
+</button>
 
-<app-spinner *ngIf="managers === undefined; else table"></app-spinner>
+<app-spinner *ngIf="managers === undefined; else emptyList"></app-spinner>
+<ng-template #emptyList>
+  <p *ngIf="managers !== undefined && managers.length === 0; else table">List is empty</p>
+</ng-template>
 
 <ng-template #table>
   <table mat-table [dataSource]="managers">

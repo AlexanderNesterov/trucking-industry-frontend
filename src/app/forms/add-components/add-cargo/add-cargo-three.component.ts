@@ -18,8 +18,8 @@ import {Driver} from '../../../models/driver';
 })
 export class AddCargoComponent implements OnDestroy {
 
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
+  // firstFormGroup: FormGroup;
+  cargo: Cargo;
   truck: Truck;
   driver: Driver;
   coDriver: Driver;
@@ -28,29 +28,20 @@ export class AddCargoComponent implements OnDestroy {
   isThirdGroupValid = false;
   cargoWeight: number;
 
-
-
   isCreated = false;
-  cargo: Cargo;
-  trucks: MatTableDataSource<Truck>;
-  drivers: MatTableDataSource<Driver>;
-  firstFormDisable = false;
-  secondFormDisable = false;
-  thirdFormDisable = false;
-  isReady = false;
-  truckSelection = new SelectionModel<Truck>();
-  driversSelection = new SelectionModel(true);
-  truckSubscription: Subscription;
 
-  driverSubscription: Subscription;
   cargoSubscription: Subscription;
 
-  driversFormControl = new FormControl(0, [
-    Validators.min(2)
-  ]);
+  firstFormGroup = new FormGroup({
+    isDone: new FormControl('', Validators.requiredTrue)
+  });
+
+  secondFormGroup = new FormGroup({
+    isDone: new FormControl('', Validators.requiredTrue)
+  });
 
   thirdFormGroup = new FormGroup({
-    driversCtrl: this.driversFormControl
+    isDone: new FormControl('', Validators.requiredTrue)
   });
 
   constructor(private truckService: TruckService, private driverService: DriverService,
@@ -58,31 +49,45 @@ export class AddCargoComponent implements OnDestroy {
   }
 
   setUpFirstFormGroup(formGroup: FormGroup, stepper: MatStepper) {
-    this.firstFormGroup = formGroup;
+    if (formGroup.valid) {
+      this.cargo = {
+        title: formGroup.controls.title.value,
+        description: formGroup.controls.description.value,
+        weight: formGroup.controls.weight.value
+      };
 
-    if (this.firstFormGroup.valid) {
+      this.firstFormGroup.patchValue({isDone: true});
       this.isFirstGroupValid = true;
-      this.cargoWeight = this.firstFormGroup.controls.weight.value;
-      console.log(stepper);
+      this.cargoWeight = formGroup.controls.weight.value;
+
       stepper.next();
     }
-    console.log(this.cargoWeight);
   }
 
-  setUpSecondFormGroup(truck: Truck) {
+  setUpSecondFormGroup(truck: Truck, stepper: MatStepper) {
     if (truck !== undefined) {
+      this.secondFormGroup.patchValue({isDone: true});
       this.isSecondGroupValid = true;
-      this.truck = truck;
+      this.cargo.truck = truck;
+      stepper.next();
     }
 
     console.log(this.truck);
   }
 
-  setUpThirdFormGroup(drivers1: Driver[]) {
+  setUpThirdFormGroup(drivers1: Driver[], stepper: MatStepper) {
     if (drivers1 !== undefined) {
+      this.thirdFormGroup.patchValue({isDone: true});
       this.isThirdGroupValid = true;
-      this.driver = drivers1.pop();
-      this.coDriver = drivers1.pop();
+      /*      this.driver = drivers1.pop();
+            this.coDriver = drivers1.pop();*/
+
+      this.cargo.driver = drivers1.pop();
+      this.cargo.coDriver = drivers1.pop();
+
+      console.log(this.cargo);
+
+      stepper.next();
     }
 
     console.log(this.driver);
@@ -95,17 +100,15 @@ export class AddCargoComponent implements OnDestroy {
       }
 
       this.cargoSubscription = this.cargoService.addCargo(this.cargo).subscribe(data => {
-        this.firstFormGroup.reset();
-        this.secondFormGroup.reset();
-        this.thirdFormGroup.reset();
         this.isCreated = data;
       });
     });
   }
 
-  check() {
-    this.thirdFormGroup.patchValue({driversCtrl: this.driversSelection.selected.length});
-  }
+  /*
+    check() {
+      this.thirdFormGroup.patchValue({driversCtrl: this.driversSelection.selected.length});
+    }*/
 
   openDialog(): MatDialogRef<ConfirmationDialogComponent> {
     return this.dialog.open(ConfirmationDialogComponent, {
@@ -116,13 +119,13 @@ export class AddCargoComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.truckSubscription !== undefined) {
-      this.truckSubscription.unsubscribe();
-    }
+    /*    if (this.truckSubscription !== undefined) {
+          this.truckSubscription.unsubscribe();
+        }
 
-    if (this.driverSubscription !== undefined) {
-      this.driverSubscription.unsubscribe();
-    }
+        if (this.driverSubscription !== undefined) {
+          this.driverSubscription.unsubscribe();
+        }*/
 
     if (this.cargoSubscription !== undefined) {
       this.cargoSubscription.unsubscribe();

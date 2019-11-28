@@ -1,6 +1,11 @@
-<button mat-flat-button color="primary" (click)="addNewTruck()">Add new truck</button>
+<button mat-flat-button color="primary" (click)="addNewTruck()">
+  Add new truck
+</button>
 
-<app-spinner *ngIf="trucks === undefined; else table"></app-spinner>
+<app-spinner *ngIf="trucks === undefined; else emptyList"></app-spinner>
+<ng-template #emptyList>
+  <p *ngIf="trucks !== undefined && trucks.length === 0; else table">List is empty</p>
+</ng-template>
 
 <ng-template #table>
   <table mat-table [dataSource]="trucks">
