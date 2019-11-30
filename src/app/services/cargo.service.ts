@@ -45,4 +45,8 @@ export class CargoService {
   public setDeliverStatus(cargoId: number, driverId: number): Observable<boolean> {
     return this.http.put<boolean>(`${this.cargoUrl}/set-deliver-status/${cargoId}/${driverId}`, null);
   }
+
+  public setCancelStatus(cargoId: number): Observable<boolean> {
+    return this.http.put<boolean>(`${this.cargoUrl}/set-cancel-status/${cargoId}`, null);
+  }
 }

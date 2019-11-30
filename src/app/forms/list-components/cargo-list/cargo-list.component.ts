@@ -17,11 +17,11 @@ export class CargoListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['id', 'title', 'weight', 'loadLocation', 'dischargeLocation', 'status', 'info'];
   subscription: Subscription;
 
-  constructor(private truckService: CargoService, private router: Router, private dialog: MatDialog) {
+  constructor(private cargoService: CargoService, private router: Router, private dialog: MatDialog) {
   }
 
   ngOnInit() {
-    this.subscription = this.truckService.findAll().subscribe((data: Cargo[]) => {
+    this.subscription = this.cargoService.findAll().subscribe((data: Cargo[]) => {
       this.cargos = data;
       console.log(this.cargos);
     });
@@ -39,13 +39,22 @@ export class CargoListComponent implements OnInit, OnDestroy {
     });
   }
 
+  updateCargo(id: number) {
+    this.router.navigate(['/update-cargo'], {queryParams: {id}});
+  }
+
+  cancel(id: number) {
+    this.cargoService.setCancelStatus(id).subscribe(res => {
+      if (res) {
+        this.cargos.find(cargo => cargo.id === id).status = 'CANCELED';
+      }
+      console.log(res);
+    });
+  }
+
   ngOnDestroy(): void {
     if (this.subscription !== undefined) {
       this.subscription.unsubscribe();
     }
-  }
-
-  updateCargo(id: number) {
-    this.router.navigate(['/update-cargo'], {queryParams: {id}});
   }
 }
