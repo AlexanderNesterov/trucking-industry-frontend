@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DriverService} from '../../../services/driver.service';
-import {Cargo} from '../../../models/cargo';
 import {OrderService} from '../../../services/order.service';
 import {Driver} from '../../../models/driver';
 import {Subscription} from 'rxjs';
@@ -10,6 +9,7 @@ import {PermissionService} from '../../../services/permision.service';
 import {User} from '../../../models/user';
 import {ManagerService} from '../../../services/manager.service';
 import {Router} from '@angular/router';
+import {Order} from '../../../models/order';
 
 @Component({
   selector: 'app-driver-info',
@@ -24,12 +24,12 @@ export class HomepageComponent implements OnInit, OnDestroy {
   isCargoInProgress = false;
   personalInformation: User;
   driverInformation: Driver;
-  cargo: Cargo = undefined;
+  order: Order = undefined;
   userSubscription: Subscription;
   cargoSubscription: Subscription;
 
   constructor(private driverService: DriverService, private dialog: MatDialog,
-              private cargoService: OrderService, private permissionService: PermissionService,
+              private orderService: OrderService, private permissionService: PermissionService,
               private managerService: ManagerService, private router: Router) {
   }
 
@@ -39,7 +39,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
       this.userSubscription = this.driverService.findById(this.driverId).subscribe(data => {
         this.personalInformation = data.user;
         this.driverInformation = data;
-        this.getCargo();
+        this.getOrder();
       });
     }
 
@@ -51,17 +51,17 @@ export class HomepageComponent implements OnInit, OnDestroy {
     }
   }
 
-  getCargo() {
-    this.cargoSubscription = this.cargoService.getCargoByDriverId(this.driverId).subscribe(data => {
-      // this.cargo = data;
+  getOrder() {
+    this.cargoSubscription = this.orderService.getOrderByDriverId(this.driverId).subscribe(data => {
+      this.order = data;
 
-      console.log('data', this.cargo);
+      console.log('data', this.order);
 
-      if (this.cargo.status === 'IN_PROGRESS') {
+      if (this.order.status === 'IN_PROGRESS') {
         this.isCargoInProgress = true;
       }
 
-      console.log(this.cargo);
+      console.log(this.order);
     }, error => {
       if ((error.error.message as string).includes('Cargo with driver id')) {
         this.isFreeDriver = true;
@@ -83,8 +83,8 @@ export class HomepageComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.cargoService.setAcceptStatus(this.cargo.id, this.driverId).subscribe(() => {
-        this.getCargo();
+      this.orderService.setAcceptStatus(this.order.id, this.driverId).subscribe(() => {
+        this.getOrder();
       });
     });
   }
@@ -95,10 +95,10 @@ export class HomepageComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.cargoService.setRefuseStatus(this.cargo.id, this.driverId).subscribe(data => {
+      this.orderService.setRefuseStatus(this.order.id, this.driverId).subscribe(data => {
         if (data) {
           this.isFreeDriver = true;
-          this.cargo = undefined;
+          this.order = undefined;
         }
       });
     });
@@ -110,9 +110,9 @@ export class HomepageComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.cargoService.setDeliverStatus(this.cargo.id, this.driverId).subscribe(data => {
+      this.orderService.setDeliverStatus(this.order.id, this.driverId).subscribe(data => {
         if (data) {
-          this.cargo = undefined;
+          this.order = undefined;
           this.isFreeDriver = true;
         }
       });

@@ -101,7 +101,7 @@ export class AddCargoComponent implements OnDestroy {
         return;
       }
 
-      this.cargoSubscription = this.cargoService.addCargo(this.order).subscribe(data => {
+      this.cargoSubscription = this.cargoService.addOrder(this.order).subscribe(data => {
         this.isCreated = data;
       });
     });

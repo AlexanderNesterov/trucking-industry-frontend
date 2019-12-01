@@ -23,15 +23,15 @@ export class OrderService {
     return this.http.get<Order[]>(this.orderUrl);
   }
 
-  public addCargo(order: Order): Observable<boolean> {
+  public addOrder(order: Order): Observable<boolean> {
     return this.http.post<boolean>(this.orderUrl, order);
   }
 
- public updateCargo(order: Order): Observable<boolean> {
+ public updateOrder(order: Order): Observable<boolean> {
     return this.http.put<boolean>(this.orderUrl, order);
  }
 
-  public getCargoByDriverId(driverId: number): Observable<Order> {
+  public getOrderByDriverId(driverId: number): Observable<Order> {
     return this.http.get<Order>(`${this.orderUrl}/for-driver/${driverId}`);
   }
 

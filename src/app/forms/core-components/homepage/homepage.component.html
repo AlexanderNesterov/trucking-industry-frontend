@@ -27,59 +27,23 @@
 </ng-template>
 
 <div *ngIf="checkRole('DRIVER')">
-  <app-spinner *ngIf="!isFreeDriver && cargo === undefined"></app-spinner>
+  <app-spinner *ngIf="!isFreeDriver && order === undefined"></app-spinner>
   <p *ngIf="isFreeDriver; else cargoInfo">You don't have any cargo</p>
 
   <ng-template #cargoInfo>
-    <div *ngIf="cargo !== undefined">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Cargo
-          </mat-panel-title>
-          <mat-panel-title>
-            {{cargo.status}}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
+    <div *ngIf="order !== undefined">
+      <app-filled-order [order]="order"></app-filled-order>
 
-        <mat-tab-group>
-          <mat-tab label="Cargo Information">
-            <p>Title: {{cargo.title}}</p>
-            <p *ngIf="cargo.description !== ''">Description: {{cargo.description}}</p>
-            <p>Weight: {{cargo.weight}}</p>
-          </mat-tab>
-          <mat-tab label="Truck Information">
-            <p>Model: {{cargo.truck.model}}</p>
-            <p>Registration number: {{cargo.truck.registrationNumber}}</p>
-            <p>Capacity: {{cargo.truck.capacity}}</p>
-            <p>Condition: {{cargo.truck.condition}}</p>
-          </mat-tab>
-          <mat-tab label="Driver Information">
-            <p>First name: {{cargo.driver.user.firstName}} </p>
-            <p>Last name: {{cargo.driver.user.lastName}} </p>
-            <p *ngIf="cargo.driver.user.phone !== null">Phone: {{cargo.driver.user.phone}}</p>
-            <p>Email: {{cargo.driver.user.email}}</p>
-          </mat-tab>
-          <mat-tab label="Co-Driver Information">
-            <p>First name: {{cargo.coDriver.user.firstName}} </p>
-            <p>Last name: {{cargo.coDriver.user.lastName}} </p>
-            <p *ngIf="cargo.driver.user.phone !== null">Phone: {{cargo.driver.user.phone}}</p>
-            <p>Email: {{cargo.coDriver.user.email}}</p>
-          </mat-tab>
-        </mat-tab-group>
-
-        <div *ngIf="driverId === cargo.driver.id">
-          <div *ngIf="cargo.status === 'CREATED'">
-            <button mat-flat-button color="primary" (click)="accept()">Accept</button>
-            <button mat-flat-button color="warn" (click)="refuse()">Refuse</button>
-          </div>
-
-          <button mat-flat-button color="primary"
-                  *ngIf="isCargoInProgress" (click)="deliver()">Delivered
-          </button>
+      <div *ngIf="driverId === order.driver.id">
+        <div *ngIf="order.status === 'CREATED'">
+          <button mat-flat-button color="primary" (click)="accept()">Accept</button>
+          <button mat-flat-button color="warn" (click)="refuse()">Refuse</button>
         </div>
 
-      </mat-expansion-panel>
+        <button mat-flat-button color="primary"
+                *ngIf="isCargoInProgress" (click)="deliver()">Delivered
+        </button>
+      </div>
     </div>
   </ng-template>
 </div>
