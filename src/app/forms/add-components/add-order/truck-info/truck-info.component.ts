@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Truck} from '../../../models/truck';
+import {Truck} from '../../../../models/truck';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Subscription} from 'rxjs';
-import {TruckService} from '../../../services/truck.service';
+import {TruckService} from '../../../../services/truck.service';
 import {MatTableDataSource} from '@angular/material';
 
 @Component({
@@ -35,7 +35,7 @@ export class TruckInfoComponent {
 
   @Input()
   set cargoWeight(cargoWeight: number) {
-    if (cargoWeight === undefined) {
+    if (cargoWeight === 0) {
       console.log(cargoWeight);
       return;
     }

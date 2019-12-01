@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DriverService} from '../../../services/driver.service';
 import {Cargo} from '../../../models/cargo';
-import {CargoService} from '../../../services/cargo.service';
+import {OrderService} from '../../../services/order.service';
 import {Driver} from '../../../models/driver';
 import {Subscription} from 'rxjs';
 import {MatDialog, MatDialogRef} from '@angular/material';
@@ -29,7 +29,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   cargoSubscription: Subscription;
 
   constructor(private driverService: DriverService, private dialog: MatDialog,
-              private cargoService: CargoService, private permissionService: PermissionService,
+              private cargoService: OrderService, private permissionService: PermissionService,
               private managerService: ManagerService, private router: Router) {
   }
 
@@ -44,7 +44,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
     }
 
     if (this.permissionService.check('ADMIN')) {
-      this.managerId = parseInt(localStorage.getItem('userId'), 10)
+      this.managerId = parseInt(localStorage.getItem('userId'), 10);
       this.userSubscription = this.managerService.findById(this.managerId).subscribe(data => {
         this.personalInformation = data;
       });
@@ -53,7 +53,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
   getCargo() {
     this.cargoSubscription = this.cargoService.getCargoByDriverId(this.driverId).subscribe(data => {
-      this.cargo = data;
+      // this.cargo = data;
 
       console.log('data', this.cargo);
 

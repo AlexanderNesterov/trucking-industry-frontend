@@ -1,0 +1,60 @@
+<mat-horizontal-stepper [linear]="true" #stepper>
+  <mat-step [stepControl]="firstFormGroup" [editable]="false">
+    <ng-template matStepLabel>Fill out cargo information</ng-template>
+    <form [formGroup]="firstFormGroup">
+      <mat-form-field>
+        <input matInput placeholder="Title" formControlName="title">
+      </mat-form-field>
+
+      <br>
+
+      <mat-form-field>
+        <input matInput placeholder="Description" formControlName="description">
+      </mat-form-field>
+
+      <br>
+
+      <mat-form-field>
+        <input matInput placeholder="Amount" type="number" class="example-right-align" formControlName="weight">
+      </mat-form-field>
+      <div>
+        <button mat-flat-button matStepperNext color="primary" [disabled]="firstFormGroup.invalid">
+          Next
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="secondFormGroup" [editable]="false">
+    <ng-template matStepLabel>Select load and discharge locations</ng-template>
+    <form [formGroup]="firstFormGroup">
+      <mat-form-field>
+        <mat-select placeholder="Load location">
+          <mat-option *ngFor="let city of cities" value="option" (click)="chooseLoadLocation(city)">
+            {{city.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br>
+
+      <mat-form-field>
+        <mat-select placeholder="Discharge location">
+          <mat-option *ngFor="let city of cities" value="option" (click)="chooseDischargeLocation(city)">
+            {{city.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br>
+
+      <!--        <agm-map [latitude]="lat" [longitude]="lng">
+                <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+              </agm-map>-->
+    </form>
+    <button mat-flat-button color="primary" [disabled]="!secondFormGroup.valid" (click)="add()">
+      Add
+    </button>
+  </mat-step>
+</mat-horizontal-stepper>
+

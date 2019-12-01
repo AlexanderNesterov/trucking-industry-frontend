@@ -2,9 +2,9 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material';
 import {Subscription} from 'rxjs';
-import {DriverService} from '../../../services/driver.service';
-import {Truck} from '../../../models/truck';
-import {Driver} from '../../../models/driver';
+import {DriverService} from '../../../../services/driver.service';
+import {Truck} from '../../../../models/truck';
+import {Driver} from '../../../../models/driver';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -28,8 +28,7 @@ export class DriversInfoComponent {
 
   driverDisplayedColumns: string[] = ['id', 'name', 'driverLicense', 'select'];
 
-  @Output()
-  onValidThirdGroup = new EventEmitter<Driver[]>();
+  @Output() onValidThirdGroup = new EventEmitter<Driver[]>();
 
   constructor(private driverService: DriverService) {
   }

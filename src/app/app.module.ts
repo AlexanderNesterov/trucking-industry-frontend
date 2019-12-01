@@ -14,7 +14,7 @@ import {TruckListComponent} from './forms/list-components/truck-list/truck-list.
 import {TruckService} from './services/truck.service';
 import {AddTruckComponent} from './forms/add-components/add-truck/add-truck.component';
 import {UpdateDriverComponent} from './forms/update-components/update-driver/update-driver.component';
-import {CargoService} from './services/cargo.service';
+import {OrderService} from './services/order.service';
 import {CargoListComponent} from './forms/list-components/cargo-list/cargo-list.component';
 import {CargoDetailDialogComponent} from './forms/core-components/dialogs/cargo-detail-dialog/cargo-detail-dialog.component';
 import {MatSortModule} from '@angular/material';
@@ -34,13 +34,21 @@ import {FooterComponent} from './forms/core-components/footer/footer.component';
 import {ConfirmationDialogComponent} from './forms/core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {SpinnerComponent} from './forms/core-components/spinner/spinner.component';
 import {LoginComponent} from './forms/auth/login/login.component';
-import {CargoInfoComponent} from './forms/add-components/cargo-info/cargo-info.component';
-import {AddCargoComponent} from './forms/add-components/add-cargo/add-cargo-three.component';
-import {TruckInfoComponent} from './forms/add-components/truck-info/truck-info.component';
-import {DriversInfoComponent} from './forms/add-components/drivers-info/drivers-info.component';
+import {AddCargoComponent} from './forms/add-components/add-order/add-order.component';
+import {TruckInfoComponent} from './forms/add-components/add-order/truck-info/truck-info.component';
+import {DriversInfoComponent} from './forms/add-components/add-order/drivers-info/drivers-info.component';
 import {LoginService} from './services/login.service';
 import {PermissionService} from './services/permision.service';
 import {filter, map} from 'rxjs/operators';
+import {CargoListInfoComponent} from './forms/add-components/add-order/cargo-list-info/cargo-list-info.component';
+import {AgmCoreModule} from '@agm/core';
+import {CargoDialogInfoComponent} from './forms/add-components/add-order/cargo-dialog-info/cargo-dialog-info.component';
+import {CargoInfoComponent} from './forms/add-components/add-order/cargo-info/cargo-info.component';
+import {FilledOrderComponent} from './forms/add-components/add-order/filled-order/filled-order.component';
+
+const googleMapsCore = AgmCoreModule.forRoot({
+  apiKey : 'AIzaSyC1dshp0VINWJKfg3dM9RWDxkF5i6_iTNs',
+});
 
 @NgModule({
   declarations: [
@@ -66,9 +74,12 @@ import {filter, map} from 'rxjs/operators';
     ConfirmationDialogComponent,
     SpinnerComponent,
     LoginComponent,
-    CargoInfoComponent,
     TruckInfoComponent,
-    DriversInfoComponent
+    DriversInfoComponent,
+    CargoListInfoComponent,
+    CargoDialogInfoComponent,
+    CargoInfoComponent,
+    FilledOrderComponent
   ],
   imports: [
     BrowserModule,
@@ -80,11 +91,12 @@ import {filter, map} from 'rxjs/operators';
     MatSortModule,
     FormsModule,
     BrowserAnimationsModule,
+    googleMapsCore
   ],
   providers: [
     DriverService,
     TruckService,
-    CargoService,
+    OrderService,
     ManagerService,
     LoginService,
     PermissionService,
@@ -93,7 +105,7 @@ import {filter, map} from 'rxjs/operators';
       useClass: Interceptor,
       multi: true
     }],
-  entryComponents: [CargoDetailDialogComponent, ConfirmationDialogComponent],
+  entryComponents: [CargoDetailDialogComponent, ConfirmationDialogComponent, CargoDialogInfoComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

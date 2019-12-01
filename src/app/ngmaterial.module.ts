@@ -5,7 +5,7 @@ import {
   MatDialogModule, MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatMenuModule, MatProgressSpinnerModule, MatStepperModule,
+  MatInputModule, MatMenuModule, MatProgressSpinnerModule, MatSelectModule, MatStepperModule,
   MatTableModule, MatTabsModule, MatToolbarModule
 } from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -28,7 +28,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     MatTabsModule,
     MatToolbarModule,
     MatMenuModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSelectModule
   ],
   exports: [
     MatTableModule,
@@ -45,7 +46,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     MatTabsModule,
     MatToolbarModule,
     MatMenuModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSelectModule
   ]
 })
 export class MaterialAppModule {

@@ -1,0 +1,13 @@
+<button mat-flat-button color="primary" (click)="create()">Add cargo</button>
+
+<br>
+
+<p *ngIf="totalWeight > 0">Total weight: {{totalWeight}}</p>
+
+<br>
+
+<app-cargo-info *ngFor="let index of cargoList" [cargo]="index"></app-cargo-info>
+
+<br>
+
+<button mat-flat-button color="primary" *ngIf="cargoList.length !== 0" (click)="next()">Next</button>

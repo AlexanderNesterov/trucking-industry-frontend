@@ -1,0 +1,29 @@
+<mat-tab-group *ngIf="order !== undefined">
+  <mat-tab label="Truck Information">
+    <p>Model: {{order.truck.model}}</p>
+    <p>Registration number: {{order.truck.registrationNumber}}</p>
+    <p>Capacity: {{order.truck.capacity}}</p>
+    <p>Condition: {{order.truck.condition}}</p>
+  </mat-tab>
+  <mat-tab label="Driver Information">
+    <p>First name: {{order.driver.user.firstName}} </p>
+    <p>Last name: {{order.driver.user.lastName}} </p>
+    <p>Driver license: {{order.driver.driverLicense}} </p>
+    <p *ngIf="order.driver.user.phone !== '' && order.driver.user.phone !== null">
+      Phone: {{order.driver.user.phone}}
+    </p>
+    <p>Email: {{order.driver.user.email}}</p>
+  </mat-tab>
+  <mat-tab label="Co-Driver Information">
+    <p>First name: {{order.coDriver.user.firstName}} </p>
+    <p>Last name: {{order.coDriver.user.lastName}} </p>
+    <p>Driver license: {{order.coDriver.driverLicense}} </p>
+    <p *ngIf="order.driver.user.phone !== '' && order.coDriver.user.phone !== null">
+      Phone: {{order.coDriver.user.phone}}
+    </p>
+    <p>Email: {{order.coDriver.user.email}}</p>
+  </mat-tab>
+  <mat-tab label="Cargo list">
+    <app-cargo-info *ngFor="let cargo of order.cargoList" [cargo]="cargo"></app-cargo-info>
+  </mat-tab>
+</mat-tab-group>

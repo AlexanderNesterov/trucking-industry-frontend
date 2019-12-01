@@ -6,7 +6,7 @@ import {Cargo} from '../../../models/cargo';
 import {MatTableDataSource} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
 import {DriverService} from '../../../services/driver.service';
-import {CargoService} from '../../../services/cargo.service';
+import {OrderService} from '../../../services/order.service';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {Driver} from '../../../models/driver';
@@ -71,7 +71,7 @@ export class UpdateCargoComponent implements OnInit, OnDestroy {
   thirdFormDisable = false;
 
   constructor(private truckService: TruckService, private driverService: DriverService,
-              private cargoService: CargoService, private activatedRoute: ActivatedRoute) {
+              private cargoService: OrderService, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -80,9 +80,9 @@ export class UpdateCargoComponent implements OnInit, OnDestroy {
 
       this.cargoService.findById(this.cargoId).subscribe(data => {
         this.firstFormGroup.patchValue({
-          title: data.title,
+/*          title: data.title,
           description: data.description,
-          weight: data.weight
+          weight: data.weight*/
         });
       });
     });
@@ -116,13 +116,13 @@ export class UpdateCargoComponent implements OnInit, OnDestroy {
   }
 
   setTruck() {
-    this.cargo.truck = this.truckSelection.selected[0];
+    // this.cargo.truck = this.truckSelection.selected[0];
     this.secondFormDisable = true;
   }
 
   setDrivers() {
-    this.cargo.driver = this.driversSelection.selected[0];
-    this.cargo.coDriver = this.driversSelection.selected[1];
+    // this.cargo.driver = this.driversSelection.selected[0];
+    // this.cargo.coDriver = this.driversSelection.selected[1];
     this.isReady = true;
     this.thirdFormDisable = true;
   }
@@ -139,12 +139,12 @@ export class UpdateCargoComponent implements OnInit, OnDestroy {
     }*/
 
   confirm() {
-    this.cargoSubscription = this.cargoService.updateCargo(this.cargo).subscribe(data => {
+/*    this.cargoSubscription = this.cargoService.updateCargo(this.cargo).subscribe(data => {
       this.firstFormGroup.reset();
       this.secondFormGroup.reset();
       this.thirdFormGroup.reset();
       this.isCreated = data;
-    });
+    });*/
   }
 
   check() {

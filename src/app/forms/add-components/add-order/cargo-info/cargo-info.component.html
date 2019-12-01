@@ -1,0 +1,14 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{cargo.title}}
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+    <div>
+  <p *ngIf="cargo.description !== ''">Description: {{cargo.description}}</p>
+  <p>Weight: {{cargo.weight}}</p>
+  <p>Load location: {{cargo.loadLocation.name}}</p>
+  <p>Discharge location: {{cargo.dischargeLocation.name}}</p>
+</div>
+</mat-expansion-panel>

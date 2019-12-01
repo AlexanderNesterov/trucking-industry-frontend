@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Cargo} from '../../../models/cargo';
-import {CargoService} from '../../../services/cargo.service';
+import {OrderService} from '../../../services/order.service';
 import {MatDialog} from '@angular/material';
 import {CargoDetailDialogComponent} from '../../core-components/dialogs/cargo-detail-dialog/cargo-detail-dialog.component';
 import {Subscription} from 'rxjs';
@@ -17,18 +17,18 @@ export class CargoListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['id', 'title', 'weight', 'loadLocation', 'dischargeLocation', 'status', 'info'];
   subscription: Subscription;
 
-  constructor(private cargoService: CargoService, private router: Router, private dialog: MatDialog) {
+  constructor(private cargoService: OrderService, private router: Router, private dialog: MatDialog) {
   }
 
   ngOnInit() {
-    this.subscription = this.cargoService.findAll().subscribe((data: Cargo[]) => {
+/*    this.subscription = this.cargoService.findAll().subscribe((data: Cargo[]) => {
       this.cargos = data;
       console.log(this.cargos);
-    });
+    });*/
   }
 
   addNewCargo() {
-    this.router.navigate(['/add-cargo']);
+    this.router.navigate(['/add-order']);
   }
 
   openDialog(selectedCargo: Cargo) {

@@ -1,0 +1,66 @@
+<mat-horizontal-stepper [linear]="true" #stepper>
+<!--  <mat-step [stepControl]="firstFormGroup" [editable]="false">
+    <ng-template matStepLabel>Fill out order description</ng-template>
+    <app-order-info (onValidFirstGroup)="setUpFirstFormGroup($event, stepper)"></app-order-info>
+  </mat-step>-->
+
+  <mat-step [stepControl]="firstFormGroup" [editable]="false">
+    <ng-template matStepLabel>Add cargo</ng-template>
+    <app-cargo-list-info (onValidFirstGroup)="setUpFirstFormGroup($event, stepper)"></app-cargo-list-info>
+  </mat-step>
+
+  <mat-step [stepControl]="secondFormGroup" [editable]="false">
+    <ng-template matStepLabel>Choose truck</ng-template>
+    <app-truck-info [cargoWeight]="totalWeight" (onValidSecondGroup)="setUpSecondFormGroup($event, stepper)"></app-truck-info>
+  </mat-step>
+
+  <mat-step [stepControl]="thirdFormGroup" [editable]="false">
+    <ng-template matStepLabel>Choose drivers</ng-template>
+    <app-drivers-info [getDrivers]="isSecondGroupValid" (onValidThirdGroup)="setUpThirdFormGroup($event, stepper)"></app-drivers-info>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+
+<!--    <mat-tab-group *ngIf="isThirdGroupValid">
+&lt;!&ndash;      <mat-tab label="Cargo Information">
+        <p>Title: {{cargo.title}}</p>
+        <p *ngIf="cargo.description !== '' && cargo.description !== null">Description: {{cargo.description}}</p>
+        <p>Weight: {{cargo.weight}}</p>
+      </mat-tab>&ndash;&gt;
+      <mat-tab label="Truck Information">
+        <p>Model: {{order.truck.model}}</p>
+        <p>Registration number: {{order.truck.registrationNumber}}</p>
+        <p>Capacity: {{order.truck.capacity}}</p>
+        <p>Condition: {{order.truck.condition}}</p>
+      </mat-tab>
+      <mat-tab label="Driver Information">
+        <p>First name: {{order.driver.user.firstName}} </p>
+        <p>Last name: {{order.driver.user.lastName}} </p>
+        <p>Driver license: {{order.driver.driverLicense}} </p>
+        <p *ngIf="order.driver.user.phone !== '' && order.driver.user.phone !== null">
+          Phone: {{order.driver.user.phone}}
+        </p>
+        <p>Email: {{order.driver.user.email}}</p>
+      </mat-tab>
+      <mat-tab label="Co-Driver Information">
+        <p>First name: {{order.coDriver.user.firstName}} </p>
+        <p>Last name: {{order.coDriver.user.lastName}} </p>
+        <p>Driver license: {{order.coDriver.driverLicense}} </p>
+        <p *ngIf="order.driver.user.phone !== '' && order.coDriver.user.phone !== null">
+          Phone: {{order.coDriver.user.phone}}
+        </p>
+        <p>Email: {{order.coDriver.user.email}}</p>
+      </mat-tab>
+    </mat-tab-group>-->
+
+    <app-filled-order [order]="order"></app-filled-order>
+
+    <p *ngIf="isCreated">Cargo has been created</p>
+
+    <button mat-flat-button color="primary" (click)="confirm()"
+            [disabled]="isCreated">
+      Confirm
+    </button>
+  </mat-step>
+</mat-horizontal-stepper>
