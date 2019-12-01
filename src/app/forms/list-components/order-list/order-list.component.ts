@@ -1,40 +1,40 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Cargo} from '../../../models/cargo';
 import {OrderService} from '../../../services/order.service';
 import {MatDialog} from '@angular/material';
 import {CargoDetailDialogComponent} from '../../core-components/dialogs/cargo-detail-dialog/cargo-detail-dialog.component';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
+import {Order} from '../../../models/order';
 
 @Component({
-  selector: 'app-cargo-list',
-  templateUrl: './cargo-list.component.html',
-  styleUrls: ['./cargo-list.component.css']
+  selector: 'app-order-list',
+  templateUrl: './order-list.component.html',
+  styleUrls: ['./order-list.component.css']
 })
-export class CargoListComponent implements OnInit, OnDestroy {
+export class OrderListComponent implements OnInit, OnDestroy {
 
-  cargos: Cargo[];
-  displayedColumns: string[] = ['id', 'title', 'weight', 'loadLocation', 'dischargeLocation', 'status', 'info'];
+  orderList: Order[];
+  displayedColumns: string[] = ['id', 'drivers', 'truck', 'totalWeight', 'status', 'action'];
   subscription: Subscription;
 
-  constructor(private cargoService: OrderService, private router: Router, private dialog: MatDialog) {
+  constructor(private orderService: OrderService, private router: Router, private dialog: MatDialog) {
   }
 
   ngOnInit() {
-/*    this.subscription = this.cargoService.findAll().subscribe((data: Cargo[]) => {
-      this.cargos = data;
-      console.log(this.cargos);
-    });*/
+    this.subscription = this.orderService.findAll().subscribe((data: Order[]) => {
+      this.orderList = data;
+      console.log(this.orderList);
+    });
   }
 
   addNewCargo() {
     this.router.navigate(['/add-order']);
   }
 
-  openDialog(selectedCargo: Cargo) {
+  openDialog(selectedOrder: Order) {
     this.dialog.open(CargoDetailDialogComponent, {
       data: {
-        cargo: selectedCargo
+        order: selectedOrder
       }, width: '70%'
     });
   }
@@ -44,9 +44,9 @@ export class CargoListComponent implements OnInit, OnDestroy {
   }
 
   cancel(id: number) {
-    this.cargoService.setCancelStatus(id).subscribe(res => {
+    this.orderService.setCancelStatus(id).subscribe(res => {
       if (res) {
-        this.cargos.find(cargo => cargo.id === id).status = 'CANCELED';
+        this.orderList.find(cargo => cargo.id === id).status = 'CANCELED';
       }
       console.log(res);
     });

@@ -1,5 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {Cargo} from '../../../../models/cargo';
+import {FitBoundsService} from '@agm/core/services/fit-bounds';
+import {LatLngBounds, LatLngBoundsLiteral} from '@agm/core';
 
 @Component({
   selector: 'app-cargo-info',
@@ -10,9 +12,20 @@ import {Cargo} from '../../../../models/cargo';
 })
 export class CargoInfoComponent {
 
-  @Input()
+  loadLocationLatitude: number;
+  loadLocationLongitude: number;
+  dischargeLocationLatitude: number;
+  dischargeLocationLongitude: number;
   cargo: Cargo;
 
   constructor() { }
 
+  @Input()
+  set getCargo(cargo: Cargo) {
+    this.loadLocationLatitude = cargo.loadLocation.latitude;
+    this.loadLocationLongitude = cargo.loadLocation.longitude;
+    this.dischargeLocationLatitude = cargo.dischargeLocation.latitude;
+    this.dischargeLocationLongitude = cargo.dischargeLocation.longitude;
+    this.cargo = cargo;
+  }
 }

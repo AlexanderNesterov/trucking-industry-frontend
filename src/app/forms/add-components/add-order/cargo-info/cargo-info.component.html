@@ -5,10 +5,19 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
 
+  <div class="cl3">
     <div>
-  <p *ngIf="cargo.description !== ''">Description: {{cargo.description}}</p>
-  <p>Weight: {{cargo.weight}}</p>
-  <p>Load location: {{cargo.loadLocation.name}}</p>
-  <p>Discharge location: {{cargo.dischargeLocation.name}}</p>
-</div>
+      <p *ngIf="cargo.description !== ''">Description: {{cargo.description}}</p>
+      <p>Weight: {{cargo.weight}}</p>
+      <p>Load location: {{cargo.loadLocation.name}}</p>
+      <p>Discharge location: {{cargo.dischargeLocation.name}}</p>
+    </div>
+
+    <div class="cl">
+      <agm-map [latitude]="loadLocationLatitude" [longitude]="loadLocationLongitude">
+        <agm-marker [latitude]="loadLocationLatitude" [longitude]="loadLocationLongitude"></agm-marker>
+        <agm-marker [latitude]="dischargeLocationLatitude" [longitude]="dischargeLocationLongitude"></agm-marker>
+      </agm-map>
+    </div>
+  </div>
 </mat-expansion-panel>

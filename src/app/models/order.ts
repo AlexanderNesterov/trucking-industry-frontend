@@ -9,4 +9,5 @@ export interface Order {
   truck: Truck;
   totalWeight: number;
   cargoList: Cargo[];
+  status?: string;
 }

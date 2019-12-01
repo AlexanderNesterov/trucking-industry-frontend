@@ -15,7 +15,7 @@ import {TruckService} from './services/truck.service';
 import {AddTruckComponent} from './forms/add-components/add-truck/add-truck.component';
 import {UpdateDriverComponent} from './forms/update-components/update-driver/update-driver.component';
 import {OrderService} from './services/order.service';
-import {CargoListComponent} from './forms/list-components/cargo-list/cargo-list.component';
+import {OrderListComponent} from './forms/list-components/order-list/order-list.component';
 import {CargoDetailDialogComponent} from './forms/core-components/dialogs/cargo-detail-dialog/cargo-detail-dialog.component';
 import {MatSortModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
@@ -58,7 +58,7 @@ const googleMapsCore = AgmCoreModule.forRoot({
     TruckListComponent,
     AddTruckComponent,
     UpdateDriverComponent,
-    CargoListComponent,
+    OrderListComponent,
     CargoDetailDialogComponent,
     AddCargoComponent,
     HomepageComponent,

@@ -1,0 +1,12 @@
+agm-map {
+  height: 400px;
+  width: 400px;
+}
+
+.cl {
+  padding-left: 30%;
+}
+
+.cl3 {
+  display: flex;
+}
