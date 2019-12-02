@@ -20,4 +20,6 @@
       </agm-map>
     </div>
   </div>
+
+  <button mat-flat-button color="primary" *ngIf="checkPermission()" (click)="deliver()">Deliver</button>
 </mat-expansion-panel>

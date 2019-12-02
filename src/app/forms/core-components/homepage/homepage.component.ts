@@ -10,6 +10,7 @@ import {User} from '../../../models/user';
 import {ManagerService} from '../../../services/manager.service';
 import {Router} from '@angular/router';
 import {Order} from '../../../models/order';
+import {CargoService} from '../../../services/cargo.service';
 
 @Component({
   selector: 'app-driver-info',
@@ -30,7 +31,8 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
   constructor(private driverService: DriverService, private dialog: MatDialog,
               private orderService: OrderService, private permissionService: PermissionService,
-              private managerService: ManagerService, private router: Router) {
+              private managerService: ManagerService, private cargoService: CargoService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -54,6 +56,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   getOrder() {
     this.cargoSubscription = this.orderService.getOrderByDriverId(this.driverId).subscribe(data => {
       this.order = data;
+      this.order.cargoList = data.cargoList.filter(cargo => cargo.status === 'IN_PROGRESS');
 
       console.log('data', this.order);
 
@@ -104,21 +107,6 @@ export class HomepageComponent implements OnInit, OnDestroy {
     });
   }
 
-  deliver() {
-    this.openDialog('deliver cargo').afterClosed().subscribe(result => {
-      if (!result) {
-        return;
-      }
-
-      this.orderService.setDeliverStatus(this.order.id, this.driverId).subscribe(data => {
-        if (data) {
-          this.order = undefined;
-          this.isFreeDriver = true;
-        }
-      });
-    });
-  }
-
   edit() {
     this.router.navigate([`/update-manager`], {queryParams: {id: this.managerId}});
   }
@@ -135,5 +123,13 @@ export class HomepageComponent implements OnInit, OnDestroy {
     if (this.cargoSubscription !== undefined) {
       this.cargoSubscription.unsubscribe();
     }
+  }
+
+  deliver(cargoId: number) {
+    this.cargoService.setDeliveredStatus(cargoId, this.order.id, this.driverId).subscribe(res => {
+      if (res) {
+        this.order.cargoList = this.order.cargoList.filter(cargo => cargo.id !== cargoId);
+      }
+    });
   }
 }

@@ -32,17 +32,13 @@
 
   <ng-template #cargoInfo>
     <div *ngIf="order !== undefined">
-      <app-filled-order [order]="order"></app-filled-order>
+      <app-filled-order [order]="order" (onDeliver)="deliver($event)"></app-filled-order>
 
       <div *ngIf="driverId === order.driver.id">
         <div *ngIf="order.status === 'CREATED'">
           <button mat-flat-button color="primary" (click)="accept()">Accept</button>
           <button mat-flat-button color="warn" (click)="refuse()">Refuse</button>
         </div>
-
-        <button mat-flat-button color="primary"
-                *ngIf="isCargoInProgress" (click)="deliver()">Delivered
-        </button>
       </div>
     </div>
   </ng-template>

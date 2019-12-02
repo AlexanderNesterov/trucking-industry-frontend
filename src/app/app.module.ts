@@ -47,7 +47,7 @@ import {CargoInfoComponent} from './forms/add-components/add-order/cargo-info/ca
 import {FilledOrderComponent} from './forms/add-components/add-order/filled-order/filled-order.component';
 
 const googleMapsCore = AgmCoreModule.forRoot({
-  apiKey : 'AIzaSyC1dshp0VINWJKfg3dM9RWDxkF5i6_iTNs',
+  apiKey : '',
 });
 
 @NgModule({

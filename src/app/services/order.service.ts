@@ -43,10 +43,6 @@ export class OrderService {
     return this.http.put<boolean>(`${this.orderUrl}/set-refuse-status/${orderId}/${driverId}`, null);
   }
 
-  public setDeliverStatus(orderId: number, driverId: number): Observable<boolean> {
-    return this.http.put<boolean>(`${this.orderUrl}/set-deliver-status/${orderId}/${driverId}`, null);
-  }
-
   public setCancelStatus(orderId: number): Observable<boolean> {
     return this.http.put<boolean>(`${this.orderUrl}/set-cancel-status/${orderId}`, null);
   }
