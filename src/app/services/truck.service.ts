@@ -24,6 +24,10 @@ export class TruckService {
     return this.http.get<Truck[]>(`${this.trucksUrl}/free/${weight}`);
   }
 
+  public getTrucksBySearch(text: string): Observable<Truck[]> {
+    return this.http.get<Truck[]>(`${this.trucksUrl}/search/${text}`);
+  }
+
   public save(truck: Truck): Observable<boolean> {
     return this.http.post<boolean>(this.trucksUrl, truck);
   }

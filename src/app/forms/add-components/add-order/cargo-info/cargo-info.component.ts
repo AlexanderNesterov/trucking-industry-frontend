@@ -42,7 +42,9 @@ export class CargoInfoComponent {
 
   checkPermission(): boolean {
     const savedDriverId = parseInt(localStorage.getItem('driverId'), 10);
-    return this.permissionService.check('DRIVER') && this.driverId === savedDriverId;
+    return this.permissionService.check('DRIVER')
+      && this.driverId === savedDriverId
+      && this.cargo.status === 'IN_PROGRESS';
   }
 
   deliver() {

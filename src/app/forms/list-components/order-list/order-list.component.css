@@ -2,6 +2,7 @@ table {
   width: 100%;
 }
 
-.center {
-  margin: 0 auto;
+mat-form-field {
+  padding-top: 1%;
+  width: 25%;
 }

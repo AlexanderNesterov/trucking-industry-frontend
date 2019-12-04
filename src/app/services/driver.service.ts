@@ -24,6 +24,10 @@ export class DriverService {
     return this.http.get<Driver[]>(`${this.driversUrl}/free`);
   }
 
+  public getDriversBySearch(text: string): Observable<Driver[]> {
+    return this.http.get<Driver[]>(`${this.driversUrl}/search/${text}`);
+  }
+
   public save(driver: Driver): Observable<boolean> {
     return this.http.post<boolean>(this.driversUrl, driver);
   }

@@ -1,6 +1,16 @@
-<button mat-flat-button color="primary" (click)="addNewCargo()">
-  Add new order
-</button>
+<div>
+  <button mat-flat-button color="primary" (click)="addNewCargo()">
+    Add new order
+  </button>
+</div>
+
+<div>
+  <form [formGroup]="filterGroup">
+    <mat-form-field>
+      <input matInput placeholder="Filter" [formControl]="filterControl">
+    </mat-form-field>
+  </form>
+</div>
 
 <app-spinner *ngIf="orderList === undefined; else emptyList"></app-spinner>
 <ng-template #emptyList>

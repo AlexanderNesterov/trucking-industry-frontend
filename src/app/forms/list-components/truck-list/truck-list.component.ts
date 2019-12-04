@@ -3,6 +3,8 @@ import {Truck} from '../../../models/truck';
 import {TruckService} from '../../../services/truck.service';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
+import {FormControl, FormGroup} from '@angular/forms';
+import {debounceTime, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-truck-list',
@@ -15,13 +17,37 @@ export class TruckListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['id', 'registrationNumber', 'model', 'capacity', 'condition', 'action'];
   subscription: Subscription;
 
+  filterControl = new FormControl();
+  filterGroup = new FormGroup({
+    filter: this.filterControl
+  });
+
   constructor(private truckService: TruckService, private router: Router) {
   }
 
   ngOnInit() {
+    this.searchTrucks()
     this.subscription = this.truckService.findAll().subscribe((data: Truck[]) => {
       this.trucks = data;
       console.log(this.trucks);
+    });
+  }
+
+  searchTrucks() {
+    this.filterControl.valueChanges.pipe(
+      debounceTime(1500),
+      switchMap(text => {
+        this.trucks = undefined;
+
+        if (text !== '') {
+          return this.truckService.getTrucksBySearch((text as string).toLowerCase());
+        }
+
+        return this.truckService.findAll();
+      })
+    ).subscribe(res => {
+      console.log(res);
+      this.trucks = res;
     });
   }
 

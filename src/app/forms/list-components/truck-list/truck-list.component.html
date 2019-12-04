@@ -1,6 +1,16 @@
-<button mat-flat-button color="primary" (click)="addNewTruck()">
-  Add new truck
-</button>
+<div>
+  <button mat-flat-button color="primary" (click)="addNewTruck()">
+    Add new truck
+  </button>
+</div>
+
+<div>
+  <form [formGroup]="filterGroup">
+    <mat-form-field>
+      <input matInput placeholder="Filter" [formControl]="filterControl">
+    </mat-form-field>
+  </form>
+</div>
 
 <app-spinner *ngIf="trucks === undefined; else emptyList"></app-spinner>
 <ng-template #emptyList>

@@ -56,7 +56,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   getOrder() {
     this.cargoSubscription = this.orderService.getOrderByDriverId(this.driverId).subscribe(data => {
       this.order = data;
-      this.order.cargoList = data.cargoList.filter(cargo => cargo.status === 'IN_PROGRESS');
+      this.order.cargoList = data.cargoList.filter(cargo => cargo.status !== 'DELIVERED');
 
       console.log('data', this.order);
 

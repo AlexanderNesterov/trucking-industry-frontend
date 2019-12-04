@@ -23,6 +23,10 @@ export class OrderService {
     return this.http.get<Order[]>(this.orderUrl);
   }
 
+  public getOrdersBySearch(text: string): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.orderUrl}/search/${text}`);
+  }
+
   public addOrder(order: Order): Observable<boolean> {
     return this.http.post<boolean>(this.orderUrl, order);
   }
