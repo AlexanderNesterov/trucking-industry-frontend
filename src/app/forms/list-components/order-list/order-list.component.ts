@@ -18,6 +18,8 @@ export class OrderListComponent implements OnInit, OnDestroy {
   orderList: Order[];
   displayedColumns: string[] = ['id', 'drivers', 'truck', 'totalWeight', 'status', 'action'];
   subscription: Subscription;
+  page = 1;
+  size = 10;
 
   filterControl = new FormControl();
   filterGroup = new FormGroup({
@@ -29,7 +31,11 @@ export class OrderListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.searchOrders();
-    this.subscription = this.orderService.findAll().subscribe((data: Order[]) => {
+    this.findAllCargo();
+  }
+
+  findAllCargo() {
+    this.subscription = this.orderService.findAll(this.page, this.size).subscribe((data: Order[]) => {
       this.orderList = data;
     });
   }
@@ -44,12 +50,22 @@ export class OrderListComponent implements OnInit, OnDestroy {
           return this.orderService.getOrdersBySearch((text as string).toLowerCase());
         }
 
-        return this.orderService.findAll();
+        return this.orderService.findAll(this.page, this.size);
       })
     ).subscribe(res => {
       console.log(res);
       this.orderList = res;
     });
+  }
+
+  pageChange(page: number) {
+    this.page = page;
+    this.findAllCargo();
+  }
+
+  sizeChange(size: number) {
+    this.size = size;
+    this.findAllCargo();
   }
 
   addNewCargo() {

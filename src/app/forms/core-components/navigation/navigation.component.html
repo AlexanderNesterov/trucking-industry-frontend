@@ -1,0 +1,14 @@
+<div class="right">
+  <mat-form-field class="navigation">
+    <mat-select placeholder="size">
+      <mat-option *ngFor="let size of sizes" value="option" (click)="changeSize(size)">
+        {{size}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-stroked-button (click)="prevPage()">Prev</button>
+  <mat-form-field class="navigation">
+    <input matInput type="number" min="1" [value]="page" [formControl]="pageControl">
+  </mat-form-field>
+  <button mat-stroked-button (click)="nextPage()">Next</button>
+</div>

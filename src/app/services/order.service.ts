@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Cargo} from '../models/cargo';
 import {Order} from '../models/order';
@@ -19,8 +19,8 @@ export class OrderService {
     return this.http.get<Order>(`${this.orderUrl}/${orderId}`);
   }
 
-  public findAll(): Observable<Order[]> {
-    return this.http.get<Order[]>(this.orderUrl);
+  public findAll(page: number, pageSize: number): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.orderUrl}?page=${page}&size=${pageSize}`);
   }
 
   public getOrdersBySearch(text: string): Observable<Order[]> {
@@ -31,9 +31,9 @@ export class OrderService {
     return this.http.post<boolean>(this.orderUrl, order);
   }
 
- public updateOrder(order: Order): Observable<boolean> {
+  public updateOrder(order: Order): Observable<boolean> {
     return this.http.put<boolean>(this.orderUrl, order);
- }
+  }
 
   public getOrderByDriverId(driverId: number): Observable<Order> {
     return this.http.get<Order>(`${this.orderUrl}/for-driver/${driverId}`);

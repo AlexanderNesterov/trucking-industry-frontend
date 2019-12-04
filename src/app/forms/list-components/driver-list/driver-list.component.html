@@ -6,7 +6,7 @@
 
 <div>
   <form [formGroup]="filterGroup">
-    <mat-form-field>
+    <mat-form-field class="filter">
       <input matInput placeholder="Filter" [formControl]="filterControl">
     </mat-form-field>
   </form>
@@ -58,3 +58,5 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 </ng-template>
+
+<app-navigation (onPageChange)="pageChange($event)" (onSizeChange)="sizeChange($event)"></app-navigation>

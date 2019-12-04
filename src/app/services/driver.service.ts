@@ -16,8 +16,8 @@ export class DriverService {
     return this.http.get<Driver>(`${this.driversUrl}/${driverId}`);
   }
 
-  public findAll(): Observable<Driver[]> {
-    return this.http.get<Driver[]>(this.driversUrl);
+  public findAll(page: number, size: number): Observable<Driver[]> {
+    return this.http.get<Driver[]>(`${this.driversUrl}?page=${page}&size=${size}`);
   }
 
   public getFreeDrivers(): Observable<Driver[]> {

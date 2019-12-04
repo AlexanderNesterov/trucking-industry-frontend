@@ -1,0 +1,21 @@
+.navigation {
+  width: 20%;
+  padding-left: 3%;
+  padding-right: 3%;
+}
+
+.right {
+  width: 20%;
+  position: absolute;
+  right: 1%;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance:textfield;
+}

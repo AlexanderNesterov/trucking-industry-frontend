@@ -16,8 +16,8 @@ export class TruckService {
     return this.http.get<Truck>(`${this.trucksUrl}/${truckId}`);
   }
 
-  public findAll(): Observable<Truck[]> {
-    return this.http.get<Truck[]>(this.trucksUrl);
+  public findAll(page: number, pageSize: number): Observable<Truck[]> {
+    return this.http.get<Truck[]>(`${this.trucksUrl}?page=${page}&size=${pageSize}`);
   }
 
   public getFreeTrucks(weight: number): Observable<Truck[]> {

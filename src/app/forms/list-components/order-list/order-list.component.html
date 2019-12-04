@@ -70,3 +70,5 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 </ng-template>
+
+<app-navigation (onPageChange)="pageChange($event)" (onSizeChange)="sizeChange($event)"></app-navigation>

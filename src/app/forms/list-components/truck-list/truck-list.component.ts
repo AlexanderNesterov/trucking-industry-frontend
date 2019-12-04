@@ -16,6 +16,8 @@ export class TruckListComponent implements OnInit, OnDestroy {
   trucks: Truck[];
   displayedColumns: string[] = ['id', 'registrationNumber', 'model', 'capacity', 'condition', 'action'];
   subscription: Subscription;
+  page = 1;
+  size = 10;
 
   filterControl = new FormControl();
   filterGroup = new FormGroup({
@@ -26,11 +28,8 @@ export class TruckListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.searchTrucks()
-    this.subscription = this.truckService.findAll().subscribe((data: Truck[]) => {
-      this.trucks = data;
-      console.log(this.trucks);
-    });
+    this.searchTrucks();
+    this.findAllTrucks();
   }
 
   searchTrucks() {
@@ -43,12 +42,28 @@ export class TruckListComponent implements OnInit, OnDestroy {
           return this.truckService.getTrucksBySearch((text as string).toLowerCase());
         }
 
-        return this.truckService.findAll();
+        return this.truckService.findAll(this.page, this.size);
       })
     ).subscribe(res => {
       console.log(res);
       this.trucks = res;
     });
+  }
+
+  findAllTrucks() {
+    this.subscription = this.truckService.findAll(this.page, this.size).subscribe((data: Truck[]) => {
+      this.trucks = data;
+    });
+  }
+
+  pageChange(page: number) {
+    this.page = page;
+    this.findAllTrucks();
+  }
+
+  sizeChange(size: number) {
+    this.size = size;
+    this.findAllTrucks();
   }
 
   addNewTruck() {
