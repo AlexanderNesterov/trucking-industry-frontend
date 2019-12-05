@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Driver} from '../models/driver';
 
@@ -16,16 +16,16 @@ export class DriverService {
     return this.http.get<Driver>(`${this.driversUrl}/${driverId}`);
   }
 
-  public findAll(page: number, size: number): Observable<Driver[]> {
-    return this.http.get<Driver[]>(`${this.driversUrl}?page=${page}&size=${size}`);
-  }
-
   public getFreeDrivers(): Observable<Driver[]> {
     return this.http.get<Driver[]>(`${this.driversUrl}/free`);
   }
 
-  public getDriversBySearch(text: string): Observable<Driver[]> {
-    return this.http.get<Driver[]>(`${this.driversUrl}/search/${text}`);
+  public getDrivers(searchString: string, page: number, size: number): Observable<Driver[]> {
+    const params = new HttpParams()
+      .set('text', searchString)
+      .set('page', String(page))
+      .set('size', String(size));
+    return this.http.get<Driver[]>(`${this.driversUrl}/search`, {params});
   }
 
   public save(driver: Driver): Observable<boolean> {

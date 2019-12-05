@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Cargo} from '../models/cargo';
 import {Order} from '../models/order';
 
 @Injectable({
@@ -19,12 +18,12 @@ export class OrderService {
     return this.http.get<Order>(`${this.orderUrl}/${orderId}`);
   }
 
-  public findAll(page: number, pageSize: number): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.orderUrl}?page=${page}&size=${pageSize}`);
-  }
-
-  public getOrdersBySearch(text: string): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.orderUrl}/search/${text}`);
+  public getOrders(searchString: string, page: number, size: number): Observable<Order[]> {
+    const params = new HttpParams()
+      .set('text', searchString)
+      .set('page', String(page))
+      .set('size', String(size));
+    return this.http.get<Order[]>(`${this.orderUrl}/search`, {params});
   }
 
   public addOrder(order: Order): Observable<boolean> {

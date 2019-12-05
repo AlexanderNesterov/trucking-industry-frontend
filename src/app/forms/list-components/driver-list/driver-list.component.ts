@@ -3,8 +3,6 @@ import {Driver} from '../../../models/driver';
 import {DriverService} from '../../../services/driver.service';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {debounceTime, switchMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-driver-list',
@@ -18,53 +16,37 @@ export class DriverListComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   page = 1;
   size = 10;
-
-  filterControl = new FormControl();
-
-  filterGroup = new FormGroup({
-    filter: this.filterControl,
-  });
+  textSearch = '';
 
   constructor(private driverService: DriverService, private router: Router) {
   }
 
   ngOnInit() {
-    this.searchDrivers();
-    this.findAllDrivers();
+    this.getDrivers();
   }
 
-  findAllDrivers() {
-    this.subscription = this.driverService.findAll(this.page, this.size)
-      .subscribe((data: Driver[]) => {
-        this.drivers = data;
-      });
-  }
-
-  searchDrivers() {
-    this.filterControl.valueChanges.pipe(
-      debounceTime(1500),
-      switchMap(text => {
-        this.drivers = undefined;
-
-        if (text !== '') {
-          return this.driverService.getDriversBySearch((text as string).toLowerCase());
-        }
-
-        return this.driverService.findAll(this.page, this.size);
-      })
-    ).subscribe(res => {
+  getDrivers() {
+    this.subscription = this.driverService.getDrivers(this.textSearch, this.page, this.size).subscribe(res => {
       this.drivers = res;
     });
   }
 
+  doSearch(text: string) {
+    this.drivers = undefined;
+    this.textSearch = text;
+    this.page = 1;
+
+    this.getDrivers();
+  }
+
   pageChange(page: number) {
     this.page = page;
-    this.findAllDrivers();
+    this.getDrivers();
   }
 
   sizeChange(size: number) {
     this.size = size;
-    this.findAllDrivers();
+    this.getDrivers();
   }
 
   addNewDriver() {

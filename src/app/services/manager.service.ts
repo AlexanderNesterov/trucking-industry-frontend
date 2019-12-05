@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Manager} from '../models/manager';
 
@@ -12,8 +12,12 @@ export class ManagerService {
     this.managersUrl = 'http://localhost:8080/managers';
   }
 
-  public findAll(): Observable<Manager[]> {
-    return this.http.get<Manager[]>(this.managersUrl);
+  public getManagers(searchString: string, page: number, size: number): Observable<Manager[]> {
+    const params = new HttpParams()
+      .set('text', searchString)
+      .set('page', String(page))
+      .set('size', String(size));
+    return this.http.get<Manager[]>(`${this.managersUrl}/search`, {params});
   }
 
   public findById(managerId: number): Observable<Manager> {

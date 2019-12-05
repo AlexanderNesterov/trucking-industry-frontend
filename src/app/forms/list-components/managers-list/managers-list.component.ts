@@ -14,14 +14,38 @@ export class ManagersListComponent implements OnInit, OnDestroy {
   managers: Manager[];
   displayedColumns: string[] = ['id', 'name', 'contact', 'status'];
   subscription: Subscription;
+  page = 1;
+  size = 10;
+  textSearch = '';
 
   constructor(private managerService: ManagerService, private router: Router) { }
 
   ngOnInit() {
-    this.subscription = this.managerService.findAll().subscribe((data) => {
+    this.getManagers();
+  }
+
+  getManagers() {
+    this.subscription = this.managerService.getManagers(this.textSearch, this.page, this.size).subscribe((data) => {
       this.managers = data;
-      console.log(this.managers);
     });
+  }
+
+  doSearch(text: string) {
+    this.managers = undefined;
+    this.textSearch = text;
+    this.page = 1;
+
+    this.getManagers();
+  }
+
+  pageChange(page: number) {
+    this.page = page;
+    this.getManagers();
+  }
+
+  sizeChange(size: number) {
+    this.size = size;
+    this.getManagers();
   }
 
   addNewManager() {

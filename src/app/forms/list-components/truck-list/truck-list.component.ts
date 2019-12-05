@@ -3,8 +3,6 @@ import {Truck} from '../../../models/truck';
 import {TruckService} from '../../../services/truck.service';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
-import {FormControl, FormGroup} from '@angular/forms';
-import {debounceTime, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-truck-list',
@@ -16,54 +14,43 @@ export class TruckListComponent implements OnInit, OnDestroy {
   trucks: Truck[];
   displayedColumns: string[] = ['id', 'registrationNumber', 'model', 'capacity', 'condition', 'action'];
   subscription: Subscription;
+  textSearch = '';
   page = 1;
   size = 10;
-
-  filterControl = new FormControl();
-  filterGroup = new FormGroup({
-    filter: this.filterControl
-  });
 
   constructor(private truckService: TruckService, private router: Router) {
   }
 
   ngOnInit() {
-    this.searchTrucks();
     this.findAllTrucks();
   }
 
-  searchTrucks() {
-    this.filterControl.valueChanges.pipe(
-      debounceTime(1500),
-      switchMap(text => {
-        this.trucks = undefined;
-
-        if (text !== '') {
-          return this.truckService.getTrucksBySearch((text as string).toLowerCase());
-        }
-
-        return this.truckService.findAll(this.page, this.size);
-      })
-    ).subscribe(res => {
-      console.log(res);
-      this.trucks = res;
-    });
+  findAllTrucks() {
+    this.getTrucks();
   }
 
-  findAllTrucks() {
-    this.subscription = this.truckService.findAll(this.page, this.size).subscribe((data: Truck[]) => {
+  getTrucks() {
+    this.subscription = this.truckService.getTrucks(this.textSearch, this.page, this.size).subscribe((data: Truck[]) => {
       this.trucks = data;
     });
   }
 
+  doSearch(text: string) {
+    this.trucks = undefined;
+    this.textSearch = text;
+    this.page = 1;
+
+    this.getTrucks();
+  }
+
   pageChange(page: number) {
     this.page = page;
-    this.findAllTrucks();
+    this.getTrucks();
   }
 
   sizeChange(size: number) {
     this.size = size;
-    this.findAllTrucks();
+    this.getTrucks();
   }
 
   addNewTruck() {

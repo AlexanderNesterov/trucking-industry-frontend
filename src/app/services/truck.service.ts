@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Truck} from '../models/truck';
 
@@ -16,16 +16,16 @@ export class TruckService {
     return this.http.get<Truck>(`${this.trucksUrl}/${truckId}`);
   }
 
-  public findAll(page: number, pageSize: number): Observable<Truck[]> {
-    return this.http.get<Truck[]>(`${this.trucksUrl}?page=${page}&size=${pageSize}`);
-  }
-
   public getFreeTrucks(weight: number): Observable<Truck[]> {
     return this.http.get<Truck[]>(`${this.trucksUrl}/free/${weight}`);
   }
 
-  public getTrucksBySearch(text: string): Observable<Truck[]> {
-    return this.http.get<Truck[]>(`${this.trucksUrl}/search/${text}`);
+  public getTrucks(searchString: string, page: number, size: number): Observable<Truck[]> {
+    const params = new HttpParams()
+      .set('text', searchString)
+      .set('page', String(page))
+      .set('size', String(size));
+    return this.http.get<Truck[]>(`${this.trucksUrl}/search`, {params});
   }
 
   public save(truck: Truck): Observable<boolean> {

@@ -1,6 +1,7 @@
 <div class="right">
   <mat-form-field class="navigation">
-    <mat-select placeholder="size">
+    <mat-label>size</mat-label>
+    <mat-select>
       <mat-option *ngFor="let size of sizes" value="option" (click)="changeSize(size)">
         {{size}}
       </mat-option>

@@ -2,7 +2,14 @@ table {
   width: 100%;
 }
 
-mat-form-field {
-  padding-top: 1%;
-  width: 25%;
+.nav {
+  display: inline-block;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
 }

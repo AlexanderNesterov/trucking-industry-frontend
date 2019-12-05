@@ -46,6 +46,7 @@ import {CargoDialogInfoComponent} from './forms/add-components/add-order/cargo-d
 import {CargoInfoComponent} from './forms/add-components/add-order/cargo-info/cargo-info.component';
 import {FilledOrderComponent} from './forms/add-components/add-order/filled-order/filled-order.component';
 import {NavigationComponent} from './forms/core-components/navigation/navigation.component';
+import {FilterComponent} from './forms/core-components/filter/filter.component';
 
 const googleMapsCore = AgmCoreModule.forRoot({
   apiKey : '',
@@ -81,7 +82,8 @@ const googleMapsCore = AgmCoreModule.forRoot({
     CargoDialogInfoComponent,
     CargoInfoComponent,
     FilledOrderComponent,
-    NavigationComponent
+    NavigationComponent,
+    FilterComponent
   ],
   imports: [
     BrowserModule,

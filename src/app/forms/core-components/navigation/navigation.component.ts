@@ -1,6 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {debounceTime, switchMap, tap} from 'rxjs/operators';
+import {debounceTime, tap} from 'rxjs/operators';
 import {Subscription} from 'rxjs';
 
 @Component({
@@ -11,10 +11,9 @@ import {Subscription} from 'rxjs';
 export class NavigationComponent {
 
   sizes: number[] = [5, 10, 15, 20, 25, 30];
-  page = 1;
   size = this.sizes[1];
+  page = 1;
   subscription: Subscription;
-
   pageControl = new FormControl();
 
   @Output()
@@ -27,16 +26,20 @@ export class NavigationComponent {
     this.subscription = this.pageControl.valueChanges.pipe(
       debounceTime(1000),
       tap(num => {
-        console.log(num);
         if (num !== null && num > 0) {
           this.page = num;
         } else {
           this.page = 1;
         }
       })
-    ).subscribe(res => {
+    ).subscribe(() => {
       this.onPageChange.emit(this.page);
     });
+  }
+
+  @Input()
+  set setPage(page: number) {
+    this.page = page;
   }
 
   prevPage() {

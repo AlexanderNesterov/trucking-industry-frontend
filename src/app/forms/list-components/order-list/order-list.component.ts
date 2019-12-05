@@ -5,8 +5,6 @@ import {CargoDetailDialogComponent} from '../../core-components/dialogs/cargo-de
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {Order} from '../../../models/order';
-import {FormControl, FormGroup} from '@angular/forms';
-import {debounceTime, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-order-list',
@@ -18,54 +16,43 @@ export class OrderListComponent implements OnInit, OnDestroy {
   orderList: Order[];
   displayedColumns: string[] = ['id', 'drivers', 'truck', 'totalWeight', 'status', 'action'];
   subscription: Subscription;
+  textSearch = '';
   page = 1;
   size = 10;
-
-  filterControl = new FormControl();
-  filterGroup = new FormGroup({
-    filter: this.filterControl
-  });
 
   constructor(private orderService: OrderService, private router: Router, private dialog: MatDialog) {
   }
 
   ngOnInit() {
-    this.searchOrders();
     this.findAllCargo();
   }
 
   findAllCargo() {
-    this.subscription = this.orderService.findAll(this.page, this.size).subscribe((data: Order[]) => {
+    this.getOrders();
+  }
+
+  getOrders() {
+    this.subscription = this.orderService.getOrders(this.textSearch, this.page, this.size).subscribe((data: Order[]) => {
       this.orderList = data;
     });
   }
 
-  searchOrders() {
-    this.filterControl.valueChanges.pipe(
-      debounceTime(1500),
-      switchMap(text => {
-        this.orderList = undefined;
+  doSearch(text: string) {
+    this.orderList = undefined;
+    this.textSearch = text;
+    this.page = 1;
 
-        if (text !== '') {
-          return this.orderService.getOrdersBySearch((text as string).toLowerCase());
-        }
-
-        return this.orderService.findAll(this.page, this.size);
-      })
-    ).subscribe(res => {
-      console.log(res);
-      this.orderList = res;
-    });
+    this.getOrders();
   }
 
   pageChange(page: number) {
     this.page = page;
-    this.findAllCargo();
+    this.getOrders();
   }
 
   sizeChange(size: number) {
     this.size = size;
-    this.findAllCargo();
+    this.getOrders();
   }
 
   addNewCargo() {

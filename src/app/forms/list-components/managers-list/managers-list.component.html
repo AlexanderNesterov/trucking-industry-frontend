@@ -1,6 +1,18 @@
-<button mat-flat-button color="primary" (click)="addNewManager()">
-  Add new manager
-</button>
+<div>
+  <button mat-flat-button color="primary" (click)="addNewManager()">
+    Add new manager
+  </button>
+</div>
+
+<div class="nav">
+  <div class="left">
+    <app-filter (onFilterInput)="doSearch($event)"></app-filter>
+  </div>
+  <div class="right">
+    <app-navigation [setPage]="page"
+                    (onSizeChange)="sizeChange($event)" (onPageChange)="pageChange($event)"></app-navigation>
+  </div>
+</div>
 
 <app-spinner *ngIf="managers === undefined; else emptyList"></app-spinner>
 <ng-template #emptyList>

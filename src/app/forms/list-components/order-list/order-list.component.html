@@ -4,12 +4,14 @@
   </button>
 </div>
 
-<div>
-  <form [formGroup]="filterGroup">
-    <mat-form-field>
-      <input matInput placeholder="Filter" [formControl]="filterControl">
-    </mat-form-field>
-  </form>
+<div class="nav">
+  <div class="left">
+    <app-filter (onFilterInput)="doSearch($event)"></app-filter>
+  </div>
+  <div class="right">
+    <app-navigation [setPage]="page"
+                    (onSizeChange)="sizeChange($event)" (onPageChange)="pageChange($event)"></app-navigation>
+  </div>
 </div>
 
 <app-spinner *ngIf="orderList === undefined; else emptyList"></app-spinner>
@@ -70,5 +72,3 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 </ng-template>
-
-<app-navigation (onPageChange)="pageChange($event)" (onSizeChange)="sizeChange($event)"></app-navigation>
