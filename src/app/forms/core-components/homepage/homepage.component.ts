@@ -46,9 +46,10 @@ export class HomepageComponent implements OnInit, OnDestroy {
     }
 
     if (this.permissionService.check('ADMIN')) {
-      this.managerId = parseInt(localStorage.getItem('userId'), 10);
+      this.managerId = parseInt(localStorage.getItem('managerId'), 10);
+      console.log(this.managerId);
       this.userSubscription = this.managerService.findById(this.managerId).subscribe(data => {
-        this.personalInformation = data;
+        this.personalInformation = data.user;
       });
     }
   }

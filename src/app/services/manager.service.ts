@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Driver} from '../models/driver';
-import {User} from '../models/user';
+import {Manager} from '../models/manager';
 
 @Injectable()
 export class ManagerService {
@@ -13,19 +12,19 @@ export class ManagerService {
     this.managersUrl = 'http://localhost:8080/managers';
   }
 
-  public findAll(): Observable<User[]> {
-    return this.http.get<User[]>(this.managersUrl);
+  public findAll(): Observable<Manager[]> {
+    return this.http.get<Manager[]>(this.managersUrl);
   }
 
-  public findById(managerId: number): Observable<Driver> {
-    return this.http.get<Driver>(`${this.managersUrl}/${managerId}`);
+  public findById(managerId: number): Observable<Manager> {
+    return this.http.get<Manager>(`${this.managersUrl}/${managerId}`);
   }
 
-  public save(user: User): Observable<boolean> {
-    return this.http.post<boolean>(this.managersUrl, user);
+  public save(manager: Manager): Observable<boolean> {
+    return this.http.post<boolean>(this.managersUrl, manager);
   }
 
-  public update(user: User): Observable<boolean> {
-    return this.http.put<boolean>(this.managersUrl, user);
+  public update(manager: Manager): Observable<boolean> {
+    return this.http.put<boolean>(this.managersUrl, manager);
   }
 }

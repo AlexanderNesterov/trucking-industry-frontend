@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {User} from '../../../models/user';
 import {ManagerService} from '../../../services/manager.service';
 import {Router} from '@angular/router';
+import {Manager} from '../../../models/manager';
 
 @Component({
   selector: 'app-managers-list',
@@ -11,8 +11,8 @@ import {Router} from '@angular/router';
 })
 export class ManagersListComponent implements OnInit, OnDestroy {
 
-  managers: User[];
-  displayedColumns: string[] = ['id', 'name', 'contact'];
+  managers: Manager[];
+  displayedColumns: string[] = ['id', 'name', 'contact', 'status'];
   subscription: Subscription;
 
   constructor(private managerService: ManagerService, private router: Router) { }

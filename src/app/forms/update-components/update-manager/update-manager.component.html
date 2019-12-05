@@ -4,7 +4,7 @@
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>First name</mat-label>
       <input [errorStateMatcher]="matcher" formControlName="firstName" matInput
-             placeholder="First name" [value]="updatedManager.firstName">
+             placeholder="First name" [value]="updatedManager.user.firstName">
       <mat-error *ngIf="firstNameFormControl.hasError('pattern')">
         Enter a first name in English(not more than 32 symbols)
       </mat-error>
@@ -13,7 +13,7 @@
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Last name</mat-label>
       <input [errorStateMatcher]="matcher" formControlName="lastName" matInput
-             placeholder="Last name" [value]="updatedManager.lastName">
+             placeholder="Last name" [value]="updatedManager.user.lastName">
       <mat-error *ngIf="lastNameFormControl.hasError('pattern')">
         Enter a last name in English(not more than 32 symbols)
       </mat-error>
@@ -22,7 +22,7 @@
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Phone</mat-label>
       <input [errorStateMatcher]="matcher" formControlName="phone" matInput
-             placeholder="Phone" [value]="updatedManager.phone">
+             placeholder="Phone" [value]="updatedManager.user.phone">
       <mat-error *ngIf="phoneFormControl.hasError('pattern')">
         Enter only numbers(not more than 11 symbols)
       </mat-error>
@@ -31,7 +31,7 @@
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Email</mat-label>
       <input [errorStateMatcher]="matcher" formControlName="email" matInput
-             placeholder="Email" [value]="updatedManager.email">
+             placeholder="Email" [value]="updatedManager.user.email">
       <mat-error *ngIf="emailFormControl.hasError('pattern')">
         Enter a valid email
       </mat-error>

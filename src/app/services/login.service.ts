@@ -29,6 +29,7 @@ export class LoginService {
         const authToken = jwt_decode(authTokenRaw);
         localStorage.setItem('userId', authToken.userId);
         localStorage.setItem('driverId', authToken.driverId);
+        localStorage.setItem('managerId', authToken.managerId);
         localStorage.setItem('role', authToken.role);
         localStorage.setItem('login', authToken.sub);
       })

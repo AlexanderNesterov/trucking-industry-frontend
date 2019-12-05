@@ -2,10 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher, MatDialog, MatDialogRef} from '@angular/material';
 import {Subscription} from 'rxjs';
-import {User} from '../../../models/user';
 import {ManagerService} from '../../../services/manager.service';
 import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {ActivatedRoute} from '@angular/router';
+import {Manager} from '../../../models/manager';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -22,7 +22,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class UpdateManagerComponent implements OnInit, OnDestroy {
 
   matcher = new MyErrorStateMatcher();
-  updatedManager: User = undefined;
+  updatedManager: Manager = undefined;
   isUpdated = false;
   findSubscription: Subscription;
   updateSubscription: Subscription;
@@ -66,16 +66,16 @@ export class UpdateManagerComponent implements OnInit, OnDestroy {
   putData() {
 
     let changedData = this.managerFormGroup.controls.firstName.value;
-    this.updatedManager.firstName = changedData === '' ? this.updatedManager.firstName : changedData;
+    this.updatedManager.user.firstName = changedData === '' ? this.updatedManager.user.firstName : changedData;
 
     changedData = this.managerFormGroup.controls.lastName.value;
-    this.updatedManager.lastName = changedData === '' ? this.updatedManager.lastName : changedData;
+    this.updatedManager.user.lastName = changedData === '' ? this.updatedManager.user.lastName : changedData;
 
     changedData = this.managerFormGroup.controls.email.value;
-    this.updatedManager.email = changedData === '' ? this.updatedManager.email : changedData;
+    this.updatedManager.user.email = changedData === '' ? this.updatedManager.user.email : changedData;
 
     changedData = this.managerFormGroup.controls.phone.value;
-    this.updatedManager.phone = changedData === '' ? this.updatedManager.phone : changedData;
+    this.updatedManager.user.phone = changedData === '' ? this.updatedManager.user.phone : changedData;
   }
 
   openDialog(): MatDialogRef<ConfirmationDialogComponent> {

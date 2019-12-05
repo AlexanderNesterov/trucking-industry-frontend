@@ -1,12 +1,10 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
-import {DriverService} from '../../../services/driver.service';
+import {Component, DoCheck, OnDestroy} from '@angular/core';
 import {ErrorStateMatcher, MatDialog, MatDialogRef} from '@angular/material';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {Driver} from '../../../models/driver';
 import {Subscription} from 'rxjs';
-import {User} from '../../../models/user';
 import {ManagerService} from '../../../services/manager.service';
 import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
+import {Manager} from '../../../models/manager';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -26,7 +24,7 @@ export class AddManagerComponent implements OnDestroy, DoCheck {
   isCreated = false;
   loginExists = false;
   errorMessage = '';
-  manager: User;
+  manager: Manager;
   subscription: Subscription;
 
   loginFormControl = new FormControl('', [
@@ -78,12 +76,14 @@ export class AddManagerComponent implements OnDestroy, DoCheck {
 
   putData() {
     this.manager = {
-      login: this.managerFormGroup.controls.login.value,
-      password: this.managerFormGroup.controls.password.value,
-      firstName: this.managerFormGroup.controls.firstName.value,
-      lastName: this.managerFormGroup.controls.lastName.value,
-      phone: this.managerFormGroup.controls.phone.value,
-      email: this.managerFormGroup.controls.email.value,
+      user: {
+        login: this.managerFormGroup.controls.login.value,
+        password: this.managerFormGroup.controls.password.value,
+        firstName: this.managerFormGroup.controls.firstName.value,
+        lastName: this.managerFormGroup.controls.lastName.value,
+        phone: this.managerFormGroup.controls.phone.value,
+        email: this.managerFormGroup.controls.email.value,
+      }
     };
   }
 
