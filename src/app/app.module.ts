@@ -47,6 +47,8 @@ import {CargoInfoComponent} from './forms/add-components/add-order/cargo-info/ca
 import {FilledOrderComponent} from './forms/add-components/add-order/filled-order/filled-order.component';
 import {NavigationComponent} from './forms/core-components/navigation/navigation.component';
 import {FilterComponent} from './forms/core-components/filter/filter.component';
+import {AddCityComponent} from './forms/add-components/add-city/add-city.component';
+import {CityBottomSheetComponent} from './forms/add-components/add-city/city-bottom-sheet/city-bottom-sheet.component';
 
 const googleMapsCore = AgmCoreModule.forRoot({
   apiKey : '',
@@ -83,7 +85,9 @@ const googleMapsCore = AgmCoreModule.forRoot({
     CargoInfoComponent,
     FilledOrderComponent,
     NavigationComponent,
-    FilterComponent
+    FilterComponent,
+    AddCityComponent,
+    CityBottomSheetComponent
   ],
   imports: [
     BrowserModule,
@@ -109,7 +113,7 @@ const googleMapsCore = AgmCoreModule.forRoot({
       useClass: Interceptor,
       multi: true
     }],
-  entryComponents: [CargoDetailDialogComponent, ConfirmationDialogComponent, CargoDialogInfoComponent],
+  entryComponents: [CargoDetailDialogComponent, ConfirmationDialogComponent, CargoDialogInfoComponent, CityBottomSheetComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

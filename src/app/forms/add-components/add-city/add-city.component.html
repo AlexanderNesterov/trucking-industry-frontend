@@ -1,0 +1,41 @@
+<form [formGroup]="cityFormGroup" class="form">
+
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>City</mat-label>
+    <input matInput maxlength="32" [formControl]="cityFormControl">
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" (click)="onSearch()" [disabled]="!cityFormGroup.valid" value="bold">
+    Search
+  </button>
+</form>
+
+<p *ngIf="isEmptyList">List is empty</p>
+<p *ngIf="isCreated">City with name {{addingCity.name}} was add</p>
+
+<table mat-table [dataSource]="cities" *ngIf="cities !== undefined && cities.length !== 0">
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name</th>
+    <td mat-cell *matCellDef="let city"> {{city.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="country">
+    <th mat-header-cell *matHeaderCellDef> Country</th>
+    <td mat-cell *matCellDef="let city"> {{city.country}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef> Action</th>
+    <td mat-cell *matCellDef="let city">
+      <button color="accent" mat-button [matMenuTriggerFor]="menu">Actions</button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="openBottomSheet(city)">Map</button>
+        <button mat-menu-item (click)="onAdd(city)">Add</button>
+      </mat-menu>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

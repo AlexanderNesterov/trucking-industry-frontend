@@ -33,6 +33,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
 
   getOrders() {
     this.subscription = this.orderService.getOrders(this.textSearch, this.page, this.size).subscribe((data: Order[]) => {
+      console.log(data);
       this.orderList = data;
     });
   }

@@ -1,8 +1,7 @@
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable, Subject, throwError} from 'rxjs';
-import {catchError, filter, tap} from 'rxjs/operators';
-import * as jwt_decode from 'jwt-decode';
+import {Observable, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
 import {Router} from '@angular/router';
 
 @Injectable()
@@ -29,7 +28,6 @@ export class Interceptor implements HttpInterceptor {
 
       return next.handle(cloneReq).pipe(
         catchError(err => {
-
           if (err instanceof HttpErrorResponse && err.status === 401) {
             localStorage.clear();
             this.router.navigate(['/login']);
