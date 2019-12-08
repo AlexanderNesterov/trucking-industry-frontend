@@ -1,9 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {SelectionModel} from '@angular/cdk/collections';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MatTableDataSource} from '@angular/material';
 import {Subscription} from 'rxjs';
 import {DriverService} from '../../../../services/driver.service';
-import {Truck} from '../../../../models/truck';
 import {Driver} from '../../../../models/driver';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
@@ -16,7 +14,8 @@ export class DriversInfoComponent {
 
   drivers: MatTableDataSource<Driver>;
   driverSubscription: Subscription;
-  driversSelection = new SelectionModel(true);
+  firstDriver: Driver;
+  coDriver: Driver;
 
   driversFormControl = new FormControl(0, [
     Validators.min(2)
@@ -33,25 +32,65 @@ export class DriversInfoComponent {
   constructor(private driverService: DriverService) {
   }
 
-  check() {
-    this.thirdFormGroup.patchValue({driversCtrl: this.driversSelection.selected.length});
-  }
-
   @Input()
   set getDrivers(start: boolean) {
     if (start === undefined) {
-      console.log(start);
       return;
     }
 
     this.driverSubscription = this.driverService.getFreeDrivers().subscribe(data => {
       this.drivers = new MatTableDataSource(data);
-      console.log('Trucks: ', this.drivers);
     });
   }
 
   next() {
-    this.onValidThirdGroup.emit(this.driversSelection.selected);
+    const drivers = [this.firstDriver, this.coDriver];
+    this.onValidThirdGroup.emit(drivers);
   }
 
+  selectFirstDriver(driver: Driver) {
+    if (driver === this.coDriver) {
+      const controlValue = this.driversFormControl.value;
+      this.driversFormControl.patchValue(controlValue - 1);
+      this.coDriver = undefined;
+      this.firstDriver = driver;
+      return;
+    }
+
+    if (this.firstDriver === undefined) {
+      const controlValue = this.driversFormControl.value;
+      this.driversFormControl.patchValue(controlValue + 1);
+    }
+
+    this.firstDriver = driver;
+  }
+
+  selectCoDriver(driver: Driver) {
+    if (driver === this.firstDriver) {
+      const controlValue = this.driversFormControl.value;
+      this.driversFormControl.patchValue(controlValue - 1);
+      this.firstDriver = undefined;
+      this.coDriver = driver;
+      return;
+    }
+
+    if (this.coDriver === undefined) {
+      const controlValue = this.driversFormControl.value;
+      this.driversFormControl.patchValue(controlValue + 1);
+    }
+
+    this.coDriver = driver;
+  }
+
+  deleteFirstDriver() {
+    const controlValue = this.driversFormControl.value;
+    this.driversFormControl.patchValue(controlValue - 1);
+    this.firstDriver = undefined;
+  }
+
+  deleteCoDriver() {
+    const controlValue = this.driversFormControl.value;
+    this.driversFormControl.patchValue(controlValue - 1);
+    this.coDriver = undefined;
+  }
 }

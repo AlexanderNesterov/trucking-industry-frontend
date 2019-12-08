@@ -1,0 +1,12 @@
+agm-map {
+  height: 400px;
+  width: 400px;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}

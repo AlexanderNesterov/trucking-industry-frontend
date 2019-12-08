@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Truck} from '../../../../models/truck';
-import {SelectionModel} from '@angular/cdk/collections';
 import {Subscription} from 'rxjs';
 import {TruckService} from '../../../../services/truck.service';
 import {MatTableDataSource} from '@angular/material';
@@ -15,7 +14,7 @@ export class TruckInfoComponent {
 
   trucks: MatTableDataSource<Truck>;
   truckSubscription: Subscription;
-  truckSelection = new SelectionModel<Truck>();
+  selectedTruck: Truck;
 
   @Output()
   onValidSecondGroup = new EventEmitter<Truck>();
@@ -47,6 +46,16 @@ export class TruckInfoComponent {
   }
 
   next() {
-    this.onValidSecondGroup.emit(this.truckSelection.selected[0]);
+    this.onValidSecondGroup.emit(this.selectedTruck);
+  }
+
+  chooseTruck(truck: any) {
+    this.selectedTruck = truck;
+    this.secondFormGroup.patchValue({truck: true});
+  }
+
+  deleteTruck() {
+    this.selectedTruck = undefined;
+    this.secondFormGroup.patchValue({truck: false});
   }
 }

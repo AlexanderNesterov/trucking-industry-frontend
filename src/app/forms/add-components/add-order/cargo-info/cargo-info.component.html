@@ -1,25 +1,33 @@
-<mat-expansion-panel>
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      {{cargo.title}}
-    </mat-panel-title>
-  </mat-expansion-panel-header>
+<div class="panel">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{cargo.title}}
+      </mat-panel-title>
+      <button *ngIf="checkPermissionForAdmin()" mat-flat-button color="warn"
+              class="action-info-button" (click)="removeCargo()">
+        Delete
+      </button>
+      <button *ngIf="checkPermissionForAdmin()" mat-flat-button color="primary"
+              class="action-info-button" (click)="updateCargo()">
+        Update
+      </button>
+    </mat-expansion-panel-header>
 
-  <div class="cl3">
-    <div>
-      <p *ngIf="cargo.description !== ''">Description: {{cargo.description}}</p>
+    <div class="left">
+      <p *ngIf="cargo.description !== null && cargo.description !== ''">Description: {{cargo.description}}</p>
       <p>Weight: {{cargo.weight}}</p>
-      <p>Load location: {{cargo.loadLocation.name}}</p>
-      <p>Discharge location: {{cargo.dischargeLocation.name}}</p>
+      <p>Load location: {{cargo.loadLocation.name}}, {{cargo.loadLocation.country}}</p>
+      <p>Discharge location: {{cargo.dischargeLocation.name}}, {{cargo.dischargeLocation.country}}</p>
     </div>
 
-    <div class="cl">
-      <agm-map [latitude]="loadLocationLatitude" [longitude]="loadLocationLongitude">
-        <agm-marker [latitude]="loadLocationLatitude" [longitude]="loadLocationLongitude"></agm-marker>
-        <agm-marker [latitude]="dischargeLocationLatitude" [longitude]="dischargeLocationLongitude"></agm-marker>
+    <div class="right">
+      <agm-map [fitBounds]="bounds">
+        <agm-marker [latitude]="loadLoc.latitude" [longitude]="loadLoc.longitude"></agm-marker>
+        <agm-marker [latitude]="dischargeLoc.latitude" [longitude]="dischargeLoc.longitude"></agm-marker>
       </agm-map>
     </div>
-  </div>
 
-  <button mat-flat-button color="primary" *ngIf="checkPermission()" (click)="deliver()">Deliver</button>
-</mat-expansion-panel>
+    <button mat-flat-button color="primary" *ngIf="checkPermissionForDeliver()" (click)="deliver()">Deliver</button>
+  </mat-expansion-panel>
+</div>

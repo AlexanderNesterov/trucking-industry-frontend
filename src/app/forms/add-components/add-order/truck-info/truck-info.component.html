@@ -1,5 +1,4 @@
 <form [formGroup]="secondFormGroup">
-
   <table mat-table [dataSource]="trucks">
 
     <ng-container matColumnDef="id">
@@ -25,10 +24,9 @@
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>Choice</th>
       <td mat-cell *matCellDef="let truck">
-        <mat-checkbox (click)="$event.stopPropagation()"
-                      (change)="$event ? truckSelection.toggle(truck) : null"
-                      [checked]="truckSelection.isSelected(truck)" formControlName="truck">
-        </mat-checkbox>
+        <button mat-stroked-button *ngIf="truck !== selectedTruck" (click)="chooseTruck(truck)">
+          Choose
+        </button>
       </td>
     </ng-container>
 
@@ -36,7 +34,23 @@
     <tr mat-row *matRowDef="let row; columns: truckDisplayedColumns;"></tr>
   </table>
 
-  <button mat-flat-button matStepperNext color="primary" [disabled]="secondFormGroup.invalid" (click)="next()">
+  <mat-expansion-panel *ngIf="selectedTruck !== undefined">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Truck
+      </mat-panel-title>
+      <button mat-flat-button color="warn" class="action-info-button" (click)="deleteTruck()">
+        Cancel
+      </button>
+    </mat-expansion-panel-header>
+
+    <p>Registration number: {{selectedTruck.registrationNumber}}</p>
+    <p>Model: {{selectedTruck.model}}</p>
+    <p>Capacity:{{selectedTruck.capacity}}</p>
+  </mat-expansion-panel>
+
+  <button mat-flat-button color="primary" class="button-next"
+          [disabled]="secondFormGroup.invalid" (click)="next()">
     Next
   </button>
 </form>

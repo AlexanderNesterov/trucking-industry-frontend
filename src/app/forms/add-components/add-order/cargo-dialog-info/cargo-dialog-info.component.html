@@ -1,57 +1,67 @@
-<mat-horizontal-stepper [linear]="true" #stepper>
-  <mat-step [stepControl]="firstFormGroup" [editable]="false">
+<mat-horizontal-stepper [linear]="true">
+  <mat-step [stepControl]="firstFormGroup">
     <ng-template matStepLabel>Fill out cargo information</ng-template>
-    <form [formGroup]="firstFormGroup">
-      <mat-form-field>
+    <form [formGroup]="firstFormGroup" class="form">
+      <mat-form-field class="full-width">
         <input matInput placeholder="Title" formControlName="title">
       </mat-form-field>
 
-      <br>
-
-      <mat-form-field>
+      <mat-form-field class="full-width">
         <input matInput placeholder="Description" formControlName="description">
       </mat-form-field>
 
-      <br>
-
-      <mat-form-field>
-        <input matInput placeholder="Amount" type="number" class="example-right-align" formControlName="weight">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Amount" type="number" formControlName="weight">
+        <span matSuffix>kg</span>
       </mat-form-field>
-      <div>
-        <button mat-flat-button matStepperNext color="primary" [disabled]="firstFormGroup.invalid">
-          Next
-        </button>
-      </div>
+
+      <button mat-flat-button matStepperNext color="primary" [disabled]="firstFormGroup.invalid">
+        Next
+      </button>
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="secondFormGroup" [editable]="false">
+  <mat-step [stepControl]="secondFormGroup">
     <ng-template matStepLabel>Select load and discharge locations</ng-template>
-    <form [formGroup]="firstFormGroup">
-      <mat-form-field>
-        <mat-select placeholder="Load location">
-          <mat-option *ngFor="let city of cities" value="option" (click)="chooseLoadLocation(city)">
-            {{city.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
 
-      <br>
+    <div class="left">
+      <form [formGroup]="secondFormGroup" class="form">
+        <mat-form-field class="full-width">
+          <input type="text" placeholder="Load location" matInput [formControl]="loadFormControl"
+                 [matAutocomplete]="autoLoad">
+          <mat-autocomplete #autoLoad="matAutocomplete">
+            <mat-option *ngFor="let city of filteredLoadCities | async" [value]="city.name + ', ' + city.country"
+                        (click)="chooseLoadLocation(city)">
+              {{city.name}}, {{city.country}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
 
-      <mat-form-field>
-        <mat-select placeholder="Discharge location">
-          <mat-option *ngFor="let city of cities" value="option" (click)="chooseDischargeLocation(city)">
-            {{city.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field class="full-width">
+          <input type="text" placeholder="Discharge location" matInput [formControl]="dischargeFormControl"
+                 [matAutocomplete]="autoDischarge">
+          <mat-autocomplete #autoDischarge="matAutocomplete">
+            <mat-option *ngFor="let city of filteredDischargeCities | async" [value]="city.name + ', ' + city.country"
+                        (click)="chooseDischargeLocation(city)">
+              {{city.name}}, {{city.country}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
 
-      <br>
+        <p *ngIf="isEqualsCities" class="mat-error">Load and discharge location cannot be equals</p>
+        <button mat-flat-button color="primary" [disabled]="!secondFormGroup.valid" (click)="add()">
+          Add
+        </button>
+      </form>
+    </div>
 
-    </form>
-    <button mat-flat-button color="primary" [disabled]="!secondFormGroup.valid" (click)="add()">
-      Add
-    </button>
+    <div class="right" *ngIf="loadLoc !== undefined && dischargeLoc !== undefined">
+      <agm-map [fitBounds]="bounds">
+        <agm-marker [latitude]="loadLoc.latitude" [longitude]="loadLoc.longitude"></agm-marker>
+        <agm-marker [latitude]="dischargeLoc.latitude" [longitude]="dischargeLoc.longitude"></agm-marker>
+      </agm-map>
+    </div>
+
   </mat-step>
 </mat-horizontal-stepper>
 

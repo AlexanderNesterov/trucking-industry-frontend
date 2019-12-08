@@ -18,6 +18,7 @@ export class CargoListInfoComponent {
   cargoList: Cargo[] = [];
   cities: City[];
   totalWeight = 0;
+  cargoLimit = 5;
 
   constructor(private cityService: CityService, private dialog: MatDialog) {
     this.cityService.findAll().subscribe(res => {
@@ -27,18 +28,23 @@ export class CargoListInfoComponent {
   }
 
   create() {
-    if (this.cargoList.length < 5) {
-      this.openDialog();
+    if (this.cargoList.length < this.cargoLimit) {
+      this.openDialog(null);
     }
   }
 
-  openDialog() {
+  openDialog(updatingCargo: Cargo) {
     this.dialog.open(CargoDialogInfoComponent, {
       data: {
-        cities: this.cities
-      }, width: '70%'
+        cities: this.cities,
+        updatingCargo
+      }, width: '50%'
     }).afterClosed().subscribe(res => {
       if (res !== undefined) {
+        if (updatingCargo !== null) {
+          this.removeCargo(updatingCargo);
+        }
+
         this.cargoList.push(res);
         this.totalWeight += res.weight;
       }
@@ -47,5 +53,14 @@ export class CargoListInfoComponent {
 
   next() {
     this.onValidFirstGroup.emit(this.cargoList);
+  }
+
+  removeCargo(removingCargo: Cargo) {
+    this.totalWeight -= removingCargo.weight;
+    this.cargoList = this.cargoList.filter(cargo => cargo !== removingCargo);
+  }
+
+  updateCargo(updatingCargo: Cargo) {
+    this.openDialog(updatingCargo);
   }
 }

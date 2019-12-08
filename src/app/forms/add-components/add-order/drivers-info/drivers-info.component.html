@@ -19,11 +19,14 @@
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>Choice</th>
       <td mat-cell *matCellDef="let driver">
-        <mat-checkbox (click)="$event.stopPropagation()"
-                      (change)="$event ? driversSelection.toggle(driver) : null; check()"
-                      [checked]="driversSelection.isSelected(driver)"
-                      [disabled]="!driversSelection.isSelected(driver) && driversSelection.selected.length >= 2">
-        </mat-checkbox>
+        <button [disabled]="driver === firstDriver" mat-stroked-button color="primary"
+                class="action-info-button" (click)="selectFirstDriver(driver)">
+          First Driver
+        </button>
+        <button [disabled]="driver === coDriver" mat-stroked-button color="primary"
+                class="action-info-button" (click)="selectCoDriver(driver)">
+          Co-Driver
+        </button>
       </td>
     </ng-container>
 
@@ -31,7 +34,39 @@
     <tr mat-row *matRowDef="let row; columns: driverDisplayedColumns;"></tr>
   </table>
 
-  <button mat-flat-button color="primary" [disabled]="thirdFormGroup.invalid" (click)="next()">
+  <mat-expansion-panel *ngIf="firstDriver !== undefined">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        First Driver: {{firstDriver.user.firstName}}  {{firstDriver.user.lastName}}
+      </mat-panel-title>
+      <button mat-flat-button color="warn" class="action-info-button" (click)="deleteFirstDriver()">
+        Cancel
+      </button>
+    </mat-expansion-panel-header>
+
+    <p>Driver license: {{firstDriver.driverLicense}}</p>
+    <p>Email: {{firstDriver.user.email}}</p>
+    <p>Phone: {{firstDriver.user.phone}}</p>
+    <p>Status:{{firstDriver.status}}</p>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel *ngIf="coDriver !== undefined">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Co-Driver: {{coDriver.user.firstName}}  {{coDriver.user.lastName}}
+      </mat-panel-title>
+      <button mat-flat-button color="warn" class="action-info-button" (click)="deleteCoDriver()">
+        Cancel
+      </button>
+    </mat-expansion-panel-header>
+
+    <p>Driver license: {{coDriver.driverLicense}}</p>
+    <p>Email: {{coDriver.user.email}}</p>
+    <p>Phone: {{coDriver.user.phone}}</p>
+    <p>Status:{{coDriver.status}}</p>
+  </mat-expansion-panel>
+
+  <button mat-flat-button color="primary" class="button-next" [disabled]="thirdFormGroup.invalid" (click)="next()">
     Apply
   </button>
 </form>

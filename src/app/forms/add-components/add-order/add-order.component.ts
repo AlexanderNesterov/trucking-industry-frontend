@@ -69,18 +69,14 @@ export class AddCargoComponent implements OnDestroy {
     }
   }
 
-  setUpThirdFormGroup(drivers1: Driver[], stepper: MatStepper) {
-    if (drivers1 !== undefined) {
+  setUpThirdFormGroup(drivers: Driver[], stepper: MatStepper) {
+    if (drivers !== undefined) {
       this.thirdFormGroup.patchValue({isDone: true});
       this.isThirdGroupValid = true;
-      this.driver = drivers1.pop();
-      this.coDriver = drivers1.pop();
+      this.coDriver = drivers.pop();
+      this.driver = drivers.pop();
 
       this.putData();
-
-      // this.cargo.driver = drivers1.pop();
-      // this.cargo.coDriver = drivers1.pop();
-
       stepper.next();
     }
   }

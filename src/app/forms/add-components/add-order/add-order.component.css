@@ -2,6 +2,10 @@ table {
   width: 100%;
 }
 
+.action-info-button {
+  margin: 1%;
+}
+
 div {
   margin: 1%;
 }
