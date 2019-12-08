@@ -3,17 +3,20 @@
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Login</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="login" matInput
-           placeholder="Login" maxlength="32">
+           placeholder="Login" maxlength="32" required>
     <mat-error *ngIf="loginFormControl.hasError('required')">
       Required field
+    </mat-error>
+    <mat-error *ngIf="loginFormControl.hasError('loginExist')">
+      User with login {{loginFormControl.value}} already exists
     </mat-error>
   </mat-form-field>
 
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Password</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="password" matInput minlength="8" maxlength="32"
-           placeholder="Password" [type]="hide ? 'password' : 'text'">
-    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+           placeholder="Password" [type]="hide ? 'password' : 'text'" required>
+    <button mat-icon-button matSuffix (click)="hide = !hide">
       <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
     </button>
     <mat-error *ngIf="passwordFormControl.hasError('required')">
@@ -24,7 +27,7 @@
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>First Name</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="firstName" matInput
-           placeholder="First name">
+           placeholder="First name" required>
     <mat-error *ngIf="firstNameFormControl.hasError('pattern')">
       Enter a first name in English(not more than 32 symbols)
     </mat-error>
@@ -36,7 +39,7 @@
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Last Name</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="lastName" matInput
-           placeholder="Last name">
+           placeholder="Last name" required>
     <mat-error *ngIf="lastNameFormControl.hasError('pattern')">
       Enter a last name in English(not more than 32 symbols)
     </mat-error>
@@ -57,7 +60,7 @@
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Email</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="email" matInput
-           placeholder="Email">
+           placeholder="Email" required>
     <mat-error *ngIf="emailFormControl.hasError('pattern')">
       Enter a valid email
     </mat-error>
@@ -69,22 +72,24 @@
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Driver License</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="driverLicense" matInput
-           placeholder="Driver license">
+           placeholder="Driver license" required>
     <mat-error *ngIf="driverLicenseFormControl.hasError('pattern')">
       Enter 10 numbers
     </mat-error>
     <mat-error *ngIf="driverLicenseFormControl.hasError('required')">
       Required field
     </mat-error>
+    <mat-error *ngIf="driverLicenseFormControl.hasError('driverLicenseExist')">
+      Driver with driver license {{driverLicenseFormControl.value}} already exists
+    </mat-error>
   </mat-form-field>
 
-  <p *ngIf="isCreated">User has been created</p>
+  <p *ngIf="isCreated">Driver has been created</p>
   <p *ngIf="loginExists" class="mat-error">{{errorMessage}}</p>
   <p *ngIf="driverLicenseExists" class="mat-error">{{errorMessage}}</p>
 
   <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!driverFormGroup.valid" value="bold">
     Submit
   </button>
-
 </form>
 

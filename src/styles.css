@@ -16,3 +16,11 @@ table {
 .full-width {
   width: 100%;
 }
+
+mat-form-field {
+  padding-top: 1%;
+}
+
+mat-error {
+  margin-bottom: 1%;
+}

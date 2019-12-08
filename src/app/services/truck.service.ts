@@ -6,7 +6,7 @@ import {Truck} from '../models/truck';
 @Injectable()
 export class TruckService {
 
-  private trucksUrl: string;
+  private readonly trucksUrl: string;
 
   constructor(private http: HttpClient) {
     this.trucksUrl = 'http://localhost:8080/trucks';
@@ -18,6 +18,12 @@ export class TruckService {
 
   public getFreeTrucks(weight: number): Observable<Truck[]> {
     return this.http.get<Truck[]>(`${this.trucksUrl}/free/${weight}`);
+  }
+
+  public isRegistrationNumberExist(registrationNumber: string): Observable<boolean> {
+    const params = new HttpParams()
+      .set('registration-number', String(registrationNumber));
+    return this.http.get<boolean>(`${this.trucksUrl}/check`, {params});
   }
 
   public getTrucks(searchString: string, page: number, size: number): Observable<Truck[]> {

@@ -3,19 +3,22 @@
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Registration number</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="registrationNumber" matInput
-           placeholder="Registration number">
+           placeholder="Registration number" required>
     <mat-error *ngIf="registrationNumberFormControl.hasError('pattern')">
       Enter a number in format АА12345
     </mat-error>
     <mat-error *ngIf="registrationNumberFormControl.hasError('required')">
       Required field
     </mat-error>
+    <mat-error *ngIf="registrationNumberFormControl.hasError('registrationNumberExist')">
+      Truck with registration number {{registrationNumberFormControl.value}} already exists
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Model</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="model" matInput
-           placeholder="Model">
+           placeholder="Model" required>
     <mat-error *ngIf="modelFormControl.hasError('maxLength')">
       Length not more than 32
     </mat-error>
@@ -27,7 +30,7 @@
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Capacity</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="capacity" matInput
-           placeholder="Capacity">
+           placeholder="Capacity" type="number" required min="1">
     <span matSuffix>kg</span>
     <mat-error *ngIf="capacityFormControl.hasError('pattern')">
       Enter number in format 2.5

@@ -6,7 +6,7 @@ import {Driver} from '../models/driver';
 @Injectable()
 export class DriverService {
 
-  private driversUrl: string;
+  private readonly driversUrl: string;
 
   constructor(private http: HttpClient) {
     this.driversUrl = 'http://localhost:8080/drivers';
@@ -26,6 +26,12 @@ export class DriverService {
       .set('page', String(page))
       .set('size', String(size));
     return this.http.get<Driver[]>(`${this.driversUrl}/search`, {params});
+  }
+
+  public isDriverLicenseExist(driverLicense: string): Observable<boolean> {
+    const params = new HttpParams()
+      .set('driver-license', String(driverLicense));
+    return this.http.get<boolean>(`${this.driversUrl}/check`, {params});
   }
 
   public save(driver: Driver): Observable<boolean> {

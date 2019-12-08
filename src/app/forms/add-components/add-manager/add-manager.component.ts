@@ -1,10 +1,12 @@
 import {Component, DoCheck, OnDestroy} from '@angular/core';
 import {ErrorStateMatcher, MatDialog, MatDialogRef} from '@angular/material';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {Subscription} from 'rxjs';
+import {Subscription, timer} from 'rxjs';
 import {ManagerService} from '../../../services/manager.service';
 import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {Manager} from '../../../models/manager';
+import {UserService} from '../../../services/user.service';
+import {loginAsyncValidator} from '../../commons/async.validators';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -30,7 +32,7 @@ export class AddManagerComponent implements OnDestroy, DoCheck {
   loginFormControl = new FormControl('', [
     Validators.required,
     Validators.maxLength(32)
-  ]);
+  ], loginAsyncValidator(this.userService));
 
   passwordFormControl = new FormControl('', [
     Validators.required,
@@ -65,7 +67,7 @@ export class AddManagerComponent implements OnDestroy, DoCheck {
     email: this.emailFormControl,
   });
 
-  constructor(private managerService: ManagerService, private dialog: MatDialog) {
+  constructor(private managerService: ManagerService, private userService: UserService, private dialog: MatDialog) {
   }
 
   ngDoCheck(): void {
@@ -117,7 +119,7 @@ export class AddManagerComponent implements OnDestroy, DoCheck {
     return this.dialog.open(ConfirmationDialogComponent, {
       data: {
         message: 'add new manager'
-      }, width: '25%', height: '30%'
+      }, width: '17%', height: '19%'
     });
   }
 

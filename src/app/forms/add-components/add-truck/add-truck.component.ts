@@ -5,6 +5,7 @@ import {Truck} from '../../../models/truck';
 import {TruckService} from '../../../services/truck.service';
 import {Subscription} from 'rxjs';
 import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
+import {registrationNumberAsyncValidator} from '../../commons/async.validators';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -29,7 +30,7 @@ export class AddTruckComponent implements DoCheck, OnDestroy {
   registrationNumberFormControl = new FormControl('', [
     Validators.required,
     Validators.pattern('[A-Z]{2}\\d{5}')
-  ]);
+  ], registrationNumberAsyncValidator(this.truckService));
 
   modelFormControl = new FormControl('', [
     Validators.required,
@@ -68,7 +69,7 @@ export class AddTruckComponent implements DoCheck, OnDestroy {
     return this.dialog.open(ConfirmationDialogComponent, {
       data: {
         message: 'add new truck'
-      }, width: '25%', height: '30%'
+      }, width: '17%', height: '19%'
     });
   }
 

@@ -9,7 +9,7 @@
   width: 60%;
 }
 
-.bottom {
+/*.bottom {
   padding-top: 25%;
 }
 
@@ -19,7 +19,16 @@
 
 .right-button {
   margin-left: 45%;
+}*/
+
+.nav {
+  display: inline-block;
 }
 
+.left {
+  float: left;
+}
 
-
+.right {
+  float: right;
+}

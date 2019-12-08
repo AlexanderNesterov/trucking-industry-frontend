@@ -6,6 +6,8 @@ import {Driver} from '../../../models/driver';
 import {Subscription} from 'rxjs';
 import {User} from '../../../models/user';
 import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
+import {UserService} from '../../../services/user.service';
+import {driverLicenseAsyncValidator, loginAsyncValidator} from '../../commons/async.validators';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -32,7 +34,7 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
   loginFormControl = new FormControl('', [
     Validators.required,
     Validators.maxLength(32)
-  ]);
+  ], loginAsyncValidator(this.userService));
 
   passwordFormControl = new FormControl('', [
     Validators.required,
@@ -61,7 +63,7 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
   driverLicenseFormControl = new FormControl('', [
     Validators.required,
     Validators.pattern('\\d{10}')
-  ]);
+  ], driverLicenseAsyncValidator(this.driverService));
 
   driverFormGroup = new FormGroup({
     login: this.loginFormControl,
@@ -73,7 +75,7 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
     driverLicense: this.driverLicenseFormControl
   });
 
-  constructor(private driverService: DriverService, private dialog: MatDialog) {
+  constructor(private driverService: DriverService, private userService: UserService, private dialog: MatDialog) {
   }
 
   ngDoCheck(): void {
@@ -105,7 +107,7 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
     return this.dialog.open(ConfirmationDialogComponent, {
       data: {
         message: 'add a new driver'
-      }, width: '25%', height: '30%'
+      }, width: '17%', height: '19%'
     });
   }
 

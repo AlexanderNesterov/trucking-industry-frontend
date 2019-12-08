@@ -28,7 +28,7 @@ export class Interceptor implements HttpInterceptor {
 
       return next.handle(cloneReq).pipe(
         catchError(err => {
-          if (err instanceof HttpErrorResponse && err.status === 401) {
+          if (err instanceof HttpErrorResponse && err.status === 401 || err.statusText === 'Unknown Error') {
             localStorage.clear();
             this.router.navigate(['/login']);
             return throwError(err);
