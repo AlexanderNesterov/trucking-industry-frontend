@@ -27,7 +27,6 @@ import {ManagerService} from './services/manager.service';
 import {AddManagerComponent} from './forms/add-components/add-manager/add-manager.component';
 import {UpdateManagerComponent} from './forms/update-components/update-manager/update-manager.component';
 import {UpdateTruckComponent} from './forms/update-components/update-truck/update-truck.component';
-import {UpdateCargoComponent} from './forms/update-components/update-cargo/update-cargo.component';
 import {HeaderComponent} from './forms/core-components/header/header.component';
 import {BodyComponent} from './forms/core-components/body/body.component';
 import {FooterComponent} from './forms/core-components/footer/footer.component';
@@ -49,6 +48,9 @@ import {NavigationComponent} from './forms/core-components/navigation/navigation
 import {FilterComponent} from './forms/core-components/filter/filter.component';
 import {AddCityComponent} from './forms/add-components/add-city/add-city.component';
 import {CityBottomSheetComponent} from './forms/add-components/add-city/city-bottom-sheet/city-bottom-sheet.component';
+import {UpdateOrderComponent} from './forms/update-components/update-cargo/update-order.component';
+import {UpdateOrderCargoListInfoComponent} from './forms/update-components/update-cargo/update-order-cargo-list-info/update-order-cargo-list-info.component';
+import {UpdateOrderTruckInfoComponent} from './forms/update-components/update-cargo/update-order-truck-info/update-order-truck-info.component';
 
 const googleMapsCore = AgmCoreModule.forRoot({
   apiKey : '',
@@ -71,7 +73,6 @@ const googleMapsCore = AgmCoreModule.forRoot({
     AddManagerComponent,
     UpdateManagerComponent,
     UpdateTruckComponent,
-    UpdateCargoComponent,
     HeaderComponent,
     BodyComponent,
     FooterComponent,
@@ -87,7 +88,10 @@ const googleMapsCore = AgmCoreModule.forRoot({
     NavigationComponent,
     FilterComponent,
     AddCityComponent,
-    CityBottomSheetComponent
+    CityBottomSheetComponent,
+    UpdateOrderComponent,
+    UpdateOrderCargoListInfoComponent,
+    UpdateOrderTruckInfoComponent
   ],
   imports: [
     BrowserModule,

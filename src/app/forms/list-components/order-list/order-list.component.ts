@@ -69,7 +69,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
   }
 
   updateCargo(id: number) {
-    this.router.navigate(['/update-cargo'], {queryParams: {id}});
+    this.router.navigate(['/update-order'], {queryParams: {id}});
   }
 
   cancel(id: number) {

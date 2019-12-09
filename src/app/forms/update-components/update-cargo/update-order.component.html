@@ -1,0 +1,35 @@
+<mat-horizontal-stepper [linear]="true" #stepper>
+
+  <mat-step [stepControl]="firstFormGroup" [editable]="false">
+    <ng-template matStepLabel>Add cargo</ng-template>
+    <app-update-order-cargo-list-info [setCargoList]="cargoList"
+                                      (onValidFirstGroup)="setUpFirstFormGroup($event, stepper)">
+    </app-update-order-cargo-list-info>
+  </mat-step>
+
+  <mat-step [stepControl]="secondFormGroup" [editable]="false">
+    <ng-template matStepLabel>Choose truck</ng-template>
+    <app-update-order-truck-info [setTruck]="truck" [cargoWeight]="totalWeight"
+                                 (onValidSecondGroup)="setUpSecondFormGroup($event, stepper)">
+    </app-update-order-truck-info>
+  </mat-step>
+
+  <mat-step [stepControl]="thirdFormGroup" [editable]="false">
+    <ng-template matStepLabel>Choose drivers</ng-template>
+    <app-drivers-info [getDrivers]="isSecondGroupValid"
+                      (onValidThirdGroup)="setUpThirdFormGroup($event, stepper)"></app-drivers-info>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+
+    <app-filled-order [order]="order"></app-filled-order>
+
+    <p *ngIf="isCreated">Cargo has been created</p>
+
+    <button mat-flat-button color="primary" (click)="confirm()"
+            [disabled]="isCreated">
+      Confirm
+    </button>
+  </mat-step>
+</mat-horizontal-stepper>

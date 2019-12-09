@@ -1,0 +1,12 @@
+<button mat-flat-button color="primary" *ngIf="cargoList.length < cargoLimit" (click)="create()">Add cargo</button>
+
+<p *ngIf="totalWeight > 0">Total weight: {{totalWeight}}</p>
+<p *ngIf="cargoList.length !== 0">Cargo counter: {{cargoList.length}} / {{cargoLimit}}</p>
+
+<app-cargo-info *ngFor="let cargo of cargoList" [setCargo]="cargo"
+                (onRemove)="removeCargo($event)" (onUpdate)="updateCargo($event)">
+</app-cargo-info>
+
+<button class="next-button" mat-flat-button color="primary" *ngIf="cargoList.length !== 0" (click)="next()">
+  Next
+</button>

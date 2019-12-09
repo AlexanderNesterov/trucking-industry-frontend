@@ -10,19 +10,21 @@ import {Subscription} from 'rxjs';
 import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {Driver} from '../../../models/driver';
 import {Order} from '../../../models/order';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'app-add-order',
-  templateUrl: './add-order.component.html',
-  styleUrls: ['./add-order.component.css']
+  selector: 'app-update-order',
+  templateUrl: './update-order.component.html',
+  styleUrls: ['./update-order.component.css']
 })
-export class AddCargoComponent implements OnDestroy {
+export class UpdateOrderComponent implements OnInit, OnDestroy {
 
   order: Order;
   truck: Truck;
   driver: Driver;
   coDriver: Driver;
   cargoList: Cargo[];
+  orderId: number;
   isFirstGroupValid = false;
   isSecondGroupValid = false;
   isThirdGroupValid = false;
@@ -43,7 +45,17 @@ export class AddCargoComponent implements OnDestroy {
   });
 
   constructor(private truckService: TruckService, private driverService: DriverService,
-              private orderService: OrderService, private dialog: MatDialog) {
+              private orderService: OrderService, private dialog: MatDialog, private activatedRoute: ActivatedRoute) {
+  }
+
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.orderService.findById(params.id).subscribe(res => {
+        this.cargoList = res.cargoList;
+        this.truck = res.truck;
+        this.orderId = res.id;
+      });
+    });
   }
 
   setUpFirstFormGroup(cargoList: Cargo[], stepper: MatStepper) {
@@ -83,6 +95,7 @@ export class AddCargoComponent implements OnDestroy {
 
   putData() {
     this.order = {
+      id: this.orderId,
       driver: this.driver,
       coDriver: this.coDriver,
       truck: this.truck,
@@ -97,7 +110,7 @@ export class AddCargoComponent implements OnDestroy {
         return;
       }
 
-      this.cargoSubscription = this.orderService.addOrder(this.order).subscribe(data => {
+      this.cargoSubscription = this.orderService.updateOrder(this.order).subscribe(data => {
         this.isCreated = data;
       });
     });

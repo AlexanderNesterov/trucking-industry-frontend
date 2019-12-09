@@ -12,12 +12,12 @@ import {ManagersListComponent} from './forms/list-components/managers-list/manag
 import {AddManagerComponent} from './forms/add-components/add-manager/add-manager.component';
 import {UpdateManagerComponent} from './forms/update-components/update-manager/update-manager.component';
 import {UpdateTruckComponent} from './forms/update-components/update-truck/update-truck.component';
-import {UpdateCargoComponent} from './forms/update-components/update-cargo/update-cargo.component';
 import {LoginComponent} from './forms/auth/login/login.component';
 import {AddCargoComponent} from './forms/add-components/add-order/add-order.component';
 import {AdminGuard} from './forms/auth/guards/admin.guard';
 import {AdminDriverGuard} from './forms/auth/guards/admin-driver.guard';
 import {AddCityComponent} from './forms/add-components/add-city/add-city.component';
+import {UpdateOrderComponent} from './forms/update-components/update-cargo/update-order.component';
 
 export const routes: Routes = [
   {path: 'drivers', component: DriverListComponent, canActivate: [AdminGuard]},
@@ -29,7 +29,7 @@ export const routes: Routes = [
   {path: 'update-driver', component: UpdateDriverComponent, canActivate: [AdminGuard]},
   {path: 'update-manager', component: UpdateManagerComponent, canActivate: [AdminGuard]},
   {path: 'update-truck', component: UpdateTruckComponent, canActivate: [AdminGuard]},
-  {path: 'update-cargo', component: UpdateCargoComponent, canActivate: [AdminGuard]},
+  {path: 'update-order', component: UpdateOrderComponent, canActivate: [AdminGuard]},
   {path: 'order', component: OrderListComponent, canActivate: [AdminGuard]},
   {path: 'add-city', component: AddCityComponent, canActivate: [AdminGuard]},
   {path: 'add-order', component: AddCargoComponent, canActivate: [AdminGuard]},
