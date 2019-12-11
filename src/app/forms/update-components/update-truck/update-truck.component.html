@@ -8,6 +8,9 @@
       <mat-error *ngIf="registrationNumberFormControl.hasError('pattern')">
         Enter a number in format АА12345
       </mat-error>
+      <mat-error *ngIf="registrationNumberFormControl.hasError('registrationNumberExist')">
+        Truck with registration number {{registrationNumberFormControl.value}} already exists
+      </mat-error>
     </mat-form-field>
 
     <br>

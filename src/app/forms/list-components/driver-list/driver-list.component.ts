@@ -3,6 +3,9 @@ import {Driver} from '../../../models/driver';
 import {DriverService} from '../../../services/driver.service';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
+import {MatBottomSheet} from '@angular/material';
+import {UserService} from '../../../services/user.service';
+import {OrderService} from '../../../services/order.service';
 
 @Component({
   selector: 'app-driver-list',
@@ -18,11 +21,32 @@ export class DriverListComponent implements OnInit, OnDestroy {
   size = 10;
   textSearch = '';
 
-  constructor(private driverService: DriverService, private router: Router) {
+  canBlock = false;
+
+  constructor(private driverService: DriverService, private router: Router,
+              private bottomSheet: MatBottomSheet, private userService: UserService, private orderService: OrderService) {
   }
 
   ngOnInit() {
     this.getDrivers();
+  }
+
+  updateDriver(driverId: number) {
+    this.router.navigate([`/update-driver`], {queryParams: {id: driverId}});
+  }
+
+  blockAccount(userId: number, driverId: number) {
+    this.userService.blockDriverAccount(userId, driverId).subscribe(res => {
+      this.getDrivers();
+      this.canBlock = false;
+    });
+  }
+
+  unlockAccount(userId: number) {
+    this.userService.unlockAccount(userId).subscribe(res => {
+      this.getDrivers();
+      this.canBlock = false;
+    });
   }
 
   getDrivers() {
@@ -53,13 +77,17 @@ export class DriverListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/add-driver']);
   }
 
-  updateDriver(id: number) {
-    this.router.navigate([`/update-driver`], {queryParams: {id}});
-  }
-
   ngOnDestroy(): void {
     if (this.subscription !== undefined) {
       this.subscription.unsubscribe();
     }
+  }
+
+  checkToBlock(id: number, status: string) {
+    this.orderService.checkOrderToBlockDriver(id).subscribe(res => {
+      if (res && status === 'ACTIVE') {
+        this.canBlock = true;
+      }
+    });
   }
 }

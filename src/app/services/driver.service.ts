@@ -28,9 +28,10 @@ export class DriverService {
     return this.http.get<Driver[]>(`${this.driversUrl}/search`, {params});
   }
 
-  public isDriverLicenseExist(driverLicense: string): Observable<boolean> {
+  public isDriverLicenseExist(driverLicense: string, driverId: number): Observable<boolean> {
     const params = new HttpParams()
-      .set('driver-license', String(driverLicense));
+      .set('driver-license', String(driverLicense))
+      .set('driverId', String(driverId));
     return this.http.get<boolean>(`${this.driversUrl}/check`, {params});
   }
 

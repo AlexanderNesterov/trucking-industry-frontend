@@ -17,4 +17,24 @@ export class UserService {
       .set('login', String(login));
     return this.http.get<boolean>(`${this.usersUrl}/check`, {params});
   }
+
+  public blockDriverAccount(userId: number, driverId: number): Observable<boolean> {
+    return this.http.put<boolean>(`${this.usersUrl}/block-driver/${userId}/${driverId}`, null);
+  }
+
+  public blockManagerAccount(userId: number, managerId: number): Observable<boolean> {
+    return this.http.put<boolean>(`${this.usersUrl}/block-manager/${userId}/${managerId}`, null);
+  }
+
+  public unlockAccount(userId: number): Observable<boolean> {
+    return this.http.put<boolean>(`${this.usersUrl}/unlock/${userId}`, null);
+  }
+
+  public changeAdminPassword(login: string, currentPassword: string, newPassword: string): Observable<boolean> {
+    return this.http.post<boolean>(`${this.usersUrl}/admin-password`, {login, currentPassword, newPassword});
+  }
+
+  public changeDriverPassword(login: string, currentPassword: string, newPassword: string): Observable<boolean> {
+    return this.http.post<boolean>(`${this.usersUrl}/driver-password`, {login, currentPassword, newPassword});
+  }
 }

@@ -20,9 +20,16 @@ export class TruckService {
     return this.http.get<Truck[]>(`${this.trucksUrl}/free/${weight}`);
   }
 
-  public isRegistrationNumberExist(registrationNumber: string): Observable<boolean> {
+  public canUpdateTruck(truckId: number): Observable<boolean> {
     const params = new HttpParams()
-      .set('registration-number', String(registrationNumber));
+      .set('truckId', String(truckId));
+    return this.http.get<boolean>(`${this.trucksUrl}/check-to-update`, {params});
+  }
+
+  public isRegistrationNumberExist(registrationNumber: string, truckId: number): Observable<boolean> {
+    const params = new HttpParams()
+      .set('registration-number', String(registrationNumber))
+      .set('truckId', String(truckId));
     return this.http.get<boolean>(`${this.trucksUrl}/check`, {params});
   }
 
@@ -40,5 +47,17 @@ export class TruckService {
 
   public update(truck: Truck): Observable<boolean> {
     return this.http.put<boolean>(this.trucksUrl, truck);
+  }
+
+  public setBrokenCondition(truckId: number): Observable<boolean> {
+    const params = new HttpParams()
+      .set('truckId', String(truckId));
+    return this.http.put<boolean>(`${this.trucksUrl}/set-broken`, null, {params});
+  }
+
+  public setServiceableCondition(truckId: number): Observable<boolean> {
+    const params = new HttpParams()
+      .set('truckId', String(truckId));
+    return this.http.put<boolean>(`${this.trucksUrl}/set-serviceable`, null, {params});
   }
 }

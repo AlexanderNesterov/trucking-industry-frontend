@@ -1,7 +1,7 @@
 import {UserService} from '../../services/user.service';
 import {FormControl} from '@angular/forms';
 import {timer} from 'rxjs';
-import {map, switchMap} from 'rxjs/operators';
+import {filter, map, switchMap, tap} from 'rxjs/operators';
 import {DriverService} from '../../services/driver.service';
 import {TruckService} from '../../services/truck.service';
 
@@ -18,10 +18,11 @@ export const loginAsyncValidator =
   };
 
 export const driverLicenseAsyncValidator =
-  (driverService: DriverService, time: number = 1000) => {
+  (driverService: DriverService, driverId: number, time: number = 1000) => {
     return (input: FormControl) => {
       return timer(time).pipe(
-        switchMap(() => driverService.isDriverLicenseExist(input.value)),
+        tap(() => console.log(driverId)),
+        switchMap(() => driverService.isDriverLicenseExist(input.value, driverId)),
         map(res => {
           return res ? null : {driverLicenseExist: true};
         })
@@ -30,10 +31,10 @@ export const driverLicenseAsyncValidator =
   };
 
 export const registrationNumberAsyncValidator =
-  (truckService: TruckService, time: number = 1000) => {
+  (truckService: TruckService, truckId, time: number = 1000) => {
     return (input: FormControl) => {
       return timer(time).pipe(
-        switchMap(() => truckService.isRegistrationNumberExist(input.value)),
+        switchMap(() => truckService.isRegistrationNumberExist(input.value, truckId)),
         map(res => {
           return res ? null : {registrationNumberExist: true};
         })

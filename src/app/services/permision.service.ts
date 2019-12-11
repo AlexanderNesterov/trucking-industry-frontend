@@ -12,4 +12,8 @@ export class PermissionService {
     const role = localStorage.getItem('role');
     return role === permittedRole;
   }
+
+  getLogin() {
+    return localStorage.getItem('login');
+  }
 }

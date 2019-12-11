@@ -22,6 +22,9 @@
       <button *ngIf="checkRole('ADMIN')" mat-flat-button color="primary" (click)="edit()">
         Edit personal information
       </button>
+      <button *ngIf="checkRole('ADMIN')" mat-flat-button color="primary" (click)="changePassword()">
+        Change password
+      </button>
     </mat-card>
   </div>
 </ng-template>

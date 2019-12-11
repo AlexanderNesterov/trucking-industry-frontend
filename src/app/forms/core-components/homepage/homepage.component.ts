@@ -11,6 +11,7 @@ import {ManagerService} from '../../../services/manager.service';
 import {Router} from '@angular/router';
 import {Order} from '../../../models/order';
 import {CargoService} from '../../../services/cargo.service';
+import {ChangePasswordDialogComponent} from '../dialogs/change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'app-driver-info',
@@ -130,6 +131,15 @@ export class HomepageComponent implements OnInit, OnDestroy {
     this.cargoService.setDeliveredStatus(cargoId, this.order.id, this.driverId).subscribe(res => {
       if (res) {
         this.order.cargoList = this.order.cargoList.filter(cargo => cargo.id !== cargoId);
+      }
+    });
+  }
+
+  changePassword() {
+    const login = this.permissionService.getLogin();
+    this.dialog.open(ChangePasswordDialogComponent, {
+      data: {
+        login
       }
     });
   }

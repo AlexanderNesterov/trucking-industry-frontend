@@ -15,6 +15,7 @@ export class TruckListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['id', 'registrationNumber', 'model', 'capacity', 'condition', 'action'];
   subscription: Subscription;
   textSearch = '';
+  canUpdate = false;
   page = 1;
   size = 10;
 
@@ -65,5 +66,24 @@ export class TruckListComponent implements OnInit, OnDestroy {
     if (this.subscription !== undefined) {
       this.subscription.unsubscribe();
     }
+  }
+
+  checkToUpdate(id: number) {
+    this.canUpdate = false;
+    this.truckService.canUpdateTruck(id).subscribe(res => {
+      this.canUpdate = res;
+    });
+  }
+
+  setBroken(id: number) {
+    this.truckService.setBrokenCondition(id).subscribe(res => {
+      this.getTrucks();
+    });
+  }
+
+  setServiceable(id: number) {
+    this.truckService.setServiceableCondition(id).subscribe(res => {
+      this.getTrucks();
+    });
   }
 }

@@ -50,9 +50,12 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> Action</th>
       <td mat-cell *matCellDef="let driver">
-        <button mat-flat-button color="primary" value="bold" (click)="updateDriver(driver.id)">
-          Edit
-        </button>
+        <button color="accent" mat-button [matMenuTriggerFor]="menu" (click)="checkToBlock(driver.id, driver.user.status)">Actions</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="updateDriver(driver.id)">Edit</button>
+          <button mat-menu-item *ngIf="canBlock" (click)="blockAccount(driver.user.id, driver.id)">Block</button>
+          <button mat-menu-item *ngIf="driver.user.status === 'BLOCKED'" (click)="unlockAccount(driver.user.id)">Unlock</button>
+        </mat-menu>
       </td>
     </ng-container>
 

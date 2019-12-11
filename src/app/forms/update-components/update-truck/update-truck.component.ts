@@ -6,6 +6,7 @@ import {TruckService} from '../../../services/truck.service';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
+import {registrationNumberAsyncValidator} from '../../commons/async.validators';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -28,9 +29,11 @@ export class UpdateTruckComponent implements OnInit, OnDestroy {
   updateSubscription: Subscription;
   findSubscription: Subscription;
 
-  registrationNumberFormControl = new FormControl('', [
+  /*registrationNumberFormControl = new FormControl('', [
     Validators.pattern('[A-Z]{2}\\d{5}')
-  ]);
+  ]);*/
+
+  registrationNumberFormControl: FormControl;
 
   modelFormControl = new FormControl('', [
     Validators.maxLength(32)
@@ -40,17 +43,29 @@ export class UpdateTruckComponent implements OnInit, OnDestroy {
     Validators.pattern('\\d+\\.?\\d*')
   ]);
 
-  truckFormGroup = new FormGroup({
+/*  truckFormGroup = new FormGroup({
     registrationNumber: this.registrationNumberFormControl,
     model: this.modelFormControl,
     capacity: this.capacityFormControl
-  });
+  });*/
+
+  truckFormGroup: FormGroup;
 
   constructor(private truckService: TruckService, private dialog: MatDialog, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     const subscription = this.activatedRoute.queryParams.subscribe(param => {
+      this.registrationNumberFormControl = new FormControl('', [
+        Validators.pattern('[A-Z]{2}\\d{5}')
+      ], registrationNumberAsyncValidator(this.truckService, param.id));
+
+      this.truckFormGroup = new FormGroup({
+        registrationNumber: this.registrationNumberFormControl,
+        model: this.modelFormControl,
+        capacity: this.capacityFormControl
+      });
+
       this.findSubscription = this.truckService.findById(param.id).subscribe(data => {
         this.oldTruck = data;
       });

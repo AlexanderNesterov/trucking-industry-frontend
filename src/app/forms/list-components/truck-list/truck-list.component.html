@@ -50,9 +50,12 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> Action</th>
       <td mat-cell *matCellDef="let truck">
-        <button mat-flat-button color="primary" value="bold" (click)="updateTruck(truck.id)">
-          Edit
-        </button>
+        <button color="accent" mat-button [matMenuTriggerFor]="menu" (click)="checkToUpdate(truck.id)">Actions</button>
+        <mat-menu #menu="matMenu">
+          <button *ngIf="canUpdate" mat-menu-item (click)="updateTruck(truck.id)">Edit</button>
+          <button *ngIf="truck.condition === 'SERVICEABLE'" mat-menu-item (click)="setBroken(truck.id)">Broken</button>
+          <button *ngIf="truck.condition === 'BROKEN'" mat-menu-item (click)="setServiceable(truck.id)">Serviceable</button>
+        </mat-menu>
       </td>
     </ng-container>
 

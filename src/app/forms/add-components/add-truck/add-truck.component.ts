@@ -27,10 +27,12 @@ export class AddTruckComponent implements DoCheck, OnDestroy {
   truck: Truck;
   subscription: Subscription;
 
-  registrationNumberFormControl = new FormControl('', [
+  /*registrationNumberFormControl = new FormControl('', [
     Validators.required,
     Validators.pattern('[A-Z]{2}\\d{5}')
-  ], registrationNumberAsyncValidator(this.truckService));
+  ], registrationNumberAsyncValidator(this.truckService));*/
+
+  registrationNumberFormControl: FormControl;
 
   modelFormControl = new FormControl('', [
     Validators.required,
@@ -42,13 +44,25 @@ export class AddTruckComponent implements DoCheck, OnDestroy {
     Validators.pattern('\\d+\\.?\\d*')
   ]);
 
-  truckFormGroup = new FormGroup({
-    registrationNumber: this.registrationNumberFormControl,
-    model: this.modelFormControl,
-    capacity: this.capacityFormControl
-  });
+  /*  truckFormGroup = new FormGroup({
+      registrationNumber: this.registrationNumberFormControl,
+      model: this.modelFormControl,
+      capacity: this.capacityFormControl
+    });*/
+
+  truckFormGroup: FormGroup;
 
   constructor(private truckService: TruckService, private dialog: MatDialog) {
+    this.registrationNumberFormControl = new FormControl('', [
+      Validators.required,
+      Validators.pattern('[A-Z]{2}\\d{5}')
+    ], registrationNumberAsyncValidator(this.truckService, -1));
+
+    this.truckFormGroup = new FormGroup({
+      registrationNumber: this.registrationNumberFormControl,
+      model: this.modelFormControl,
+      capacity: this.capacityFormControl
+    });
   }
 
   ngDoCheck(): void {

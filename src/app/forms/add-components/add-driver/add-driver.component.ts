@@ -31,10 +31,11 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
   driver: Driver;
   subscription: Subscription;
 
-  loginFormControl = new FormControl('', [
-    Validators.required,
-    Validators.maxLength(32)
-  ], loginAsyncValidator(this.userService));
+  /*  loginFormControl = new FormControl('', [
+      Validators.required,
+      Validators.maxLength(32)
+    ], loginAsyncValidator(this.userService));*/
+  loginFormControl: FormControl;
 
   passwordFormControl = new FormControl('', [
     Validators.required,
@@ -60,22 +61,44 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
     Validators.email
   ]);
 
-  driverLicenseFormControl = new FormControl('', [
-    Validators.required,
-    Validators.pattern('\\d{10}')
-  ], driverLicenseAsyncValidator(this.driverService));
+  driverLicenseFormControl: FormControl;
+  /*  driverLicenseFormControl = new FormControl('', [
+      Validators.required,
+      Validators.pattern('\\d{10}')
+    ], driverLicenseAsyncValidator(this.driverService, null));*/
 
-  driverFormGroup = new FormGroup({
-    login: this.loginFormControl,
-    password: this.passwordFormControl,
-    firstName: this.firstNameFormControl,
-    lastName: this.lastNameFormControl,
-    phone: this.phoneFormControl,
-    email: this.emailFormControl,
-    driverLicense: this.driverLicenseFormControl
-  });
+  driverFormGroup: FormGroup;
+
+  /*  driverFormGroup = new FormGroup({
+      login: this.loginFormControl,
+      password: this.passwordFormControl,
+      firstName: this.firstNameFormControl,
+      lastName: this.lastNameFormControl,
+      phone: this.phoneFormControl,
+      email: this.emailFormControl,
+      driverLicense: this.driverLicenseFormControl
+    });*/
 
   constructor(private driverService: DriverService, private userService: UserService, private dialog: MatDialog) {
+    this.loginFormControl = new FormControl('', [
+      Validators.required,
+      Validators.maxLength(32)
+    ], loginAsyncValidator(this.userService));
+
+    this.driverLicenseFormControl = new FormControl('', [
+      Validators.required,
+      Validators.pattern('\\d{10}')
+    ], driverLicenseAsyncValidator(this.driverService, -1));
+
+    this.driverFormGroup = new FormGroup({
+      login: this.loginFormControl,
+      password: this.passwordFormControl,
+      firstName: this.firstNameFormControl,
+      lastName: this.lastNameFormControl,
+      phone: this.phoneFormControl,
+      email: this.emailFormControl,
+      driverLicense: this.driverLicenseFormControl
+    });
   }
 
   ngDoCheck(): void {

@@ -49,11 +49,14 @@ import {FilterComponent} from './forms/core-components/filter/filter.component';
 import {AddCityComponent} from './forms/add-components/add-city/add-city.component';
 import {CityBottomSheetComponent} from './forms/add-components/add-city/city-bottom-sheet/city-bottom-sheet.component';
 import {UpdateOrderComponent} from './forms/update-components/update-cargo/update-order.component';
+// tslint:disable-next-line:max-line-length
 import {UpdateOrderCargoListInfoComponent} from './forms/update-components/update-cargo/update-order-cargo-list-info/update-order-cargo-list-info.component';
+// tslint:disable-next-line:max-line-length
 import {UpdateOrderTruckInfoComponent} from './forms/update-components/update-cargo/update-order-truck-info/update-order-truck-info.component';
+import {ChangePasswordDialogComponent} from './forms/core-components/dialogs/change-password-dialog/change-password-dialog.component';
 
 const googleMapsCore = AgmCoreModule.forRoot({
-  apiKey : '',
+  apiKey: '',
 });
 
 @NgModule({
@@ -91,7 +94,8 @@ const googleMapsCore = AgmCoreModule.forRoot({
     CityBottomSheetComponent,
     UpdateOrderComponent,
     UpdateOrderCargoListInfoComponent,
-    UpdateOrderTruckInfoComponent
+    UpdateOrderTruckInfoComponent,
+    ChangePasswordDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -117,7 +121,8 @@ const googleMapsCore = AgmCoreModule.forRoot({
       useClass: Interceptor,
       multi: true
     }],
-  entryComponents: [CargoDetailDialogComponent, ConfirmationDialogComponent, CargoDialogInfoComponent, CityBottomSheetComponent],
+  entryComponents: [CargoDetailDialogComponent, ConfirmationDialogComponent, CargoDialogInfoComponent,
+    CityBottomSheetComponent, ChangePasswordDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {
