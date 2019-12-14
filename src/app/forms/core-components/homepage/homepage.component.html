@@ -19,12 +19,17 @@
         Status: {{driverInformation.status}}
       </mat-card-content>
 
-      <button *ngIf="checkRole('ADMIN')" mat-flat-button color="primary" (click)="edit()">
-        Edit personal information
-      </button>
-      <button *ngIf="checkRole('ADMIN')" mat-flat-button color="primary" (click)="changePassword()">
-        Change password
-      </button>
+      <div>
+        <button *ngIf="checkRole('ADMIN')" mat-flat-button color="primary" (click)="edit()">
+          Edit personal information
+        </button>
+      </div>
+
+      <div>
+        <button class="change-pass-button" *ngIf="checkRole('ADMIN')" mat-flat-button color="primary" (click)="changePassword()">
+          Change password
+        </button>
+      </div>
     </mat-card>
   </div>
 </ng-template>

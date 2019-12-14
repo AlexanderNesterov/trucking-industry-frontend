@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
 import {MatTableDataSource} from '@angular/material';
 import {Subscription} from 'rxjs';
 import {DriverService} from '../../../../services/driver.service';
@@ -10,7 +10,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
   templateUrl: './drivers-info.component.html',
   styleUrls: ['./drivers-info.component.css']
 })
-export class DriversInfoComponent {
+export class DriversInfoComponent implements OnDestroy {
 
   drivers: MatTableDataSource<Driver>;
   driverSubscription: Subscription;
@@ -117,5 +117,11 @@ export class DriversInfoComponent {
     const controlValue = this.driversFormControl.value;
     this.driversFormControl.patchValue(controlValue - 1);
     this.coDriver = undefined;
+  }
+
+  ngOnDestroy(): void {
+    if (this.driverSubscription !== undefined) {
+      this.driverSubscription.unsubscribe();
+    }
   }
 }

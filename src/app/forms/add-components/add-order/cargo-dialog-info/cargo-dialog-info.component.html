@@ -2,17 +2,36 @@
   <mat-step [stepControl]="firstFormGroup">
     <ng-template matStepLabel>Fill out cargo information</ng-template>
     <form [formGroup]="firstFormGroup" class="form">
-      <mat-form-field class="full-width">
-        <input matInput placeholder="Title" formControlName="title">
+
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title">
+        <mat-error *ngIf="titleFormControl.hasError('required')">
+          Required field
+        </mat-error>
+        <mat-error *ngIf="titleFormControl.hasError('maxlength')">
+          Max length is 32 symbols
+        </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="full-width">
-        <input matInput placeholder="Description" formControlName="description">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description">
+        <mat-error *ngIf="descriptionFormControl.hasError('maxLength')">
+          Max length is 256 symbols
+        </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="full-width">
-        <input matInput placeholder="Amount" type="number" formControlName="weight">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Weight</mat-label>
+        <input matInput type="number" formControlName="weight">
         <span matSuffix>kg</span>
+        <mat-error *ngIf="weightFormControl.hasError('required')">
+          Required field
+        </mat-error>
+        <mat-error *ngIf="weightFormControl.hasError('min')">
+          Min value is 1 kg
+        </mat-error>
       </mat-form-field>
 
       <button mat-flat-button matStepperNext color="primary" [disabled]="firstFormGroup.invalid">
@@ -26,8 +45,9 @@
 
     <div class="left">
       <form [formGroup]="secondFormGroup" class="form">
-        <mat-form-field class="full-width">
-          <input type="text" placeholder="Load location" matInput [formControl]="loadFormControl"
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Load location</mat-label>
+          <input type="text" matInput [formControl]="loadFormControl"
                  [matAutocomplete]="autoLoad">
           <mat-autocomplete #autoLoad="matAutocomplete">
             <mat-option *ngFor="let city of filteredLoadCities | async" [value]="city.name + ', ' + city.country"
@@ -37,8 +57,9 @@
           </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field class="full-width">
-          <input type="text" placeholder="Discharge location" matInput [formControl]="dischargeFormControl"
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Discharge location</mat-label>
+          <input type="text" matInput [formControl]="dischargeFormControl"
                  [matAutocomplete]="autoDischarge">
           <mat-autocomplete #autoDischarge="matAutocomplete">
             <mat-option *ngFor="let city of filteredDischargeCities | async" [value]="city.name + ', ' + city.country"

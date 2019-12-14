@@ -24,66 +24,76 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
   driverLicenseExists = false;
   errorMessage = '';
   driver: Driver;
-  subscription: Subscription;
+  driverSubscription: Subscription;
 
-  /*  loginFormControl = new FormControl('', [
-      Validators.required,
-      Validators.maxLength(32)
-    ], loginAsyncValidator(this.userService));*/
   loginFormControl: FormControl;
-
-  passwordFormControl = new FormControl('', [
-    Validators.required,
-    Validators.maxLength(32)
-  ]);
-
-  firstNameFormControl = new FormControl('', [
-    Validators.required,
-    Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
-  ]);
-
-  lastNameFormControl = new FormControl('', [
-    Validators.required,
-    Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
-  ]);
-
-  phoneFormControl = new FormControl('', [
-    Validators.pattern('\\d{11}')
-  ]);
-
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email
-  ]);
-
+  passwordFormControl: FormControl;
+  firstNameFormControl: FormControl;
+  lastNameFormControl: FormControl;
+  phoneFormControl: FormControl;
+  emailFormControl: FormControl;
   driverLicenseFormControl: FormControl;
-  /*  driverLicenseFormControl = new FormControl('', [
-      Validators.required,
-      Validators.pattern('\\d{10}')
-    ], driverLicenseAsyncValidator(this.driverService, null));*/
 
   driverFormGroup: FormGroup;
 
-  /*  driverFormGroup = new FormGroup({
-      login: this.loginFormControl,
-      password: this.passwordFormControl,
-      firstName: this.firstNameFormControl,
-      lastName: this.lastNameFormControl,
-      phone: this.phoneFormControl,
-      email: this.emailFormControl,
-      driverLicense: this.driverLicenseFormControl
-    });*/
+  constructor(private driverService: DriverService, private userService: UserService,
+              private dialog: MatDialog) {
+    this.setUpFormGroup();
+  }
 
-  constructor(private driverService: DriverService, private userService: UserService, private dialog: MatDialog) {
+  ngDoCheck(): void {
+    if (this.loginExists && this.driverFormGroup.controls.login.value !== '') {
+      this.loginExists = false;
+    }
+    if (this.driverLicenseExists && this.driverFormGroup.controls.driverLicense.value !== '') {
+      this.driverLicenseExists = false;
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.driverSubscription !== undefined) {
+      this.driverSubscription.unsubscribe();
+    }
+  }
+
+  setControls() {
     this.loginFormControl = new FormControl('', [
       Validators.required,
       Validators.maxLength(32)
     ], loginAsyncValidator(this.userService));
 
+    this.passwordFormControl = new FormControl('', [
+      Validators.required,
+      Validators.maxLength(32)
+    ]);
+
+    this.firstNameFormControl = new FormControl('', [
+      Validators.required,
+      Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
+    ]);
+
+    this.lastNameFormControl = new FormControl('', [
+      Validators.required,
+      Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
+    ]);
+
+    this.phoneFormControl = new FormControl('', [
+      Validators.pattern('\\d{11}')
+    ]);
+
+    this.emailFormControl = new FormControl('', [
+      Validators.required,
+      Validators.email
+    ]);
+
     this.driverLicenseFormControl = new FormControl('', [
       Validators.required,
       Validators.pattern('\\d{10}')
     ], driverLicenseAsyncValidator(this.driverService, -1));
+  }
+
+  setUpFormGroup() {
+    this.setControls();
 
     this.driverFormGroup = new FormGroup({
       login: this.loginFormControl,
@@ -94,15 +104,6 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
       email: this.emailFormControl,
       driverLicense: this.driverLicenseFormControl
     });
-  }
-
-  ngDoCheck(): void {
-    if (this.loginExists && this.driverFormGroup.controls.login.value !== '') {
-      this.loginExists = false;
-    }
-    if (this.driverLicenseExists && this.driverFormGroup.controls.driverLicense.value !== '') {
-      this.driverLicenseExists = false;
-    }
   }
 
   putData() {
@@ -137,8 +138,9 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
 
       this.putData();
 
-      this.subscription = this.driverService.save(this.driver).subscribe(data => {
+      this.driverSubscription = this.driverService.save(this.driver).subscribe(data => {
         this.isCreated = data;
+
         setTimeout(() => {
           this.isCreated = false;
         }, 3000);
@@ -158,11 +160,5 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
         }
       });
     });
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription !== undefined) {
-      this.subscription.unsubscribe();
-    }
   }
 }

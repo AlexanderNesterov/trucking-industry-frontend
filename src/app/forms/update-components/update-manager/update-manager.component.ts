@@ -1,18 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {ErrorStateMatcher, MatDialog, MatDialogRef} from '@angular/material';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatDialog, MatDialogRef} from '@angular/material';
 import {Subscription} from 'rxjs';
 import {ManagerService} from '../../../services/manager.service';
 import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {ActivatedRoute} from '@angular/router';
 import {Manager} from '../../../models/manager';
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
+import {CustomErrorStateMatcher} from '../../commons/error-state-matcher';
 
 @Component({
   selector: 'app-update-manager',
@@ -21,7 +15,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class UpdateManagerComponent implements OnInit, OnDestroy {
 
-  matcher = new MyErrorStateMatcher();
+  matcher = new CustomErrorStateMatcher();
   updatedManager: Manager = undefined;
   isUpdated = false;
   findSubscription: Subscription;
@@ -50,13 +44,15 @@ export class UpdateManagerComponent implements OnInit, OnDestroy {
     phone: this.phoneFormControl,
   });
 
-  constructor(private managerService: ManagerService, private dialog: MatDialog, private activatedRoute: ActivatedRoute) {
+  constructor(private managerService: ManagerService, private dialog: MatDialog,
+              private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
     const subscription = this.activatedRoute.queryParams.subscribe(param => {
       this.findSubscription = this.managerService.findById(param.id).subscribe((data) => {
         this.updatedManager = data;
+        this.updateControls();
       });
     });
 
@@ -78,11 +74,18 @@ export class UpdateManagerComponent implements OnInit, OnDestroy {
     this.updatedManager.user.phone = changedData === '' ? this.updatedManager.user.phone : changedData;
   }
 
+  updateControls() {
+    this.firstNameFormControl.patchValue(this.updatedManager.user.firstName);
+    this.lastNameFormControl.patchValue(this.updatedManager.user.lastName);
+    this.emailFormControl.patchValue(this.updatedManager.user.email);
+    this.phoneFormControl.patchValue(this.updatedManager.user.phone);
+  }
+
   openDialog(): MatDialogRef<ConfirmationDialogComponent> {
     return this.dialog.open(ConfirmationDialogComponent, {
       data: {
         message: 'edit manager'
-      }, width: '25%', height: '30%'
+      }, width: '17%', height: '19%'
     });
   }
 

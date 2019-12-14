@@ -19,6 +19,7 @@ table {
 
 mat-form-field {
   padding-top: 1%;
+  margin-bottom: 1%;
 }
 
 mat-error {

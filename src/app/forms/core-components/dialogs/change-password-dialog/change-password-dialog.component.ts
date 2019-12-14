@@ -1,24 +1,24 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {ErrorStateMatcher, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {Component, Inject, OnDestroy} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../../services/user.service';
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    return control && control.invalid && (control.dirty || control.touched);
-  }
-}
+import {CustomErrorStateMatcher} from '../../../commons/error-state-matcher';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-change-password-dialog',
   templateUrl: './change-password-dialog.component.html',
   styleUrls: ['./change-password-dialog.component.css']
 })
-export class ChangePasswordDialogComponent {
+export class ChangePasswordDialogComponent implements OnDestroy {
 
   login: string;
-  matcher = new MyErrorStateMatcher();
+  matcher = new CustomErrorStateMatcher();
   hide = true;
+  checking = false;
+  isChanged = false;
+  error = '';
+  subscription: Subscription;
 
   currentPasswordFormControl = new FormControl('', [
     Validators.required,
@@ -29,7 +29,6 @@ export class ChangePasswordDialogComponent {
     Validators.required,
     Validators.minLength(8)
   ]);
-
   passwordFormGroup = new FormGroup({
     currentPassword: this.currentPasswordFormControl,
     newPassword: this.newPasswordFormControl
@@ -43,6 +42,29 @@ export class ChangePasswordDialogComponent {
   changePassword() {
     const currentPassword = this.passwordFormGroup.controls.currentPassword.value;
     const newPassword = this.passwordFormGroup.controls.newPassword.value;
-    this.userService.changeAdminPassword(this.login, currentPassword, newPassword).subscribe();
+    this.error = '';
+    this.checking = true;
+
+    this.subscription = this.userService.changeAdminPassword(this.login, currentPassword, newPassword).subscribe(res => {
+        if (res) {
+          this.isChanged = true;
+        }
+        this.checking = false;
+      }, error => {
+        if (error.status === 401) {
+          this.dialogRef.close();
+        }
+        if (error.error.message === 'Incorrect current password') {
+          this.error = error.error.message;
+        }
+        this.checking = false;
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription !== undefined) {
+      this.subscription.unsubscribe();
+    }
   }
 }

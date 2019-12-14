@@ -3,7 +3,7 @@
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Login</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="login"
-           matInput placeholder="Login" maxlength="32" required>
+           matInput maxlength="32" required>
     <mat-error *ngIf="loginFormControl.hasError('required')">
       Required field
     </mat-error>
@@ -15,7 +15,7 @@
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Password</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="password" matInput maxlength="32"
-           placeholder="Password" [type]="hide ? 'password' : 'text'" required>
+           [type]="hide ? 'password' : 'text'" required>
     <button mat-icon-button matSuffix (click)="hide = !hide">
       <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
     </button>
@@ -27,9 +27,10 @@
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>First name</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="firstName"
-           matInput placeholder="First name" required>
+           matInput required>
+    <mat-hint>Example: Ivan</mat-hint>
     <mat-error *ngIf="firstNameFormControl.hasError('pattern')">
-      Enter a first name in English(not more than 32 symbols)
+      Enter a first name, start with capital letter
     </mat-error>
     <mat-error *ngIf="firstNameFormControl.hasError('required')">
       Required field
@@ -39,9 +40,10 @@
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Last name</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="lastName"
-           matInput placeholder="Last name" required>
+           matInput required>
+    <mat-hint>Example: Ivanov</mat-hint>
     <mat-error *ngIf="lastNameFormControl.hasError('pattern')">
-      Enter a last name in English(not more than 32 symbols)
+      Enter a last name, start with capital letter
     </mat-error>
     <mat-error *ngIf="lastNameFormControl.hasError('required')">
       Required field
@@ -50,7 +52,8 @@
 
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Phone</mat-label>
-    <input [errorStateMatcher]="matcher" formControlName="phone" matInput placeholder="Phone">
+    <input [errorStateMatcher]="matcher" formControlName="phone" matInput>
+    <mat-hint>Example: 88005553535</mat-hint>
     <mat-error *ngIf="phoneFormControl.hasError('pattern')">
       Enter only numbers(not more than 11 symbols)
     </mat-error>
@@ -59,7 +62,8 @@
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Email</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="email"
-           matInput placeholder="Email" required>
+           matInput required>
+    <mat-hint>Example: ivan@ivanov.com</mat-hint>
     <mat-error *ngIf="emailFormControl.hasError('pattern')">
       Enter a valid email
     </mat-error>
@@ -68,7 +72,7 @@
     </mat-error>
   </mat-form-field>
 
-  <p *ngIf="isCreated">User has been created</p>
+  <p *ngIf="isCreated">Manager has been created</p>
   <p *ngIf="loginExists" class="mat-error">{{errorMessage}}</p>
 
   <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!managerFormGroup.valid" value="bold">

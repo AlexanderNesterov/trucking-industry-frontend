@@ -22,42 +22,40 @@ export class AddTruckComponent implements DoCheck, OnDestroy {
   truck: Truck;
   subscription: Subscription;
 
-  /*registrationNumberFormControl = new FormControl('', [
-    Validators.required,
-    Validators.pattern('[A-Z]{2}\\d{5}')
-  ], registrationNumberAsyncValidator(this.truckService));*/
-
   registrationNumberFormControl: FormControl;
-
-  modelFormControl = new FormControl('', [
-    Validators.required,
-    Validators.maxLength(32)
-  ]);
-
-  capacityFormControl = new FormControl('', [
-    Validators.required,
-    Validators.pattern('\\d+\\.?\\d*')
-  ]);
-
-  /*  truckFormGroup = new FormGroup({
-      registrationNumber: this.registrationNumberFormControl,
-      model: this.modelFormControl,
-      capacity: this.capacityFormControl
-    });*/
+  modelFormControl: FormControl;
+  capacityFormControl: FormControl;
 
   truckFormGroup: FormGroup;
 
   constructor(private truckService: TruckService, private dialog: MatDialog) {
-    this.registrationNumberFormControl = new FormControl('', [
-      Validators.required,
-      Validators.pattern('[A-Z]{2}\\d{5}')
-    ], registrationNumberAsyncValidator(this.truckService, -1));
+    this.setFormGroup();
+  }
 
+  setFormGroup() {
+    this.setControls();
     this.truckFormGroup = new FormGroup({
       registrationNumber: this.registrationNumberFormControl,
       model: this.modelFormControl,
       capacity: this.capacityFormControl
     });
+  }
+
+  setControls() {
+    this.registrationNumberFormControl = new FormControl('', [
+      Validators.required,
+      Validators.pattern('[A-Z]{2}\\d{5}')
+    ], registrationNumberAsyncValidator(this.truckService, -1));
+
+    this.modelFormControl = new FormControl('', [
+      Validators.required,
+      Validators.maxLength(32)
+    ]);
+
+    this.capacityFormControl = new FormControl('', [
+      Validators.required,
+      Validators.pattern('\\d+\\.?\\d*')
+    ]);
   }
 
   ngDoCheck(): void {

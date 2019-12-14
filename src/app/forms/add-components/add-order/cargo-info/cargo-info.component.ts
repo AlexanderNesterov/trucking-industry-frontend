@@ -10,6 +10,7 @@ import {Cargo} from '../../../../models/cargo';
 import {PermissionService} from '../../../../services/permision.service';
 import {City} from '../../../../models/city';
 import {LatLngBoundsLiteral} from '@agm/core';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-cargo-info',

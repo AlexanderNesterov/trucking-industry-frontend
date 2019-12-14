@@ -3,8 +3,9 @@ import {Driver} from '../../../models/driver';
 import {DriverService} from '../../../services/driver.service';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
-import {MatBottomSheet} from '@angular/material';
 import {UserService} from '../../../services/user.service';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-driver-list',
@@ -15,13 +16,14 @@ export class DriverListComponent implements OnInit, OnDestroy {
 
   drivers: Driver[];
   displayedColumns: string[] = ['id', 'name', 'driverLicense', 'contact', 'statuses', 'action'];
-  subscription: Subscription;
+  driverSubscription: Subscription;
+  userSubscription: Subscription;
   page = 1;
   size = 10;
   textSearch = '';
 
   constructor(private driverService: DriverService, private router: Router,
-              private bottomSheet: MatBottomSheet, private userService: UserService) {
+              private userService: UserService, private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -33,19 +35,31 @@ export class DriverListComponent implements OnInit, OnDestroy {
   }
 
   blockAccount(userId: number, driverId: number) {
-    this.driverService.blockDriverAccount(userId, driverId).subscribe(res => {
-      this.getDrivers();
+    this.openDialog('block account').afterClosed().subscribe(res => {
+      if (!res) {
+        return;
+      }
+
+      this.driverSubscription = this.driverService.blockDriverAccount(userId, driverId).subscribe(() => {
+        this.getDrivers();
+      });
     });
   }
 
   unlockAccount(userId: number) {
-    this.userService.unlockAccount(userId).subscribe(res => {
-      this.getDrivers();
+    this.openDialog('unlock account').afterClosed().subscribe(res => {
+      if (!res) {
+        return;
+      }
+
+      this.userSubscription = this.userService.unlockAccount(userId).subscribe(() => {
+        this.getDrivers();
+      });
     });
   }
 
   getDrivers() {
-    this.subscription = this.driverService.getDrivers(this.textSearch, this.page, this.size).subscribe(res => {
+    this.driverSubscription = this.driverService.getDrivers(this.textSearch, this.page, this.size).subscribe(res => {
       this.drivers = res;
     });
   }
@@ -72,9 +86,22 @@ export class DriverListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/add-driver']);
   }
 
+  openDialog(message: string): MatDialogRef<ConfirmationDialogComponent> {
+    return this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        message
+      }, width: '17%', height: '19%'
+    });
+  }
+
   ngOnDestroy(): void {
-    if (this.subscription !== undefined) {
-      this.subscription.unsubscribe();
+    if (this.driverSubscription !== undefined) {
+      this.driverSubscription.unsubscribe();
+    }
+
+
+    if (this.userSubscription !== undefined) {
+      this.userSubscription.unsubscribe();
     }
   }
 }

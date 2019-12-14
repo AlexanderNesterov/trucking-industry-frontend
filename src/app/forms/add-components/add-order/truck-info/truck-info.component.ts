@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Truck} from '../../../../models/truck';
 import {Subscription} from 'rxjs';
@@ -10,7 +10,7 @@ import {MatTableDataSource} from '@angular/material';
   templateUrl: './truck-info.component.html',
   styleUrls: ['./truck-info.component.css']
 })
-export class TruckInfoComponent {
+export class TruckInfoComponent implements OnDestroy {
 
   trucks: MatTableDataSource<Truck>;
   truckSubscription: Subscription;
@@ -47,11 +47,10 @@ export class TruckInfoComponent {
     this.getTrucks();
   }
 
-  private getTrucks() {
-    this.truckSubscription = this.truckService
+  getTrucks() {
+    this.truckSubscription = this.truckSubscription = this.truckService
       .getFreeTrucks(this.orderWeight, this.textSearch, this.page, this.size).subscribe(data => {
         this.trucks = new MatTableDataSource(data);
-        console.log('Trucks: ', this.trucks);
       });
   }
 
@@ -85,5 +84,11 @@ export class TruckInfoComponent {
   deleteTruck() {
     this.selectedTruck = undefined;
     this.secondFormGroup.patchValue({truck: false});
+  }
+
+  ngOnDestroy(): void {
+    if (this.truckSubscription !== undefined) {
+      this.truckSubscription.unsubscribe();
+    }
   }
 }

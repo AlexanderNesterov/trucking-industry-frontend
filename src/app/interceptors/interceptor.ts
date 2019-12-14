@@ -7,7 +7,10 @@ import {Router} from '@angular/router';
 @Injectable()
 export class Interceptor implements HttpInterceptor {
 
-  constructor(private router: Router) {}
+  private cityUrl = 'http://geodb-free-service.wirefreethought.com/v1/geo/cities';
+
+  constructor(private router: Router) {
+  }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let cloneReq = req.clone(
@@ -29,11 +32,12 @@ export class Interceptor implements HttpInterceptor {
       return next.handle(cloneReq).pipe(
         catchError(err => {
           if (err instanceof HttpErrorResponse && err.status === 401 || err.statusText === 'Unknown Error') {
-            localStorage.clear();
-            this.router.navigate(['/login']);
-            return throwError(err);
+            if (err.url !== this.cityUrl) {
+              localStorage.clear();
+              this.router.navigate(['/login']);
+            }
           }
-
+          console.log('++++');
           return throwError(err);
         })
       );

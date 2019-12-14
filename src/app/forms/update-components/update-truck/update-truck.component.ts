@@ -25,46 +25,25 @@ export class UpdateTruckComponent implements OnInit, OnDestroy {
   oldTruck: Truck;
   newTruck: Truck;
   isUpdated = false;
+  truckId: number;
   errorMessage = '';
   updateSubscription: Subscription;
   findSubscription: Subscription;
 
-  /*registrationNumberFormControl = new FormControl('', [
-    Validators.pattern('[A-Z]{2}\\d{5}')
-  ]);*/
-
   registrationNumberFormControl: FormControl;
-
-  modelFormControl = new FormControl('', [
-    Validators.maxLength(32)
-  ]);
-
-  capacityFormControl = new FormControl('', [
-    Validators.pattern('\\d+\\.?\\d*')
-  ]);
-
-/*  truckFormGroup = new FormGroup({
-    registrationNumber: this.registrationNumberFormControl,
-    model: this.modelFormControl,
-    capacity: this.capacityFormControl
-  });*/
+  modelFormControl: FormControl;
+  capacityFormControl: FormControl;
 
   truckFormGroup: FormGroup;
 
-  constructor(private truckService: TruckService, private dialog: MatDialog, private activatedRoute: ActivatedRoute) {
+  constructor(private truckService: TruckService, private dialog: MatDialog,
+              private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     const subscription = this.activatedRoute.queryParams.subscribe(param => {
-      this.registrationNumberFormControl = new FormControl('', [
-        Validators.pattern('[A-Z]{2}\\d{5}')
-      ], registrationNumberAsyncValidator(this.truckService, param.id));
-
-      this.truckFormGroup = new FormGroup({
-        registrationNumber: this.registrationNumberFormControl,
-        model: this.modelFormControl,
-        capacity: this.capacityFormControl
-      });
+      this.truckId = param.id;
+      this.setFormGroup();
 
       this.findSubscription = this.truckService.findById(param.id).subscribe(data => {
         this.oldTruck = data;
@@ -72,6 +51,30 @@ export class UpdateTruckComponent implements OnInit, OnDestroy {
     });
 
     subscription.unsubscribe();
+  }
+
+  setFormGroup() {
+    this.setControls();
+
+    this.truckFormGroup = new FormGroup({
+      registrationNumber: this.registrationNumberFormControl,
+      model: this.modelFormControl,
+      capacity: this.capacityFormControl
+    });
+  }
+
+  setControls() {
+    this.registrationNumberFormControl = new FormControl('', [
+      Validators.pattern('[A-Z]{2}\\d{5}')
+    ], registrationNumberAsyncValidator(this.truckService, this.truckId));
+
+    this.modelFormControl = new FormControl('', [
+      Validators.maxLength(32)
+    ]);
+
+    this.capacityFormControl = new FormControl('', [
+      Validators.pattern('\\d+\\.?\\d*')
+    ]);
   }
 
   putData() {

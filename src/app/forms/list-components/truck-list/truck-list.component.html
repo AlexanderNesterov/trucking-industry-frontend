@@ -54,7 +54,9 @@
         <mat-menu #menu="matMenu">
           <button *ngIf="canUpdate" mat-menu-item (click)="updateTruck(truck.id)">Edit</button>
           <button *ngIf="truck.condition === 'SERVICEABLE'" mat-menu-item (click)="setBroken(truck.id)">Broken</button>
-          <button *ngIf="truck.condition === 'BROKEN'" mat-menu-item (click)="setServiceable(truck.id)">Serviceable</button>
+          <button *ngIf="truck.condition === 'BROKEN'" mat-menu-item (click)="setServiceable(truck.id)">
+            Serviceable
+          </button>
         </mat-menu>
       </td>
     </ng-container>

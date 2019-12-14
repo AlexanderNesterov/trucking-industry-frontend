@@ -55,7 +55,9 @@
           <button mat-menu-item (click)="updateDriver(driver.id)">Edit</button>
           <button mat-menu-item *ngIf="driver.status === 'REST' && driver.user.status === 'ACTIVE'"
                   (click)="blockAccount(driver.user.id, driver.id)">Block</button>
-          <button mat-menu-item *ngIf="driver.user.status === 'BLOCKED'" (click)="unlockAccount(driver.user.id)">Unlock</button>
+          <button mat-menu-item *ngIf="driver.user.status === 'BLOCKED'" (click)="unlockAccount(driver.user.id)">
+            Unlock
+          </button>
         </mat-menu>
       </td>
     </ng-container>

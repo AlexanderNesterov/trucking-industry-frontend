@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OrderService} from '../../../services/order.service';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatDialogRef} from '@angular/material';
 import {CargoDetailDialogComponent} from '../../core-components/dialogs/cargo-detail-dialog/cargo-detail-dialog.component';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {Order} from '../../../models/order';
+import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-order-list',
@@ -20,7 +21,8 @@ export class OrderListComponent implements OnInit, OnDestroy {
   page = 1;
   size = 10;
 
-  constructor(private orderService: OrderService, private router: Router, private dialog: MatDialog) {
+  constructor(private orderService: OrderService, private router: Router,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -33,7 +35,6 @@ export class OrderListComponent implements OnInit, OnDestroy {
 
   getOrders() {
     this.subscription = this.orderService.getOrders(this.textSearch, this.page, this.size).subscribe((data: Order[]) => {
-      console.log(data);
       this.orderList = data;
     });
   }
@@ -73,11 +74,24 @@ export class OrderListComponent implements OnInit, OnDestroy {
   }
 
   cancel(id: number) {
-    this.orderService.setCancelStatus(id).subscribe(res => {
-      if (res) {
-        this.orderList.find(cargo => cargo.id === id).status = 'CANCELED';
+    this.openConfirmationDialog().afterClosed().subscribe(res => {
+      if (!res) {
+        return;
       }
-      console.log(res);
+
+      this.orderService.setCancelStatus(id).subscribe(res => {
+        if (res) {
+          this.getOrders();
+        }
+      });
+    });
+  }
+
+  openConfirmationDialog(): MatDialogRef<ConfirmationDialogComponent> {
+    return this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        message: 'cancel the order'
+      }, width: '17%', height: '19%'
     });
   }
 

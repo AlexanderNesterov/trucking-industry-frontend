@@ -2,26 +2,21 @@ import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {Driver} from '../../../models/driver';
 import {DriverService} from '../../../services/driver.service';
 import {ActivatedRoute} from '@angular/router';
-import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {ErrorStateMatcher, MatDialog, MatDialogRef} from '@angular/material';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatDialog, MatDialogRef} from '@angular/material';
 import {Subscription} from 'rxjs';
 import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {driverLicenseAsyncValidator} from '../../commons/async.validators';
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    return control && control.invalid && (control.dirty || control.touched);
-  }
-}
+import {CustomErrorStateMatcher} from '../../commons/error-state-matcher';
 
 @Component({
   selector: 'app-update-driver',
   templateUrl: './update-driver.component.html',
   styleUrls: ['./update-driver.component.css']
 })
-export class UpdateDriverComponent implements OnInit, OnDestroy, DoCheck {
+export class UpdateDriverComponent implements OnDestroy, DoCheck {
 
-  matcher = new MyErrorStateMatcher();
+  matcher = new CustomErrorStateMatcher();
   driverLicenseExists = false;
   errorMessage = '';
   updatedDriver: Driver = undefined;
@@ -31,56 +26,21 @@ export class UpdateDriverComponent implements OnInit, OnDestroy, DoCheck {
 
   driverId: number;
 
-  firstNameFormControl = new FormControl('', [
-    Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
-  ]);
-
-  lastNameFormControl = new FormControl('', [
-    Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
-  ]);
-
-  emailFormControl = new FormControl('', [
-    Validators.email
-  ]);
-
-  phoneFormControl = new FormControl('', [
-    Validators.pattern('\\d{11}')
-  ]);
-
+  firstNameFormControl: FormControl;
+  lastNameFormControl: FormControl;
+  emailFormControl: FormControl;
+  phoneFormControl: FormControl;
   driverLicenseFormControl: FormControl;
 
-  /*driverLicenseFormControl = new FormControl('', [
-    Validators.pattern('\\d{10}')
-  ], driverLicenseAsyncValidator(this.driverService, this.driverId));*/
-
   driverFormGroup: FormGroup;
-
-  /*  driverFormGroup = new FormGroup({
-      firstName: this.firstNameFormControl,
-      lastName: this.lastNameFormControl,
-      email: this.emailFormControl,
-      phone: this.phoneFormControl,
-      driverLicense: this.driverLicenseFormControl
-    });*/
 
   constructor(private driverService: DriverService, private dialog: MatDialog, private activatedRoute: ActivatedRoute) {
     const subscription = this.activatedRoute.queryParams.subscribe(param => {
       this.driverId = param.id;
+      this.setFormGroup();
 
-      this.driverLicenseFormControl = new FormControl('', [
-        Validators.pattern('\\d{10}')
-      ], driverLicenseAsyncValidator(this.driverService, this.driverId));
-
-      this.driverFormGroup = new FormGroup({
-        firstName: this.firstNameFormControl,
-        lastName: this.lastNameFormControl,
-        email: this.emailFormControl,
-        phone: this.phoneFormControl,
-        driverLicense: this.driverLicenseFormControl
-      });
       this.findSubscription = this.driverService.findById(param.id).subscribe((data) => {
         this.updatedDriver = data;
-
         this.updateControls();
       });
     });
@@ -88,11 +48,41 @@ export class UpdateDriverComponent implements OnInit, OnDestroy, DoCheck {
     subscription.unsubscribe();
   }
 
-  ngOnInit() {
+  setFormGroup() {
+    this.setControls();
 
+    this.driverFormGroup = new FormGroup({
+      firstName: this.firstNameFormControl,
+      lastName: this.lastNameFormControl,
+      email: this.emailFormControl,
+      phone: this.phoneFormControl,
+      driverLicense: this.driverLicenseFormControl
+    });
   }
 
-  private updateControls() {
+  setControls() {
+    this.firstNameFormControl = new FormControl('', [
+      Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
+    ]);
+
+    this.lastNameFormControl = new FormControl('', [
+      Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
+    ]);
+
+    this.emailFormControl = new FormControl('', [
+      Validators.email
+    ]);
+
+    this.phoneFormControl = new FormControl('', [
+      Validators.pattern('\\d{11}')
+    ]);
+
+    this.driverLicenseFormControl = new FormControl('', [
+      Validators.pattern('\\d{10}')
+    ], driverLicenseAsyncValidator(this.driverService, this.driverId));
+  }
+
+  updateControls() {
     this.firstNameFormControl.patchValue(this.updatedDriver.user.firstName);
     this.lastNameFormControl.patchValue(this.updatedDriver.user.lastName);
     this.emailFormControl.patchValue(this.updatedDriver.user.email);
@@ -127,7 +117,7 @@ export class UpdateDriverComponent implements OnInit, OnDestroy, DoCheck {
     return this.dialog.open(ConfirmationDialogComponent, {
       data: {
         message: 'edit driver'
-      }, width: '25%', height: '30%'
+      }, width: '17%', height: '19%'
     });
   }
 

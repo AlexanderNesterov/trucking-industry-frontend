@@ -3,6 +3,8 @@ import {Truck} from '../../../models/truck';
 import {TruckService} from '../../../services/truck.service';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-truck-list',
@@ -19,7 +21,8 @@ export class TruckListComponent implements OnInit, OnDestroy {
   page = 1;
   size = 10;
 
-  constructor(private truckService: TruckService, private router: Router) {
+  constructor(private truckService: TruckService, private router: Router,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -62,12 +65,6 @@ export class TruckListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/update-truck'], {queryParams: {id}});
   }
 
-  ngOnDestroy(): void {
-    if (this.subscription !== undefined) {
-      this.subscription.unsubscribe();
-    }
-  }
-
   checkToUpdate(id: number) {
     this.canUpdate = false;
     this.truckService.canUpdateTruck(id).subscribe(res => {
@@ -76,14 +73,40 @@ export class TruckListComponent implements OnInit, OnDestroy {
   }
 
   setBroken(id: number) {
-    this.truckService.setBrokenCondition(id).subscribe(res => {
-      this.getTrucks();
+    this.openDialog('set broken status').afterClosed().subscribe(res => {
+      if (!res) {
+        return;
+      }
+
+      this.truckService.setBrokenCondition(id).subscribe(() => {
+        this.getTrucks();
+      });
     });
   }
 
   setServiceable(id: number) {
-    this.truckService.setServiceableCondition(id).subscribe(res => {
-      this.getTrucks();
+    this.openDialog('set serviceable status').afterClosed().subscribe(res => {
+      if (!res) {
+        return;
+      }
+
+      this.truckService.setServiceableCondition(id).subscribe(() => {
+        this.getTrucks();
+      });
     });
+  }
+
+  openDialog(message: string): MatDialogRef<ConfirmationDialogComponent> {
+    return this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        message
+      }, width: '17%', height: '19%'
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription !== undefined) {
+      this.subscription.unsubscribe();
+    }
   }
 }

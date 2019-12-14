@@ -6,6 +6,7 @@ import {map, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {Cargo} from '../../../../models/cargo';
 import {LatLngBoundsLiteral} from '@agm/core';
+import {CustomErrorStateMatcher} from '../../../commons/error-state-matcher';
 
 @Component({
   selector: 'app-cargo-dialog-info',
@@ -14,6 +15,7 @@ import {LatLngBoundsLiteral} from '@agm/core';
 })
 export class CargoDialogInfoComponent implements OnInit {
 
+  matcher = new CustomErrorStateMatcher();
   cities: City[];
   updatingCargo: Cargo;
   loadLoc: City;
@@ -61,21 +63,19 @@ export class CargoDialogInfoComponent implements OnInit {
   ngOnInit() {
     this.filteredLoadCities = this.loadFormControl.valueChanges
       .pipe(
-        // startWith(''),
         tap(() => {
           this.loadLoc = undefined;
           this.checkCities();
         }),
-        map(value => this._loadFilter(value))
+        map(value => this.loadFilter(value))
       );
     this.filteredDischargeCities = this.dischargeFormControl.valueChanges
       .pipe(
-        // startWith(''),
         tap(() => {
           this.dischargeLoc = undefined;
           this.checkCities();
         }),
-        map(value => this._dischargeFilter(value))
+        map(value => this.dischargeFilter(value))
       );
 
     if (this.updatingCargo !== null) {
@@ -99,15 +99,13 @@ export class CargoDialogInfoComponent implements OnInit {
     this.secondFormGroup.patchValue({cities: true});
   }
 
-  private _loadFilter(value: string): City[] {
+  loadFilter(value: string): City[] {
     const filterValue = value.toLowerCase();
-
     return this.cities.filter(option => (option.name.toLowerCase() + ', ' + option.country.toLowerCase()).includes(filterValue));
   }
 
-  private _dischargeFilter(value: string): City[] {
+  dischargeFilter(value: string): City[] {
     const filterValue = value.toLowerCase();
-
     return this.cities.filter(option => (option.name.toLowerCase() + ', ' + option.country.toLowerCase()).includes(filterValue));
   }
 

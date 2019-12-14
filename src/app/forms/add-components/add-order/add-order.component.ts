@@ -1,10 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Truck} from '../../../models/truck';
-import {TruckService} from '../../../services/truck.service';
 import {Cargo} from '../../../models/cargo';
 import {MatDialog, MatDialogRef, MatStepper} from '@angular/material';
-import {DriverService} from '../../../services/driver.service';
 import {OrderService} from '../../../services/order.service';
 import {Subscription} from 'rxjs';
 import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -28,7 +26,7 @@ export class AddCargoComponent implements OnDestroy {
   isThirdGroupValid = false;
   totalWeight = 0;
   isCreated = false;
-  cargoSubscription: Subscription;
+  orderSubscription: Subscription;
 
   firstFormGroup = new FormGroup({
     isDone: new FormControl('', Validators.requiredTrue)
@@ -42,8 +40,7 @@ export class AddCargoComponent implements OnDestroy {
     isDone: new FormControl('', Validators.requiredTrue)
   });
 
-  constructor(private truckService: TruckService, private driverService: DriverService,
-              private orderService: OrderService, private dialog: MatDialog) {
+  constructor(private orderService: OrderService, private dialog: MatDialog) {
   }
 
   setUpFirstFormGroup(cargoList: Cargo[], stepper: MatStepper) {
@@ -97,7 +94,7 @@ export class AddCargoComponent implements OnDestroy {
         return;
       }
 
-      this.cargoSubscription = this.orderService.addOrder(this.order).subscribe(data => {
+      this.orderSubscription = this.orderSubscription = this.orderService.addOrder(this.order).subscribe(data => {
         this.isCreated = data;
       });
     });
@@ -107,13 +104,13 @@ export class AddCargoComponent implements OnDestroy {
     return this.dialog.open(ConfirmationDialogComponent, {
       data: {
         message: 'add a new cargo'
-      }, width: '25%', height: '30%'
+      }, width: '17%', height: '19%'
     });
   }
 
   ngOnDestroy(): void {
-    if (this.cargoSubscription !== undefined) {
-      this.cargoSubscription.unsubscribe();
+    if (this.orderSubscription !== undefined) {
+      this.orderSubscription.unsubscribe();
     }
   }
 }

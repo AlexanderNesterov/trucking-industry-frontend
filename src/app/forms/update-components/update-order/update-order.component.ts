@@ -30,7 +30,7 @@ export class UpdateOrderComponent implements OnInit, OnDestroy {
   isThirdGroupValid = false;
   totalWeight = 0;
   isCreated = false;
-  cargoSubscription: Subscription;
+  orderSubscription: Subscription;
 
   firstFormGroup = new FormGroup({
     isDone: new FormControl('', Validators.requiredTrue)
@@ -110,7 +110,7 @@ export class UpdateOrderComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.cargoSubscription = this.orderService.updateOrder(this.order).subscribe(data => {
+      this.orderSubscription = this.orderService.updateOrder(this.order).subscribe(data => {
         this.isCreated = data;
       });
     });
@@ -120,13 +120,13 @@ export class UpdateOrderComponent implements OnInit, OnDestroy {
     return this.dialog.open(ConfirmationDialogComponent, {
       data: {
         message: 'add a new cargo'
-      }, width: '25%', height: '30%'
+      }, width: '17%', height: '19%'
     });
   }
 
   ngOnDestroy(): void {
-    if (this.cargoSubscription !== undefined) {
-      this.cargoSubscription.unsubscribe();
+    if (this.orderSubscription !== undefined) {
+      this.orderSubscription.unsubscribe();
     }
   }
 }

@@ -3,35 +3,35 @@
 
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>First name</mat-label>
-      <input [errorStateMatcher]="matcher" formControlName="firstName" matInput
-             placeholder="First name" [value]="updatedManager.user.firstName">
+      <input [errorStateMatcher]="matcher" formControlName="firstName" matInput>
+      <mat-hint>Example: Ivan</mat-hint>
       <mat-error *ngIf="firstNameFormControl.hasError('pattern')">
-        Enter a first name in English(not more than 32 symbols)
+        Enter a first name, start with capital letter
       </mat-error>
     </mat-form-field>
 
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Last name</mat-label>
-      <input [errorStateMatcher]="matcher" formControlName="lastName" matInput
-             placeholder="Last name" [value]="updatedManager.user.lastName">
+      <input [errorStateMatcher]="matcher" formControlName="lastName" matInput>
+      <mat-hint>Example: Ivanov</mat-hint>
       <mat-error *ngIf="lastNameFormControl.hasError('pattern')">
-        Enter a last name in English(not more than 32 symbols)
+        Enter a last name, start with capital letter
       </mat-error>
     </mat-form-field>
 
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Phone</mat-label>
-      <input [errorStateMatcher]="matcher" formControlName="phone" matInput
-             placeholder="Phone" [value]="updatedManager.user.phone">
+      <input [errorStateMatcher]="matcher" formControlName="phone" matInput>
+      <mat-hint>Example: 88005553535</mat-hint>
       <mat-error *ngIf="phoneFormControl.hasError('pattern')">
-        Enter only numbers(not more than 11 symbols)
+        Enter only numbers
       </mat-error>
     </mat-form-field>
 
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Email</mat-label>
-      <input [errorStateMatcher]="matcher" formControlName="email" matInput
-             placeholder="Email" [value]="updatedManager.user.email">
+      <input [errorStateMatcher]="matcher" formControlName="email" matInput>
+      <mat-hint>Example: ivan@ivanov.com</mat-hint>
       <mat-error *ngIf="emailFormControl.hasError('pattern')">
         Enter a valid email
       </mat-error>

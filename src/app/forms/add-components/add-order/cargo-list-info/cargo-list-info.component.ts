@@ -1,16 +1,17 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, Output} from '@angular/core';
 import {Cargo} from '../../../../models/cargo';
 import {CityService} from '../../../../services/city.service';
 import {City} from '../../../../models/city';
 import {MatDialog} from '@angular/material';
 import {CargoDialogInfoComponent} from '../cargo-dialog-info/cargo-dialog-info.component';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-cargo-list-info',
   templateUrl: './cargo-list-info.component.html',
   styleUrls: ['./cargo-list-info.component.css']
 })
-export class CargoListInfoComponent {
+export class CargoListInfoComponent implements OnDestroy{
 
   @Output()
   onValidFirstGroup = new EventEmitter<Cargo[]>();
@@ -19,11 +20,11 @@ export class CargoListInfoComponent {
   cities: City[];
   totalWeight = 0;
   cargoLimit = 5;
+  subscription: Subscription;
 
   constructor(private cityService: CityService, private dialog: MatDialog) {
-    this.cityService.findAll().subscribe(res => {
+    this.subscription = this.cityService.findAll().subscribe(res => {
       this.cities = res;
-      console.log(this.cities);
     });
   }
 
@@ -38,7 +39,7 @@ export class CargoListInfoComponent {
       data: {
         cities: this.cities,
         updatingCargo
-      }, width: '50%'
+      }, width: '53%'
     }).afterClosed().subscribe(res => {
       if (res !== undefined) {
         if (updatingCargo !== null) {
@@ -62,5 +63,11 @@ export class CargoListInfoComponent {
 
   updateCargo(updatingCargo: Cargo) {
     this.openDialog(updatingCargo);
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription !== undefined) {
+      this.subscription.unsubscribe();
+    }
   }
 }

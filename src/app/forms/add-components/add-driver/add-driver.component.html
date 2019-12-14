@@ -3,19 +3,19 @@
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Login</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="login" matInput
-           placeholder="Login" maxlength="32" required>
+           maxlength="32" required>
     <mat-error *ngIf="loginFormControl.hasError('required')">
       Required field
     </mat-error>
     <mat-error *ngIf="loginFormControl.hasError('loginExist')">
-      User with login {{loginFormControl.value}} already exists
+      User with login {{loginFormControl.value}} already exist
     </mat-error>
   </mat-form-field>
 
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Password</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="password" matInput minlength="8" maxlength="32"
-           placeholder="Password" [type]="hide ? 'password' : 'text'" required>
+           [type]="hide ? 'password' : 'text'" required>
     <button mat-icon-button matSuffix (click)="hide = !hide">
       <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
     </button>
@@ -26,10 +26,10 @@
 
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>First Name</mat-label>
-    <input [errorStateMatcher]="matcher" formControlName="firstName" matInput
-           placeholder="First name" required>
+    <input [errorStateMatcher]="matcher" formControlName="firstName" matInput required>
+    <mat-hint>Example: Ivan</mat-hint>
     <mat-error *ngIf="firstNameFormControl.hasError('pattern')">
-      Enter a first name in English(not more than 32 symbols)
+      Enter a first name, start with capital letter
     </mat-error>
     <mat-error *ngIf="firstNameFormControl.hasError('required')">
       Required field
@@ -38,10 +38,10 @@
 
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Last Name</mat-label>
-    <input [errorStateMatcher]="matcher" formControlName="lastName" matInput
-           placeholder="Last name" required>
+    <input [errorStateMatcher]="matcher" formControlName="lastName" matInput required>
+    <mat-hint>Example: Ivanov</mat-hint>
     <mat-error *ngIf="lastNameFormControl.hasError('pattern')">
-      Enter a last name in English(not more than 32 symbols)
+      Enter a last name, start with capital letter
     </mat-error>
     <mat-error *ngIf="lastNameFormControl.hasError('required')">
       Required field
@@ -50,17 +50,17 @@
 
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Phone</mat-label>
-    <input [errorStateMatcher]="matcher" formControlName="phone" matInput
-           placeholder="Phone">
+    <input [errorStateMatcher]="matcher" formControlName="phone" matInput>
+    <mat-hint>88005553535</mat-hint>
     <mat-error *ngIf="phoneFormControl.hasError('pattern')">
-      Enter only numbers(not more than 11 symbols)
+      Enter only numbers
     </mat-error>
   </mat-form-field>
 
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Email</mat-label>
-    <input [errorStateMatcher]="matcher" formControlName="email" matInput
-           placeholder="Email" required>
+    <input [errorStateMatcher]="matcher" formControlName="email" matInput required>
+    <mat-hint>Example: ivan@ivanov.com</mat-hint>
     <mat-error *ngIf="emailFormControl.hasError('pattern')">
       Enter a valid email
     </mat-error>
@@ -71,8 +71,8 @@
 
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Driver License</mat-label>
-    <input [errorStateMatcher]="matcher" formControlName="driverLicense" matInput
-           placeholder="Driver license" required>
+    <input [errorStateMatcher]="matcher" formControlName="driverLicense" matInput required>
+    <mat-hint>Example: 1057288282</mat-hint>
     <mat-error *ngIf="driverLicenseFormControl.hasError('pattern')">
       Enter 10 numbers
     </mat-error>
@@ -80,7 +80,7 @@
       Required field
     </mat-error>
     <mat-error *ngIf="driverLicenseFormControl.hasError('driverLicenseExist')">
-      Driver with driver license {{driverLicenseFormControl.value}} already exists
+      Driver with driver license {{driverLicenseFormControl.value}} already exist
     </mat-error>
   </mat-form-field>
 

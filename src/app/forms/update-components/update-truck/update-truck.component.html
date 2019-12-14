@@ -3,8 +3,8 @@
 
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Registration number</mat-label>
-      <input [errorStateMatcher]="matcher" formControlName="registrationNumber" matInput
-             placeholder="Registration number" [value]="oldTruck.registrationNumber">
+      <input [errorStateMatcher]="matcher" formControlName="registrationNumber" matInput>
+      <mat-hint>Example: KL90232</mat-hint>
       <mat-error *ngIf="registrationNumberFormControl.hasError('pattern')">
         Enter a number in format АА12345
       </mat-error>
@@ -13,30 +13,22 @@
       </mat-error>
     </mat-form-field>
 
-    <br>
-
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Model</mat-label>
-      <input [errorStateMatcher]="matcher" formControlName="model" matInput
-             placeholder="Model" [value]="oldTruck.model">
+      <input [errorStateMatcher]="matcher" formControlName="model" matInput>
       <mat-error *ngIf="modelFormControl.hasError('maxLength')">
         Length not more than 32
       </mat-error>
     </mat-form-field>
 
-    <br>
-
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Capacity</mat-label>
-      <input [errorStateMatcher]="matcher" formControlName="capacity" matInput
-             placeholder="Capacity" [value]="oldTruck.capacity">
+      <input [errorStateMatcher]="matcher" formControlName="capacity" matInput>
       <span matSuffix>kg</span>
       <mat-error *ngIf="capacityFormControl.hasError('pattern')">
         Enter number in format 2.5
       </mat-error>
     </mat-form-field>
-
-    <br>
 
     <p *ngIf="isUpdated">Truck has been updated</p>
     <p *ngIf="errorMessage !== ''" class="mat-error">{{errorMessage}}</p>

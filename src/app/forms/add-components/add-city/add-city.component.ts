@@ -1,22 +1,24 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatBottomSheet} from '@angular/material';
+import {MatBottomSheet, MatDialog, MatDialogRef} from '@angular/material';
 import {CityService} from '../../../services/city.service';
 import {City} from '../../../models/city';
 import {CityBottomSheetComponent} from './city-bottom-sheet/city-bottom-sheet.component';
+import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-add-city',
   templateUrl: './add-city.component.html',
   styleUrls: ['./add-city.component.css']
 })
-export class AddCityComponent {
+export class AddCityComponent implements OnDestroy {
 
   cities: City[];
   addingCity: City;
   displayedColumns: string[] = ['name', 'country', 'action'];
-  subscription: Subscription;
+  citySubscription: Subscription;
+  dialogSubscription: Subscription;
   isEmptyList = false;
   isCreated = false;
   errorMessage = '';
@@ -27,7 +29,18 @@ export class AddCityComponent {
     city: this.cityFormControl
   });
 
-  constructor(private cityService: CityService, private bottomSheet: MatBottomSheet) {
+  constructor(private cityService: CityService, private bottomSheet: MatBottomSheet,
+              private dialog: MatDialog) {
+  }
+
+  ngOnDestroy(): void {
+    if (this.citySubscription !== undefined) {
+      this.citySubscription.unsubscribe();
+    }
+
+    if (this.dialogSubscription !== undefined) {
+      this.dialogSubscription.unsubscribe();
+    }
   }
 
   openBottomSheet(city: any): void {
@@ -43,31 +56,51 @@ export class AddCityComponent {
       latitude: city.latitude,
       longitude: city.longitude
     };
-
-    console.log(this.addingCity);
   }
 
   onSearch() {
     this.cities = undefined;
-    this.cityService.getCityFromApi(this.cityFormGroup.controls.city.value).subscribe(res => {
-      console.log(res);
+    this.errorMessage = '';
+
+    this.citySubscription = this.cityService.getCityFromApi(this.cityFormGroup.controls.city.value).subscribe(res => {
       this.cities = res.data;
       this.isEmptyList = this.cities.length === 0;
+    }, error => {
+      if (error.statusText === 'Unknown Error') {
+        this.errorMessage = 'Sorry, service unavailable';
+      }
     });
   }
 
   onAdd(city: any) {
-    this.putData(city);
-    this.cityService.save(this.addingCity).subscribe(res => {
-      if (res) {
-        this.isCreated = true;
-        setTimeout(() => {
-          this.isCreated = false;
-          this.addingCity = null;
-        }, 3000);
+    this.dialogSubscription = this.openDialog().afterClosed().subscribe(result => {
+      if (!result) {
+        return;
       }
-    }, error => {
-      this.errorMessage = error.error.message;
+
+      this.errorMessage = '';
+      this.putData(city);
+
+      this.cityService.save(this.addingCity).subscribe(res => {
+        if (res) {
+          this.isCreated = true;
+
+          setTimeout(() => {
+            this.isCreated = false;
+            this.addingCity = null;
+          }, 3000);
+        }
+      }, error => {
+        this.errorMessage = error.error.message;
+      });
+    });
+  }
+
+  openDialog(): MatDialogRef<ConfirmationDialogComponent> {
+    return this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        message: 'add new city'
+      }, width: '17%', height: '19%'
     });
   }
 }

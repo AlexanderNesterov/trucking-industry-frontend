@@ -2,8 +2,8 @@
 
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Registration number</mat-label>
-    <input [errorStateMatcher]="matcher" formControlName="registrationNumber" matInput
-           placeholder="Registration number" required>
+    <input [errorStateMatcher]="matcher" formControlName="registrationNumber" matInput required>
+    <mat-hint>Example: GH90292</mat-hint>
     <mat-error *ngIf="registrationNumberFormControl.hasError('pattern')">
       Enter a number in format АА12345
     </mat-error>
@@ -17,8 +17,7 @@
 
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Model</mat-label>
-    <input [errorStateMatcher]="matcher" formControlName="model" matInput
-           placeholder="Model" required>
+    <input [errorStateMatcher]="matcher" formControlName="model" matInput required>
     <mat-error *ngIf="modelFormControl.hasError('maxLength')">
       Length not more than 32
     </mat-error>
@@ -30,7 +29,7 @@
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Capacity</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="capacity" matInput
-           placeholder="Capacity" type="number" required min="1">
+           type="number" required min="1">
     <span matSuffix>kg</span>
     <mat-error *ngIf="capacityFormControl.hasError('pattern')">
       Enter number in format 2.5

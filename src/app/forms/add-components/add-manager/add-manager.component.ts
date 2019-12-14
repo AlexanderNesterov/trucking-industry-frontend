@@ -22,7 +22,7 @@ export class AddManagerComponent implements OnDestroy, DoCheck {
   loginExists = false;
   errorMessage = '';
   manager: Manager;
-  subscription: Subscription;
+  managerSubscription: Subscription;
 
   loginFormControl = new FormControl('', [
     Validators.required,
@@ -62,12 +62,19 @@ export class AddManagerComponent implements OnDestroy, DoCheck {
     email: this.emailFormControl,
   });
 
-  constructor(private managerService: ManagerService, private userService: UserService, private dialog: MatDialog) {
+  constructor(private managerService: ManagerService, private userService: UserService,
+              private dialog: MatDialog) {
   }
 
   ngDoCheck(): void {
     if (this.loginExists && this.managerFormGroup.controls.login.value !== '') {
       this.loginExists = false;
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.managerSubscription !== undefined) {
+      this.managerSubscription.unsubscribe();
     }
   }
 
@@ -92,7 +99,7 @@ export class AddManagerComponent implements OnDestroy, DoCheck {
 
       this.putData();
 
-      this.subscription = this.managerService.save(this.manager).subscribe(data => {
+      this.managerSubscription = this.managerService.save(this.manager).subscribe(data => {
         this.isCreated = data;
         setTimeout(() => {
           this.isCreated = false;
@@ -116,11 +123,5 @@ export class AddManagerComponent implements OnDestroy, DoCheck {
         message: 'add new manager'
       }, width: '17%', height: '19%'
     });
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription !== undefined) {
-      this.subscription.unsubscribe();
-    }
   }
 }
