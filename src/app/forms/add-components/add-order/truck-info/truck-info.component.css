@@ -3,14 +3,26 @@
 }
 
 .action-info-button {
-  margin: 2%;
+  margin-right: 2%;
 }
 
-mat-panel-title {
+/*mat-panel-title {
   margin-bottom: 1.5%;
-}
+}*/
 
 mat-expansion-panel {
   margin-top: 1%;
-  width: 50%;
+  /*width: 50%;*/
+}
+
+.nav {
+  display: inline-block;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
 }

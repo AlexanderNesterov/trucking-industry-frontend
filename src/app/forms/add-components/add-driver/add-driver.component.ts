@@ -1,19 +1,14 @@
 import {Component, DoCheck, OnDestroy} from '@angular/core';
 import {DriverService} from '../../../services/driver.service';
-import {ErrorStateMatcher, MatDialog, MatDialogRef} from '@angular/material';
-import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Driver} from '../../../models/driver';
 import {Subscription} from 'rxjs';
 import {User} from '../../../models/user';
 import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {UserService} from '../../../services/user.service';
 import {driverLicenseAsyncValidator, loginAsyncValidator} from '../../commons/async.validators';
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    return control && control.invalid && (control.dirty || control.touched);
-  }
-}
+import {CustomErrorStateMatcher} from '../../commons/error-state-matcher';
 
 @Component({
   selector: 'app-add-driver',
@@ -22,7 +17,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class AddDriverComponent implements DoCheck, OnDestroy {
 
-  matcher = new MyErrorStateMatcher();
+  matcher = new CustomErrorStateMatcher();
   hide = true;
   isCreated = false;
   loginExists = false;

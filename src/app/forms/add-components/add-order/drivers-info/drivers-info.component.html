@@ -1,3 +1,13 @@
+<div class="nav">
+  <div class="left">
+    <app-filter (onFilterInput)="doSearch($event)"></app-filter>
+  </div>
+  <div class="right">
+    <app-navigation [setPage]="page"
+                    (onSizeChange)="sizeChange($event)" (onPageChange)="pageChange($event)"></app-navigation>
+  </div>
+</div>
+
 <form [formGroup]="thirdFormGroup">
   <table mat-table [dataSource]="drivers">
 

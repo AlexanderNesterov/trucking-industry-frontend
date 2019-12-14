@@ -17,7 +17,7 @@ import {AddCargoComponent} from './forms/add-components/add-order/add-order.comp
 import {AdminGuard} from './forms/auth/guards/admin.guard';
 import {AdminDriverGuard} from './forms/auth/guards/admin-driver.guard';
 import {AddCityComponent} from './forms/add-components/add-city/add-city.component';
-import {UpdateOrderComponent} from './forms/update-components/update-cargo/update-order.component';
+import {UpdateOrderComponent} from './forms/update-components/update-order/update-order.component';
 
 export const routes: Routes = [
   {path: 'drivers', component: DriverListComponent, canActivate: [AdminGuard]},

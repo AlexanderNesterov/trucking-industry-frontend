@@ -16,8 +16,13 @@ export class TruckService {
     return this.http.get<Truck>(`${this.trucksUrl}/${truckId}`);
   }
 
-  public getFreeTrucks(weight: number): Observable<Truck[]> {
-    return this.http.get<Truck[]>(`${this.trucksUrl}/free/${weight}`);
+  public getFreeTrucks(weight: number, searchString: string, page: number, size: number): Observable<Truck[]> {
+    const params = new HttpParams()
+      .set('weight', String(weight))
+      .set('text', searchString)
+      .set('page', String(page))
+      .set('size', String(size));
+    return this.http.get<Truck[]>(`${this.trucksUrl}/free`, {params});
   }
 
   public canUpdateTruck(truckId: number): Observable<boolean> {

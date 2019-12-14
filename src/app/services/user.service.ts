@@ -18,10 +18,6 @@ export class UserService {
     return this.http.get<boolean>(`${this.usersUrl}/check`, {params});
   }
 
-  public blockDriverAccount(userId: number, driverId: number): Observable<boolean> {
-    return this.http.put<boolean>(`${this.usersUrl}/block-driver/${userId}/${driverId}`, null);
-  }
-
   public blockManagerAccount(userId: number, managerId: number): Observable<boolean> {
     return this.http.put<boolean>(`${this.usersUrl}/block-manager/${userId}/${managerId}`, null);
   }

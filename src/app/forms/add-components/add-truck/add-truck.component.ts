@@ -1,17 +1,12 @@
 import {Component, DoCheck, OnDestroy} from '@angular/core';
-import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {ErrorStateMatcher, MatDialog, MatDialogRef} from '@angular/material';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatDialog, MatDialogRef} from '@angular/material';
 import {Truck} from '../../../models/truck';
 import {TruckService} from '../../../services/truck.service';
 import {Subscription} from 'rxjs';
 import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {registrationNumberAsyncValidator} from '../../commons/async.validators';
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    return control && control.invalid && (control.dirty || control.touched);
-  }
-}
+import {CustomErrorStateMatcher} from '../../commons/error-state-matcher';
 
 @Component({
   selector: 'app-add-truck',
@@ -20,7 +15,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class AddTruckComponent implements DoCheck, OnDestroy {
 
-  matcher = new MyErrorStateMatcher();
+  matcher = new CustomErrorStateMatcher();
   isCreated = false;
   registrationNumberExists = false;
   errorMessage = '';

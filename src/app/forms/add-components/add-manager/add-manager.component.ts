@@ -1,18 +1,13 @@
 import {Component, DoCheck, OnDestroy} from '@angular/core';
-import {ErrorStateMatcher, MatDialog, MatDialogRef} from '@angular/material';
-import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {Subscription, timer} from 'rxjs';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Subscription} from 'rxjs';
 import {ManagerService} from '../../../services/manager.service';
 import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {Manager} from '../../../models/manager';
 import {UserService} from '../../../services/user.service';
 import {loginAsyncValidator} from '../../commons/async.validators';
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    return control && control.invalid && (control.dirty || control.touched);
-  }
-}
+import {CustomErrorStateMatcher} from '../../commons/error-state-matcher';
 
 @Component({
   selector: 'app-add-manager',
@@ -21,7 +16,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class AddManagerComponent implements OnDestroy, DoCheck {
 
-  matcher = new MyErrorStateMatcher();
+  matcher = new CustomErrorStateMatcher();
   hide = true;
   isCreated = false;
   loginExists = false;

@@ -16,8 +16,12 @@ export class DriverService {
     return this.http.get<Driver>(`${this.driversUrl}/${driverId}`);
   }
 
-  public getFreeDrivers(): Observable<Driver[]> {
-    return this.http.get<Driver[]>(`${this.driversUrl}/free`);
+  public getFreeDrivers(searchString: string, page: number, size: number): Observable<Driver[]> {
+    const params = new HttpParams()
+      .set('text', searchString)
+      .set('page', String(page))
+      .set('size', String(size));
+    return this.http.get<Driver[]>(`${this.driversUrl}/free`, {params});
   }
 
   public getDrivers(searchString: string, page: number, size: number): Observable<Driver[]> {
@@ -33,6 +37,10 @@ export class DriverService {
       .set('driver-license', String(driverLicense))
       .set('driverId', String(driverId));
     return this.http.get<boolean>(`${this.driversUrl}/check`, {params});
+  }
+
+  public blockDriverAccount(userId: number, driverId: number): Observable<boolean> {
+    return this.http.put<boolean>(`${this.driversUrl}/block/${userId}/${driverId}`, null);
   }
 
   public save(driver: Driver): Observable<boolean> {

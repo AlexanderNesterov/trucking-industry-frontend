@@ -5,7 +5,6 @@ import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {MatBottomSheet} from '@angular/material';
 import {UserService} from '../../../services/user.service';
-import {OrderService} from '../../../services/order.service';
 
 @Component({
   selector: 'app-driver-list',
@@ -15,16 +14,14 @@ import {OrderService} from '../../../services/order.service';
 export class DriverListComponent implements OnInit, OnDestroy {
 
   drivers: Driver[];
-  displayedColumns: string[] = ['id', 'name', 'driverLicense', 'contact', 'status', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'driverLicense', 'contact', 'statuses', 'action'];
   subscription: Subscription;
   page = 1;
   size = 10;
   textSearch = '';
 
-  canBlock = false;
-
   constructor(private driverService: DriverService, private router: Router,
-              private bottomSheet: MatBottomSheet, private userService: UserService, private orderService: OrderService) {
+              private bottomSheet: MatBottomSheet, private userService: UserService) {
   }
 
   ngOnInit() {
@@ -36,16 +33,14 @@ export class DriverListComponent implements OnInit, OnDestroy {
   }
 
   blockAccount(userId: number, driverId: number) {
-    this.userService.blockDriverAccount(userId, driverId).subscribe(res => {
+    this.driverService.blockDriverAccount(userId, driverId).subscribe(res => {
       this.getDrivers();
-      this.canBlock = false;
     });
   }
 
   unlockAccount(userId: number) {
     this.userService.unlockAccount(userId).subscribe(res => {
       this.getDrivers();
-      this.canBlock = false;
     });
   }
 
@@ -81,13 +76,5 @@ export class DriverListComponent implements OnInit, OnDestroy {
     if (this.subscription !== undefined) {
       this.subscription.unsubscribe();
     }
-  }
-
-  checkToBlock(id: number, status: string) {
-    this.orderService.checkOrderToBlockDriver(id).subscribe(res => {
-      if (res && status === 'ACTIVE') {
-        this.canBlock = true;
-      }
-    });
   }
 }

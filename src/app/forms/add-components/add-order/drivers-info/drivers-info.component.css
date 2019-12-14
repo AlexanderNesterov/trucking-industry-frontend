@@ -5,3 +5,15 @@ mat-expansion-panel {
 .button-next {
   margin-top: 1%;
 }
+
+.nav {
+  display: inline-block;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}

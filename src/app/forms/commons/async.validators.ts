@@ -11,7 +11,7 @@ export const loginAsyncValidator =
       return timer(time).pipe(
         switchMap(() => userService.isLoginExists(input.value)),
         map(res => {
-          return res ? null : {loginExist: true};
+          return res ? {loginExist: true} : null ;
         })
       );
     };

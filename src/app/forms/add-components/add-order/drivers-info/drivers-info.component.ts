@@ -16,6 +16,9 @@ export class DriversInfoComponent {
   driverSubscription: Subscription;
   firstDriver: Driver;
   coDriver: Driver;
+  textSearch = '';
+  page = 1;
+  size = 10;
 
   driversFormControl = new FormControl(0, [
     Validators.min(2)
@@ -38,7 +41,11 @@ export class DriversInfoComponent {
       return;
     }
 
-    this.driverSubscription = this.driverService.getFreeDrivers().subscribe(data => {
+    this.getFreeDrivers();
+  }
+
+  private getFreeDrivers() {
+    this.driverSubscription = this.driverService.getFreeDrivers(this.textSearch, this.page, this.size).subscribe(data => {
       this.drivers = new MatTableDataSource(data);
     });
   }
@@ -46,6 +53,24 @@ export class DriversInfoComponent {
   next() {
     const drivers = [this.firstDriver, this.coDriver];
     this.onValidThirdGroup.emit(drivers);
+  }
+
+  doSearch(text: string) {
+    this.drivers = undefined;
+    this.textSearch = text;
+    this.page = 1;
+
+    this.getFreeDrivers();
+  }
+
+  pageChange(page: number) {
+    this.page = page;
+    this.getFreeDrivers();
+  }
+
+  sizeChange(size: number) {
+    this.size = size;
+    this.getFreeDrivers();
   }
 
   selectFirstDriver(driver: Driver) {

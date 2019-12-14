@@ -9,7 +9,7 @@
     <mat-card-content class="auth-content">
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Login</mat-label>
-        <input matInput placeholder="Login" formControlName="login">
+        <input matInput formControlName="login">
         <mat-error *ngIf="loginFormControl.hasError('required')">Required field</mat-error>
       </mat-form-field>
 
@@ -23,12 +23,12 @@
         <mat-error *ngIf="passwordFormControl.hasError('required')">Required field</mat-error>
       </mat-form-field>
 
-      <!--    <div *ngIf="notExists">
-            <p>Неправильное имя пользователя или пароль</p>
-          </div>-->
+      <p class="mat-error" *ngIf="wrongParameters">Wrong login or password</p>
 
       <mat-card-actions align="end">
-        <button class="font" mat-flat-button color="primary" [disabled]="loginFormGroup.invalid" (click)="login()">
+        <mat-spinner diameter="40" *ngIf="logining"></mat-spinner>
+        <button class="font" mat-flat-button color="primary"
+                [disabled]="loginFormGroup.invalid || logining" (click)="login()">
           Log in
         </button>
       </mat-card-actions>

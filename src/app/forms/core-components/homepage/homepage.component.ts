@@ -20,6 +20,7 @@ import {ChangePasswordDialogComponent} from '../dialogs/change-password-dialog/c
 })
 export class HomepageComponent implements OnInit, OnDestroy {
 
+  login: string;
   managerId: number;
   driverId: number;
   isFreeDriver = false;
@@ -37,6 +38,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.login = this.permissionService.getLogin();
     if (this.permissionService.check('DRIVER')) {
       this.driverId = parseInt(localStorage.getItem('driverId'), 10);
       this.userSubscription = this.driverService.findById(this.driverId).subscribe(data => {
@@ -136,10 +138,9 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   changePassword() {
-    const login = this.permissionService.getLogin();
     this.dialog.open(ChangePasswordDialogComponent, {
       data: {
-        login
+        login: this.login
       }
     });
   }

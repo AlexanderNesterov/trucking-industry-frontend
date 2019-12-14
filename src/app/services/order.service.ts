@@ -38,10 +38,6 @@ export class OrderService {
     return this.http.get<Order>(`${this.orderUrl}/for-driver/${driverId}`);
   }
 
-  public checkOrderToBlockDriver(driverId: number): Observable<boolean> {
-    return this.http.get<boolean>(`${this.orderUrl}/for-manager/${driverId}`);
-  }
-
   public setAcceptStatus(orderId: number, driverId: number): Observable<boolean> {
     return this.http.put<boolean>(`${this.orderUrl}/set-accept-status/${orderId}/${driverId}`, null);
   }
