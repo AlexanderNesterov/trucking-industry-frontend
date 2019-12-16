@@ -70,7 +70,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
       console.log(this.order);
     }, error => {
-      if ((error.error.message as string).includes('Cargo with driver id')) {
+      if ((error.error.message as string).includes('Order with driver id')) {
         this.isFreeDriver = true;
       }
     });
@@ -80,7 +80,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
     return this.dialog.open(ConfirmationDialogComponent, {
       data: {
         message
-      }, width: '25%', height: '30%'
+      }, width: '17%', height: '19%'
     });
   }
 

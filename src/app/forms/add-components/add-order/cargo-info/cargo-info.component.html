@@ -4,11 +4,11 @@
       <mat-panel-title>
         {{cargo.title}}
       </mat-panel-title>
-      <button *ngIf="checkPermissionForAdmin()" mat-flat-button color="warn"
+      <button *ngIf="checkPermissionForAdmin() && isCreating" mat-flat-button color="warn"
               class="action-info-button" (click)="removeCargo()">
         Delete
       </button>
-      <button *ngIf="checkPermissionForAdmin()" mat-flat-button color="primary"
+      <button *ngIf="checkPermissionForAdmin() && isCreating" mat-flat-button color="primary"
               class="action-info-button" (click)="updateCargo()">
         Update
       </button>

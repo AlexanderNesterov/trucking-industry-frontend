@@ -11,7 +11,7 @@ export class OrderService {
   private orderUrl: string;
 
   constructor(private http: HttpClient) {
-    this.orderUrl = 'http://localhost:8080/order';
+    this.orderUrl = 'http://localhost:8080/trucking-industry/order';
   }
 
   public findById(orderId: number): Observable<Order> {
