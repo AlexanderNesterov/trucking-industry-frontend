@@ -131,7 +131,13 @@ export class AppModule {
       filter(event => event instanceof GuardsCheckEnd),
       map(event => (event as GuardsCheckEnd).shouldActivate)
     ).subscribe(shouldActivate => {
-      if (!shouldActivate) {
+      const role = localStorage.getItem('role');
+
+      if (!shouldActivate && role !== null) {
+        this.router.navigate(['/homepage']);
+      }
+
+      if (!shouldActivate && role === null) {
         this.router.navigate(['/login']);
       }
     });

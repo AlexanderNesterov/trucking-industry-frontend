@@ -18,6 +18,7 @@ import {AdminGuard} from './forms/auth/guards/admin.guard';
 import {AdminDriverGuard} from './forms/auth/guards/admin-driver.guard';
 import {AddCityComponent} from './forms/add-components/add-city/add-city.component';
 import {UpdateOrderComponent} from './forms/update-components/update-order/update-order.component';
+import {NoLoggedUserGuard} from './forms/auth/guards/no-logged-user.guard';
 
 export const routes: Routes = [
   {path: 'drivers', component: DriverListComponent, canActivate: [AdminGuard]},
@@ -34,7 +35,7 @@ export const routes: Routes = [
   {path: 'add-city', component: AddCityComponent, canActivate: [AdminGuard]},
   {path: 'add-order', component: AddCargoComponent, canActivate: [AdminGuard]},
   {path: 'homepage', component: HomepageComponent, canActivate: [AdminDriverGuard]},
-  {path: 'login', component: LoginComponent},
+  {path: 'login', component: LoginComponent, canActivate: [NoLoggedUserGuard]},
   {path: '**', component: NotFoundComponent}
 ];
 
