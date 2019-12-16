@@ -56,7 +56,7 @@ import {UpdateOrderTruckInfoComponent} from './forms/update-components/update-or
 import {ChangePasswordDialogComponent} from './forms/core-components/dialogs/change-password-dialog/change-password-dialog.component';
 
 const googleMapsCore = AgmCoreModule.forRoot({
-  apiKey: '',
+  apiKey: 'AIzaSyDeOdeN4s9g5YrvaEyN2xwWcziJ44AYH5Q',
 });
 
 @NgModule({
