@@ -9,7 +9,7 @@ export class ManagerService {
   private managersUrl: string;
 
   constructor(private http: HttpClient) {
-    this.managersUrl = 'http://localhost:8080/managers';
+    this.managersUrl = 'http://localhost:8080/trucking-industry/managers';
   }
 
   public getManagers(searchString: string, page: number, size: number): Observable<Manager[]> {

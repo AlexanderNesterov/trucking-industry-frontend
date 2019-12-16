@@ -9,7 +9,7 @@ export class TruckService {
   private readonly trucksUrl: string;
 
   constructor(private http: HttpClient) {
-    this.trucksUrl = 'http://localhost:8080/trucks';
+    this.trucksUrl = 'http://localhost:8080/trucking-industry/trucks';
   }
 
   public findById(truckId: number): Observable<Truck> {

@@ -3,7 +3,7 @@
 <p *ngIf="totalWeight > 0">Total weight: {{totalWeight}}</p>
 <p *ngIf="cargoList.length !== 0">Cargo counter: {{cargoList.length}} / {{cargoLimit}}</p>
 
-<app-cargo-info *ngFor="let cargo of cargoList" [setCargo]="cargo"
+<app-cargo-info *ngFor="let cargo of cargoList" [setCargo]="cargo" [setCreating]="true"
                 (onRemove)="removeCargo($event)" (onUpdate)="updateCargo($event)">
 </app-cargo-info>
 

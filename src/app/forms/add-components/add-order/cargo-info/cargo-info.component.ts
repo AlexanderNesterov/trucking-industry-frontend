@@ -24,6 +24,7 @@ export class CargoInfoComponent {
   loadLoc: City;
   dischargeLoc: City;
   cargo: Cargo;
+  isCreating = false;
   driverId: number;
   bounds: LatLngBoundsLiteral;
 
@@ -41,6 +42,8 @@ export class CargoInfoComponent {
 
   @Input()
   set setCargo(cargo: Cargo) {
+    // console.log('+++');
+    console.log('cargo', cargo);
     this.loadLoc = cargo.loadLocation;
     this.dischargeLoc = cargo.dischargeLocation;
     this.cargo = cargo;
@@ -50,6 +53,11 @@ export class CargoInfoComponent {
   @Input()
   set setDriverId(driverId: number) {
     this.driverId = driverId;
+  }
+
+  @Input()
+  set setCreating(isCreating: boolean) {
+    this.isCreating = isCreating;
   }
 
   checkPermissionForDeliver(): boolean {

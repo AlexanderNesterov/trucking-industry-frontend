@@ -8,7 +8,7 @@ import {City} from '../models/city';
 })
 export class CityService {
 
-  private cityUrl = 'http://localhost:8080/cities';
+  private cityUrl = 'http://localhost:8080/trucking-industry/cities';
   private apiUrl = 'http://geodb-free-service.wirefreethought.com/v1/geo/cities';
 
   constructor(private http: HttpClient) {

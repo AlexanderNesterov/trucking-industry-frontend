@@ -9,7 +9,7 @@ export class DriverService {
   private readonly driversUrl: string;
 
   constructor(private http: HttpClient) {
-    this.driversUrl = 'http://localhost:8080/drivers';
+    this.driversUrl = 'http://localhost:8080/trucking-industry/drivers';
   }
 
   public findById(driverId: number): Observable<Driver> {
