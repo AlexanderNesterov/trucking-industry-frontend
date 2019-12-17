@@ -99,7 +99,6 @@ export class DriverListComponent implements OnInit, OnDestroy {
       this.driverSubscription.unsubscribe();
     }
 
-
     if (this.userSubscription !== undefined) {
       this.userSubscription.unsubscribe();
     }

@@ -5,6 +5,8 @@ import {Router} from '@angular/router';
 import {Manager} from '../../../models/manager';
 import {UserService} from '../../../services/user.service';
 import {PermissionService} from '../../../services/permision.service';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-managers-list',
@@ -22,7 +24,8 @@ export class ManagersListComponent implements OnInit, OnDestroy {
   textSearch = '';
 
   constructor(private managerService: ManagerService, private userService: UserService,
-              private permissionService: PermissionService, private router: Router) {
+              private permissionService: PermissionService, private router: Router,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -55,19 +58,39 @@ export class ManagersListComponent implements OnInit, OnDestroy {
   }
 
   blockAccount(userId: number, managerId: number) {
-    this.managerService.blockAccount(userId, managerId).subscribe(() => {
-      this.getManagers();
+    this.openDialog('block account').afterClosed().subscribe((res) => {
+      if (!res) {
+        return;
+      }
+
+      this.managerService.blockAccount(userId, managerId).subscribe(() => {
+        this.getManagers();
+      });
     });
   }
 
   unlockAccount(userId: number) {
-    this.userService.unlockAccount(userId).subscribe(() => {
-      this.getManagers();
+    this.openDialog('unlock account').afterClosed().subscribe((res) => {
+      if (!res) {
+        return;
+      }
+
+      this.userService.unlockAccount(userId).subscribe(() => {
+        this.getManagers();
+      });
     });
   }
 
   addNewManager() {
     this.router.navigate(['/add-manager']);
+  }
+
+  openDialog(message: string): MatDialogRef<ConfirmationDialogComponent> {
+    return this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        message
+      }, width: '17%', height: '19%'
+    });
   }
 
   ngOnDestroy(): void {
