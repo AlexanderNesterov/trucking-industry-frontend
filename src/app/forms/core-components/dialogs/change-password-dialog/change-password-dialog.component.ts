@@ -45,7 +45,7 @@ export class ChangePasswordDialogComponent implements OnDestroy {
     this.error = '';
     this.checking = true;
 
-    this.subscription = this.userService.changeAdminPassword(this.login, currentPassword, newPassword).subscribe(res => {
+    this.subscription = this.userService.changePassword(this.login, currentPassword, newPassword).subscribe(res => {
         if (res) {
           this.isChanged = true;
         }

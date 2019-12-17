@@ -20,6 +20,10 @@ export class ManagerService {
     return this.http.get<Manager[]>(`${this.managersUrl}/search`, {params});
   }
 
+  public blockAccount(userId: number, managerId: number): Observable<boolean> {
+    return this.http.put<boolean>(`${this.managersUrl}/block/${userId}/${managerId}`, null);
+  }
+
   public findById(managerId: number): Observable<Manager> {
     return this.http.get<Manager>(`${this.managersUrl}/${managerId}`);
   }

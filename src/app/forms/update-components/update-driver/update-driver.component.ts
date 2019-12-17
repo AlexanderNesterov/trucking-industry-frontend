@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy} from '@angular/core';
 import {Driver} from '../../../models/driver';
 import {DriverService} from '../../../services/driver.service';
 import {ActivatedRoute} from '@angular/router';
@@ -8,6 +8,7 @@ import {Subscription} from 'rxjs';
 import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {driverLicenseAsyncValidator} from '../../commons/async.validators';
 import {CustomErrorStateMatcher} from '../../commons/error-state-matcher';
+import {debounceTime, map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-update-driver',
@@ -45,6 +46,7 @@ export class UpdateDriverComponent implements OnDestroy, DoCheck {
       });
     });
 
+    this.setUpControlsUpdating();
     subscription.unsubscribe();
   }
 
@@ -80,6 +82,53 @@ export class UpdateDriverComponent implements OnDestroy, DoCheck {
     this.driverLicenseFormControl = new FormControl('', [
       Validators.pattern('\\d{10}')
     ], driverLicenseAsyncValidator(this.driverService, this.driverId));
+  }
+
+  setUpControlsUpdating() {
+    this.firstNameFormControl.valueChanges.pipe(
+      debounceTime(3000),
+      map(value => {
+        if (value === '') {
+          this.firstNameFormControl.patchValue(this.updatedDriver.user.firstName);
+        }
+      })
+    ).subscribe();
+
+    this.lastNameFormControl.valueChanges.pipe(
+      debounceTime(3000),
+      map(value => {
+        if (value === '') {
+          this.lastNameFormControl.patchValue(this.updatedDriver.user.lastName);
+        }
+      })
+    ).subscribe();
+
+    this.phoneFormControl.valueChanges.pipe(
+      debounceTime(3000),
+      map(value => {
+        if (value === '' && (this.updatedDriver.user.phone !== null && this.updatedDriver.user.phone !== '')) {
+          this.phoneFormControl.patchValue(this.updatedDriver.user.phone);
+        }
+      })
+    ).subscribe();
+
+    this.emailFormControl.valueChanges.pipe(
+      debounceTime(3000),
+      map(value => {
+        if (value === '') {
+          this.emailFormControl.patchValue(this.updatedDriver.user.email);
+        }
+      })
+    ).subscribe();
+
+    this.driverLicenseFormControl.valueChanges.pipe(
+      debounceTime(3000),
+      map(value => {
+        if (value === '') {
+          this.driverLicenseFormControl.patchValue(this.updatedDriver.driverLicense);
+        }
+      })
+    ).subscribe();
   }
 
   updateControls() {

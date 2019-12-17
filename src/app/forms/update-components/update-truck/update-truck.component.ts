@@ -1,18 +1,14 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {ErrorStateMatcher, MatDialog, MatDialogRef} from '@angular/material';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatDialog, MatDialogRef} from '@angular/material';
 import {Truck} from '../../../models/truck';
 import {TruckService} from '../../../services/truck.service';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {registrationNumberAsyncValidator} from '../../commons/async.validators';
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    return control && control.invalid && (control.dirty || control.touched);
-  }
-}
+import {debounceTime, map} from 'rxjs/operators';
+import {CustomErrorStateMatcher} from '../../commons/error-state-matcher';
 
 @Component({
   selector: 'app-update-truck',
@@ -21,9 +17,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class UpdateTruckComponent implements OnInit, OnDestroy {
 
-  matcher = new MyErrorStateMatcher();
-  oldTruck: Truck;
-  newTruck: Truck;
+  matcher = new CustomErrorStateMatcher();
+  updatingTruck: Truck;
   isUpdated = false;
   truckId: number;
   errorMessage = '';
@@ -46,11 +41,13 @@ export class UpdateTruckComponent implements OnInit, OnDestroy {
       this.setFormGroup();
 
       this.findSubscription = this.truckService.findById(param.id).subscribe(data => {
-        this.oldTruck = data;
+        this.updatingTruck = data;
+        this.updateControls();
       });
     });
 
     subscription.unsubscribe();
+    this.setUpControlsUpdating();
   }
 
   setFormGroup() {
@@ -77,21 +74,57 @@ export class UpdateTruckComponent implements OnInit, OnDestroy {
     ]);
   }
 
+  setUpControlsUpdating() {
+    this.registrationNumberFormControl.valueChanges.pipe(
+      debounceTime(3000),
+      map(value => {
+        if (value === '') {
+          this.registrationNumberFormControl.patchValue(this.updatingTruck.registrationNumber);
+        }
+      })
+    ).subscribe();
+
+    this.modelFormControl.valueChanges.pipe(
+      debounceTime(3000),
+      map(value => {
+        if (value === '') {
+          this.modelFormControl.patchValue(this.updatingTruck.model);
+        }
+      })
+    ).subscribe();
+
+    this.capacityFormControl.valueChanges.pipe(
+      debounceTime(3000),
+      map(value => {
+        if (value === '') {
+          this.capacityFormControl.patchValue(this.updatingTruck.capacity);
+        }
+      })
+    ).subscribe();
+  }
+
+  updateControls() {
+    this.registrationNumberFormControl.patchValue(this.updatingTruck.registrationNumber);
+    this.modelFormControl.patchValue(this.updatingTruck.model);
+    this.capacityFormControl.patchValue(this.updatingTruck.capacity);
+  }
+
   putData() {
-    this.newTruck = {
-      id: this.oldTruck.id,
-      model: this.truckFormGroup.controls.model.value === '' ? this.oldTruck.model : this.truckFormGroup.controls.model.value,
-      capacity: this.truckFormGroup.controls.capacity.value === '' ? this.oldTruck.capacity : this.truckFormGroup.controls.capacity.value,
-      registrationNumber: this.truckFormGroup.controls.registrationNumber.value === '' ?
-        this.oldTruck.registrationNumber : this.truckFormGroup.controls.registrationNumber.value
-    };
+    let changedData = this.truckFormGroup.controls.registrationNumber.value;
+    this.updatingTruck.registrationNumber = changedData === '' ? this.updatingTruck.registrationNumber : changedData;
+
+    changedData = this.truckFormGroup.controls.model.value;
+    this.updatingTruck.model = changedData === '' ? this.updatingTruck.model : changedData;
+
+    changedData = this.truckFormGroup.controls.capacity.value;
+    this.updatingTruck.capacity = changedData === '' ? this.updatingTruck.capacity : changedData;
   }
 
   openDialog(): MatDialogRef<ConfirmationDialogComponent> {
     return this.dialog.open(ConfirmationDialogComponent, {
       data: {
         message: 'edit truck'
-      }, width: '25%', height: '30%'
+      }, width: '17%', height: '19%'
     });
   }
 
@@ -103,13 +136,12 @@ export class UpdateTruckComponent implements OnInit, OnDestroy {
 
       this.putData();
 
-      this.updateSubscription = this.truckService.update(this.newTruck).subscribe(data => {
+      this.updateSubscription = this.truckService.update(this.updatingTruck).subscribe(data => {
         this.isUpdated = data;
-        this.oldTruck = this.newTruck;
       }, error => {
         if ((error.error.message as string).includes('Truck with registration number: ')) {
           this.errorMessage = error.error.message;
-          this.truckFormGroup.patchValue({registrationNumber: this.oldTruck.registrationNumber});
+          this.truckFormGroup.patchValue({registrationNumber: this.updatingTruck.registrationNumber});
         }
       });
     });

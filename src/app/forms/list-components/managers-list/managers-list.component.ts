@@ -3,6 +3,8 @@ import {Subscription} from 'rxjs';
 import {ManagerService} from '../../../services/manager.service';
 import {Router} from '@angular/router';
 import {Manager} from '../../../models/manager';
+import {UserService} from '../../../services/user.service';
+import {PermissionService} from '../../../services/permision.service';
 
 @Component({
   selector: 'app-managers-list',
@@ -11,16 +13,20 @@ import {Manager} from '../../../models/manager';
 })
 export class ManagersListComponent implements OnInit, OnDestroy {
 
+  managerId: number;
   managers: Manager[];
-  displayedColumns: string[] = ['id', 'name', 'contact', 'status'];
+  displayedColumns: string[] = ['id', 'name', 'contact', 'status', 'actions'];
   subscription: Subscription;
   page = 1;
   size = 10;
   textSearch = '';
 
-  constructor(private managerService: ManagerService, private router: Router) { }
+  constructor(private managerService: ManagerService, private userService: UserService,
+              private permissionService: PermissionService, private router: Router) {
+  }
 
   ngOnInit() {
+    this.managerId = this.permissionService.getManagerId();
     this.getManagers();
   }
 
@@ -46,6 +52,18 @@ export class ManagersListComponent implements OnInit, OnDestroy {
   sizeChange(size: number) {
     this.size = size;
     this.getManagers();
+  }
+
+  blockAccount(userId: number, managerId: number) {
+    this.managerService.blockAccount(userId, managerId).subscribe(() => {
+      this.getManagers();
+    });
+  }
+
+  unlockAccount(userId: number) {
+    this.userService.unlockAccount(userId).subscribe(() => {
+      this.getManagers();
+    });
   }
 
   addNewManager() {

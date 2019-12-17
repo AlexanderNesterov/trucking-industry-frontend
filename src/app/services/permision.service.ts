@@ -16,4 +16,8 @@ export class PermissionService {
   getLogin() {
     return localStorage.getItem('login');
   }
+
+  getManagerId() {
+    return parseInt(localStorage.getItem('managerId'), 10);
+  }
 }

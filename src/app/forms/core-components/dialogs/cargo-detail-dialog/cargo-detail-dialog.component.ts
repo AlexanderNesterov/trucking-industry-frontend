@@ -1,6 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material';
 import {Order} from '../../../../models/order';
+import {CargoService} from '../../../../services/cargo.service';
 
 @Component({
   selector: 'app-cargo-detail-dialog',
@@ -9,9 +10,12 @@ import {Order} from '../../../../models/order';
 })
 export class CargoDetailDialogComponent {
 
-  order: Order;
+  order: Order = undefined;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
-    this.order = this.data.order;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private cargoService: CargoService) {
+    this.cargoService.getCargoListByOrderId(data.order.id).subscribe(res => {
+      this.order = this.data.order;
+      this.order.cargoList = res;
+    });
   }
 }

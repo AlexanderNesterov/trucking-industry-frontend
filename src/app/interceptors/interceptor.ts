@@ -20,7 +20,7 @@ export class Interceptor implements HttpInterceptor {
     if (cloneReq.url.includes('/login')) {
       return next.handle(req).pipe(
         catchError(err => {
-          if (err instanceof HttpErrorResponse && err.status === 403) {
+          if (err instanceof HttpErrorResponse && (err.status === 403 || err.status === 401)) {
             return throwError(err);
           }
         }));

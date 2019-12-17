@@ -1,4 +1,8 @@
-<mat-card>
-  <mat-card-title>Order Information</mat-card-title>
-  <app-filled-order [order]="order"></app-filled-order>
-</mat-card>
+<app-spinner *ngIf="order === undefined; else showOrder"></app-spinner>
+
+<ng-template #showOrder>
+  <mat-card>
+    <mat-card-title>Order Information</mat-card-title>
+    <app-filled-order [order]="order"></app-filled-order>
+  </mat-card>
+</ng-template>

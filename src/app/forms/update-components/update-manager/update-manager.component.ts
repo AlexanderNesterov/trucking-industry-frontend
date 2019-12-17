@@ -7,6 +7,7 @@ import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirm
 import {ActivatedRoute} from '@angular/router';
 import {Manager} from '../../../models/manager';
 import {CustomErrorStateMatcher} from '../../commons/error-state-matcher';
+import {debounceTime, map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-update-manager',
@@ -49,6 +50,8 @@ export class UpdateManagerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.setUpControlsUpdating();
+
     const subscription = this.activatedRoute.queryParams.subscribe(param => {
       this.findSubscription = this.managerService.findById(param.id).subscribe((data) => {
         this.updatedManager = data;
@@ -59,8 +62,45 @@ export class UpdateManagerComponent implements OnInit, OnDestroy {
     subscription.unsubscribe();
   }
 
-  putData() {
+  setUpControlsUpdating() {
+    this.firstNameFormControl.valueChanges.pipe(
+      debounceTime(3000),
+      map(value => {
+        if (value === '') {
+          this.firstNameFormControl.patchValue(this.updatedManager.user.firstName);
+        }
+      })
+    ).subscribe();
 
+    this.lastNameFormControl.valueChanges.pipe(
+      debounceTime(3000),
+      map(value => {
+        if (value === '') {
+          this.lastNameFormControl.patchValue(this.updatedManager.user.lastName);
+        }
+      })
+    ).subscribe();
+
+    this.phoneFormControl.valueChanges.pipe(
+      debounceTime(3000),
+      map(value => {
+        if (value === '' && (this.updatedManager.user.phone !== null && this.updatedManager.user.phone !== '')) {
+          this.phoneFormControl.patchValue(this.updatedManager.user.phone);
+        }
+      })
+    ).subscribe();
+
+    this.emailFormControl.valueChanges.pipe(
+      debounceTime(3000),
+      map(value => {
+        if (value === '') {
+          this.emailFormControl.patchValue(this.updatedManager.user.email);
+        }
+      })
+    ).subscribe();
+  }
+
+  putData() {
     let changedData = this.managerFormGroup.controls.firstName.value;
     this.updatedManager.user.firstName = changedData === '' ? this.updatedManager.user.firstName : changedData;
 
