@@ -15,7 +15,6 @@ export class NoLoggedUserGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | boolean {
     const role = localStorage.getItem('role');
-    console.log('Guard', role);
     return role === null;
   }
 }

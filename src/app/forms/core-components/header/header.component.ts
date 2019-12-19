@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnChanges, OnInit, Renderer2, SimpleChanges} from '@angular/core';
+import {Component, DoCheck} from '@angular/core';
 import {Router} from '@angular/router';
 import {PermissionService} from '../../../services/permision.service';
 

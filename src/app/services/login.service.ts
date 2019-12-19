@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
 import {tap} from 'rxjs/operators';
 

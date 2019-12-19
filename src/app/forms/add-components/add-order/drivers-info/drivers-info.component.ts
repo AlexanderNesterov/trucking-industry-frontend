@@ -30,7 +30,8 @@ export class DriversInfoComponent implements OnDestroy {
 
   driverDisplayedColumns: string[] = ['id', 'name', 'driverLicense', 'select'];
 
-  @Output() onValidThirdGroup = new EventEmitter<Driver[]>();
+  @Output()
+  onValidThirdGroup = new EventEmitter<Driver[]>();
 
   constructor(private driverService: DriverService) {
   }
@@ -75,8 +76,7 @@ export class DriversInfoComponent implements OnDestroy {
 
   selectFirstDriver(driver: Driver) {
     if (driver === this.coDriver) {
-      const controlValue = this.driversFormControl.value;
-      this.driversFormControl.patchValue(controlValue - 1);
+      this.changeControlValue();
       this.coDriver = undefined;
       this.firstDriver = driver;
       return;
@@ -92,8 +92,7 @@ export class DriversInfoComponent implements OnDestroy {
 
   selectCoDriver(driver: Driver) {
     if (driver === this.firstDriver) {
-      const controlValue = this.driversFormControl.value;
-      this.driversFormControl.patchValue(controlValue - 1);
+      this.changeControlValue();
       this.firstDriver = undefined;
       this.coDriver = driver;
       return;
@@ -105,6 +104,13 @@ export class DriversInfoComponent implements OnDestroy {
     }
 
     this.coDriver = driver;
+  }
+
+  changeControlValue() {
+    const controlValue = this.driversFormControl.value;
+    if (controlValue === 2) {
+      this.driversFormControl.patchValue(controlValue - 1);
+    }
   }
 
   deleteFirstDriver() {

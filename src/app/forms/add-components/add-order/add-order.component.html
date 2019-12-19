@@ -7,12 +7,14 @@
 
   <mat-step [stepControl]="secondFormGroup" [editable]="false">
     <ng-template matStepLabel>Choose truck</ng-template>
-    <app-truck-info [cargoWeight]="totalWeight" (onValidSecondGroup)="setUpSecondFormGroup($event, stepper)"></app-truck-info>
+    <app-truck-info [cargoWeight]="totalWeight" (onValidSecondGroup)="setUpSecondFormGroup($event, stepper)">
+    </app-truck-info>
   </mat-step>
 
   <mat-step [stepControl]="thirdFormGroup" [editable]="false">
     <ng-template matStepLabel>Choose drivers</ng-template>
-    <app-drivers-info [getDrivers]="isSecondGroupValid" (onValidThirdGroup)="setUpThirdFormGroup($event, stepper)"></app-drivers-info>
+    <app-drivers-info [getDrivers]="isSecondGroupValid" (onValidThirdGroup)="setUpThirdFormGroup($event, stepper)">
+    </app-drivers-info>
   </mat-step>
 
   <mat-step>

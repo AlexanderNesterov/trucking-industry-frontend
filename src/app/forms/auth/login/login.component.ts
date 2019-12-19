@@ -38,7 +38,6 @@ export class LoginComponent {
       this.logining = false;
       this.router.navigate(['/homepage']);
     }, error => {
-      console.log(error);
       if (error.status === 403 || error.status === 401) {
         this.wrongParameters = true;
       }

@@ -36,12 +36,12 @@ export class AddManagerComponent implements OnDestroy, DoCheck {
 
   firstNameFormControl = new FormControl('', [
     Validators.required,
-    Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
+    Validators.pattern('[A-Z][a-z\\sA-Z]{1,31}')
   ]);
 
   lastNameFormControl = new FormControl('', [
     Validators.required,
-    Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
+    Validators.pattern('[A-Z][a-z\\sA-Z]{1,31}')
   ]);
 
   phoneFormControl = new FormControl('', [

@@ -19,6 +19,9 @@
     <button mat-icon-button matSuffix (click)="hide = !hide">
       <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
     </button>
+    <mat-error *ngIf="passwordFormControl.hasError('minlength')">
+      Min length is 8 symbols
+    </mat-error>
     <mat-error *ngIf="passwordFormControl.hasError('required')">
       Required field
     </mat-error>
@@ -51,7 +54,7 @@
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Phone</mat-label>
     <input [errorStateMatcher]="matcher" formControlName="phone" matInput>
-    <mat-hint>88005553535</mat-hint>
+    <mat-hint>Example: 88005553535</mat-hint>
     <mat-error *ngIf="phoneFormControl.hasError('pattern')">
       Enter only numbers
     </mat-error>

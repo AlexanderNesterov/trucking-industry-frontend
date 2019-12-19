@@ -23,27 +23,35 @@
   <table mat-table [dataSource]="managers">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>Id</th>
-      <td mat-cell *matCellDef="let manager"> {{manager.id}} </td>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let manager; let i = index">
+        {{manager.id}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let manager"> {{manager.user.firstName}} {{manager.user.lastName}} </td>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let manager; let i = index">
+        {{manager.user.firstName}} {{manager.user.lastName}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="contact">
       <th mat-header-cell *matHeaderCellDef>Email / Phone</th>
-      <td mat-cell *matCellDef="let manager"> {{manager.user.email}} <br> {{manager.user.phone}} </td>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let manager; let i = index">
+        {{manager.user.email}} <br> {{manager.user.phone}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let manager"> {{manager.user.status}} </td>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let manager; let i = index">
+        {{manager.user.status}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
-      <td mat-cell *matCellDef="let manager">
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let manager; let i = index">
         <button color="accent" mat-button *ngIf="managerId !== manager.id" [matMenuTriggerFor]="menu">Actions</button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item *ngIf="manager.user.status === 'ACTIVE'"

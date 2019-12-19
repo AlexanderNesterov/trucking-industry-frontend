@@ -13,27 +13,33 @@
 
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> Id</th>
-      <td mat-cell *matCellDef="let driver"> {{driver.id}} </td>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let driver; let i = index">
+        {{driver.id}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name</th>
-      <td mat-cell *matCellDef="let driver"> {{driver.user.firstName}} {{driver.user.lastName}} </td>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let driver; let i = index">
+        {{driver.user.firstName}} {{driver.user.lastName}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="driverLicense">
       <th mat-header-cell *matHeaderCellDef> Driver license</th>
-      <td mat-cell *matCellDef="let driver"> {{driver.driverLicense}} </td>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let driver; let i = index">
+        {{driver.driverLicense}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>Choice</th>
-      <td mat-cell *matCellDef="let driver">
-        <button [disabled]="driver === firstDriver" mat-stroked-button color="primary"
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let driver; let i = index">
+        <button mat-stroked-button color="primary"
                 class="action-info-button" (click)="selectFirstDriver(driver)">
           First Driver
         </button>
-        <button [disabled]="driver === coDriver" mat-stroked-button color="primary"
+        <button mat-stroked-button color="primary"
                 class="action-info-button" (click)="selectCoDriver(driver)">
           Co-Driver
         </button>
@@ -56,7 +62,9 @@
 
     <p>Driver license: {{firstDriver.driverLicense}}</p>
     <p>Email: {{firstDriver.user.email}}</p>
-    <p>Phone: {{firstDriver.user.phone}}</p>
+    <p *ngIf="firstDriver.user.phone !== '' && firstDriver.user.phone !== null">
+      Phone: {{firstDriver.user.phone}}
+    </p>
     <p>Status:{{firstDriver.status}}</p>
   </mat-expansion-panel>
 
@@ -72,7 +80,9 @@
 
     <p>Driver license: {{coDriver.driverLicense}}</p>
     <p>Email: {{coDriver.user.email}}</p>
-    <p>Phone: {{coDriver.user.phone}}</p>
+    <p *ngIf="coDriver.user.phone !== '' && coDriver.user.phone !== null">
+      Phone: {{coDriver.user.phone}}
+    </p>
     <p>Status:{{coDriver.status}}</p>
   </mat-expansion-panel>
 

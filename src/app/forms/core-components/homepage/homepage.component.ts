@@ -50,7 +50,6 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
     if (this.permissionService.check('ADMIN')) {
       this.managerId = parseInt(localStorage.getItem('managerId'), 10);
-      console.log(this.managerId);
       this.userSubscription = this.managerService.findById(this.managerId).subscribe(data => {
         this.personalInformation = data.user;
       });
@@ -62,13 +61,10 @@ export class HomepageComponent implements OnInit, OnDestroy {
       this.order = data;
       this.order.cargoList = data.cargoList.filter(cargo => cargo.status !== 'DELIVERED');
 
-      console.log('data', this.order);
-
       if (this.order.status === 'IN_PROGRESS') {
         this.isCargoInProgress = true;
       }
 
-      console.log(this.order);
     }, error => {
       if ((error.error.message as string).includes('Order with driver id')) {
         this.isFreeDriver = true;
@@ -104,8 +100,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
       this.orderService.setRefuseStatus(this.order.id, this.driverId).subscribe(data => {
         if (data) {
-          this.isFreeDriver = true;
-          this.order = undefined;
+          this.getOrder();
         }
       });
     });
@@ -119,21 +114,17 @@ export class HomepageComponent implements OnInit, OnDestroy {
     return this.permissionService.check(role);
   }
 
-  ngOnDestroy(): void {
-    if (this.userSubscription !== undefined) {
-      this.userSubscription.unsubscribe();
-    }
-
-    if (this.cargoSubscription !== undefined) {
-      this.cargoSubscription.unsubscribe();
-    }
-  }
-
   deliver(cargoId: number) {
-    this.cargoService.setDeliveredStatus(cargoId, this.order.id, this.driverId).subscribe(res => {
-      if (res) {
-        this.order.cargoList = this.order.cargoList.filter(cargo => cargo.id !== cargoId);
+    this.openDialog('deliver cargo').afterClosed().subscribe(res => {
+      if (!res) {
+        return;
       }
+
+      this.cargoService.setDeliveredStatus(cargoId, this.order.id, this.driverId).subscribe(res => {
+        if (res) {
+          this.getOrder();
+        }
+      });
     });
   }
 
@@ -143,5 +134,15 @@ export class HomepageComponent implements OnInit, OnDestroy {
         login: this.login
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.userSubscription !== undefined) {
+      this.userSubscription.unsubscribe();
+    }
+
+    if (this.cargoSubscription !== undefined) {
+      this.cargoSubscription.unsubscribe();
+    }
   }
 }

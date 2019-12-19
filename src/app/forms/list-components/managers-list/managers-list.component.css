@@ -13,3 +13,7 @@ table {
 .right {
   float: right;
 }
+
+.grey {
+  background-color: #f5f5f5;
+}

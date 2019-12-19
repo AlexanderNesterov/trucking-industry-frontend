@@ -179,9 +179,7 @@ export class UpdateDriverComponent implements OnDestroy, DoCheck {
       this.putData();
       this.updateSubscription = this.driverService.update(this.updatedDriver).subscribe(data => {
         this.isUpdated = data;
-        console.log(data);
       }, error => {
-        console.log(error);
         if ((error.error.message as string).includes('Driver with driver license')) {
           this.driverFormGroup.patchValue({driverLicense: ''});
           this.driverLicenseExists = true;

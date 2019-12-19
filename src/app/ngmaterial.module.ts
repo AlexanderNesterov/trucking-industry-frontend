@@ -3,12 +3,21 @@ import {CommonModule} from '@angular/common';
 import {
   MatAutocompleteModule,
   MatBottomSheetModule,
-  MatButtonModule, MatCardModule, MatCheckboxModule,
-  MatDialogModule, MatExpansionModule,
+  MatButtonModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatMenuModule, MatProgressSpinnerModule, MatSelectModule, MatStepperModule,
-  MatTableModule, MatTabsModule, MatToolbarModule
+  MatInputModule,
+  MatMenuModule,
+  MatProgressSpinnerModule,
+  MatSelectModule,
+  MatStepperModule,
+  MatTableModule,
+  MatTabsModule,
+  MatToolbarModule
 } from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';
 

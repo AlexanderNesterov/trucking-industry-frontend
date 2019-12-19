@@ -37,7 +37,6 @@ export class Interceptor implements HttpInterceptor {
               this.router.navigate(['/login']);
             }
           }
-          console.log('++++');
           return throwError(err);
         })
       );

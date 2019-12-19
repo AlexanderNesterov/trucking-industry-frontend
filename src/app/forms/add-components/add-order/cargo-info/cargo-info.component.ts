@@ -1,16 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {Cargo} from '../../../../models/cargo';
 import {PermissionService} from '../../../../services/permision.service';
 import {City} from '../../../../models/city';
 import {LatLngBoundsLiteral} from '@agm/core';
-import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-cargo-info',
@@ -42,8 +34,6 @@ export class CargoInfoComponent {
 
   @Input()
   set setCargo(cargo: Cargo) {
-    // console.log('+++');
-    console.log('cargo', cargo);
     this.loadLoc = cargo.loadLocation;
     this.dischargeLoc = cargo.dischargeLocation;
     this.cargo = cargo;

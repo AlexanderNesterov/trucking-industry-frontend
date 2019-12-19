@@ -14,11 +14,14 @@
 
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Password</mat-label>
-    <input [errorStateMatcher]="matcher" formControlName="password" matInput maxlength="32"
+    <input [errorStateMatcher]="matcher" formControlName="password" matInput minlength="8" maxlength="32"
            [type]="hide ? 'password' : 'text'" required>
     <button mat-icon-button matSuffix (click)="hide = !hide">
       <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
     </button>
+    <mat-error *ngIf="passwordFormControl.hasError('minlength')">
+      Min length is 8 symbols
+    </mat-error>
     <mat-error *ngIf="passwordFormControl.hasError('required')">
       Required field
     </mat-error>

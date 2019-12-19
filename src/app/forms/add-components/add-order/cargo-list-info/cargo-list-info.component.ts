@@ -11,7 +11,7 @@ import {Subscription} from 'rxjs';
   templateUrl: './cargo-list-info.component.html',
   styleUrls: ['./cargo-list-info.component.css']
 })
-export class CargoListInfoComponent implements OnDestroy{
+export class CargoListInfoComponent implements OnDestroy {
 
   @Output()
   onValidFirstGroup = new EventEmitter<Cargo[]>();

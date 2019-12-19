@@ -138,7 +138,6 @@ export class UpdateManagerComponent implements OnInit, OnDestroy {
       this.putData();
       this.updateSubscription = this.managerService.update(this.updatedManager).subscribe(data => {
         this.isUpdated = data;
-        console.log(data);
       });
     });
   }

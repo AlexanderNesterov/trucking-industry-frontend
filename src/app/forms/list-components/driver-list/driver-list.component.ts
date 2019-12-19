@@ -15,7 +15,7 @@ import {ConfirmationDialogComponent} from '../../core-components/dialogs/confirm
 export class DriverListComponent implements OnInit, OnDestroy {
 
   drivers: Driver[];
-  displayedColumns: string[] = ['id', 'name', 'driverLicense', 'contact', 'statuses', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'driverLicense', 'contact', 'userStatus', 'driverStatus', 'action'];
   driverSubscription: Subscription;
   userSubscription: Subscription;
   page = 1;

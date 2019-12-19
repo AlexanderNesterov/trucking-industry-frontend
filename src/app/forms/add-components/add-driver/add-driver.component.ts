@@ -69,12 +69,12 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
 
     this.firstNameFormControl = new FormControl('', [
       Validators.required,
-      Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
+      Validators.pattern('[A-Z][a-z\\sA-Z]{1,31}')
     ]);
 
     this.lastNameFormControl = new FormControl('', [
       Validators.required,
-      Validators.pattern('[[A-Z]|[a-z]][[a-z]|\\s|[A-Z]]{1,31}')
+      Validators.pattern('[A-Z][a-z\\sA-Z]{1,31}')
     ]);
 
     this.phoneFormControl = new FormControl('', [
@@ -147,7 +147,6 @@ export class AddDriverComponent implements DoCheck, OnDestroy {
 
         this.driverFormGroup.reset();
       }, error => {
-        console.log(error);
         if ((error.error.message as string).includes('Driver with login: ')) {
           this.driverFormGroup.patchValue({login: ''});
           this.errorMessage = error.error.message;

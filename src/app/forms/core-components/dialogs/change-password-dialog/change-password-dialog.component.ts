@@ -14,7 +14,8 @@ export class ChangePasswordDialogComponent implements OnDestroy {
 
   login: string;
   matcher = new CustomErrorStateMatcher();
-  hide = true;
+  hideCurrentPassword = true;
+  hideNewPassword = true;
   checking = false;
   isChanged = false;
   error = '';

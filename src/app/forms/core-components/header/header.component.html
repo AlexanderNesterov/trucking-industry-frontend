@@ -3,9 +3,8 @@
 
   <button *ngIf="checkRole('ADMIN')" mat-button routerLink="/drivers">Drivers</button>
   <button *ngIf="checkRole('ADMIN')" mat-button routerLink="/trucks">Trucks</button>
-  <button *ngIf="checkRole('ADMIN')" mat-button routerLink="/order">Order</button>
+  <button *ngIf="checkRole('ADMIN')" mat-button routerLink="/order">Orders</button>
   <button *ngIf="checkRole('ADMIN')" mat-button routerLink="/managers">Managers</button>
-<!--  <button *ngIf="checkRole('ADMIN')" mat-button routerLink="/cities">Cities</button>-->
   <button *ngIf="checkRole('ADMIN')" mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>more_vert</mat-icon>
   </button>
@@ -13,7 +12,6 @@
     <button mat-menu-item routerLink="/add-city">Add city</button>
   </mat-menu>
   <span class="spacer"></span>
-<!--  <button *ngIf="!showLogout()" mat-button routerLink="/login">Log in</button>-->
   <button mat-button *ngIf="showLogout()" [matMenuTriggerFor]="current">{{login}}</button>
   <mat-menu #current="matMenu">
     <button mat-menu-item routerLink="/homepage">Cabinet</button>

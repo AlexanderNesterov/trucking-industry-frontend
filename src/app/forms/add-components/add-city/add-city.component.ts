@@ -33,22 +33,6 @@ export class AddCityComponent implements OnDestroy {
               private dialog: MatDialog) {
   }
 
-  ngOnDestroy(): void {
-    if (this.citySubscription !== undefined) {
-      this.citySubscription.unsubscribe();
-    }
-
-    if (this.dialogSubscription !== undefined) {
-      this.dialogSubscription.unsubscribe();
-    }
-  }
-
-  openBottomSheet(city: any): void {
-    this.bottomSheet.open(CityBottomSheetComponent, {
-      data: {city}
-    });
-  }
-
   putData(city: any) {
     this.addingCity = {
       name: city.name,
@@ -102,5 +86,21 @@ export class AddCityComponent implements OnDestroy {
         message: 'add new city'
       }, width: '17%', height: '19%'
     });
+  }
+
+  openBottomSheet(city: any): void {
+    this.bottomSheet.open(CityBottomSheetComponent, {
+      data: {city}
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.citySubscription !== undefined) {
+      this.citySubscription.unsubscribe();
+    }
+
+    if (this.dialogSubscription !== undefined) {
+      this.dialogSubscription.unsubscribe();
+    }
   }
 }

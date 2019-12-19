@@ -24,12 +24,14 @@
 
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>Id</th>
-      <td mat-cell *matCellDef="let order"> {{order.id}} </td>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let order; let i = index">
+        {{order.id}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="drivers">
       <th mat-header-cell *matHeaderCellDef>Drivers</th>
-      <td mat-cell *matCellDef="let order">
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let order; let i = index">
         {{order.driver.user.firstName}} {{order.driver.user.lastName}}
         <br>
         {{order.coDriver.user.firstName}} {{order.coDriver.user.lastName}}
@@ -38,22 +40,28 @@
 
     <ng-container matColumnDef="truck">
       <th mat-header-cell *matHeaderCellDef>Truck</th>
-      <td mat-cell *matCellDef="let order"> {{order.truck.registrationNumber}} </td>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let order; let i = index">
+        {{order.truck.registrationNumber}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="totalWeight">
       <th mat-header-cell *matHeaderCellDef>Total weight</th>
-      <td mat-cell *matCellDef="let order"> {{order.totalWeight}} </td>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let order; let i = index">
+        {{order.totalWeight}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let order"> {{order.status}} </td>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let order; let i = index">
+        {{order.status}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef>Action</th>
-      <td mat-cell *matCellDef="let order">
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let order; let i = index">
         <button color="accent" mat-button [matMenuTriggerFor]="menu">Actions</button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="openDialog(order)">Details</button>

@@ -18,7 +18,7 @@
     <p>First name: {{order.coDriver.user.firstName}} </p>
     <p>Last name: {{order.coDriver.user.lastName}} </p>
     <p>Driver license: {{order.coDriver.driverLicense}} </p>
-    <p *ngIf="order.driver.user.phone !== '' && order.coDriver.user.phone !== null">
+    <p *ngIf="order.coDriver.user.phone !== '' && order.coDriver.user.phone !== null">
       Phone: {{order.coDriver.user.phone}}
     </p>
     <p>Email: {{order.coDriver.user.email}}</p>
