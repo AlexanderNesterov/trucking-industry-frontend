@@ -36,7 +36,7 @@ export const routes: Routes = [
   {path: 'add-order', component: AddCargoComponent, canActivate: [AdminGuard]},
   {path: 'homepage', component: HomepageComponent, canActivate: [AdminDriverGuard]},
   {path: 'login', component: LoginComponent, canActivate: [NoLoggedUserGuard]},
-  {path: '**', component: NotFoundComponent}
+  {path: '**', redirectTo: 'homepage'}
 ];
 
 @NgModule({
