@@ -25,9 +25,12 @@ export class Interceptor implements HttpInterceptor {
           }
         }));
     } else {
-      cloneReq = req.clone(
-        {headers: new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('authToken')}`)}
-      );
+
+      if (!req.url.includes(this.cityUrl)) {
+        cloneReq = req.clone(
+          {headers: new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('authToken')}`)}
+        );
+      }
 
       return next.handle(cloneReq).pipe(
         catchError(err => {

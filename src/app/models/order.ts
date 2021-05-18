@@ -1,6 +1,7 @@
 import {Driver} from './driver';
 import {Truck} from './truck';
 import {Cargo} from './cargo';
+import {City} from './city';
 
 export interface Order {
   id?: number;
@@ -10,4 +11,5 @@ export interface Order {
   totalWeight: number;
   cargoList: Cargo[];
   status?: string;
+  theBestWay?: City[];
 }

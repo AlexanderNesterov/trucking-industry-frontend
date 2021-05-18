@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {City} from '../models/city';
 
@@ -25,6 +25,11 @@ export class CityService {
   public getCityFromApi(name: string): Observable<any> {
     const params = new HttpParams()
       .set('namePrefix', name);
-    return this.http.get<any>(this.apiUrl, {params});
+    const httpHeaders = new HttpHeaders();
+    httpHeaders.append('Access-Control-Allow-Origin', '*');
+    httpHeaders.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    httpHeaders.append('Access-Control-Allow-Headers', 'Content-Type');
+    httpHeaders.append('Access-Control-Allow-Credentials', 'true');
+    return this.http.get<any>(this.apiUrl, {params, headers: httpHeaders});
   }
 }
