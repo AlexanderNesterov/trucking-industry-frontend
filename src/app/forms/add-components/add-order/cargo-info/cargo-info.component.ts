@@ -3,6 +3,7 @@ import {Cargo} from '../../../../models/cargo';
 import {PermissionService} from '../../../../services/permision.service';
 import {City} from '../../../../models/city';
 import {LatLngBoundsLiteral} from '@agm/core';
+import {Truck} from "../../../../models/truck";
 
 @Component({
   selector: 'app-cargo-info',
@@ -16,9 +17,12 @@ export class CargoInfoComponent {
   loadLoc: City;
   dischargeLoc: City;
   cargo: Cargo;
+  truck: Truck;
+  index: number;
   isCreating = false;
   driverId: number;
   bounds: LatLngBoundsLiteral;
+  delta = 0.06;
 
   @Output()
   onDeliver = new EventEmitter<number>();
@@ -41,6 +45,15 @@ export class CargoInfoComponent {
   }
 
   @Input()
+  set setTruck(truck: Truck) {
+    this.truck = truck;
+/*    this.loadLoc = cargo.loadLocation;
+    this.dischargeLoc = cargo.dischargeLocation;
+    this.cargo = cargo;
+    this.calculateBounds();*/
+  }
+
+  @Input()
   set setDriverId(driverId: number) {
     this.driverId = driverId;
   }
@@ -50,11 +63,23 @@ export class CargoInfoComponent {
     this.isCreating = isCreating;
   }
 
+  @Input()
+  set setIndex(index: number) {
+    this.index = index;
+  }
+
   checkPermissionForDeliver(): boolean {
     const savedDriverId = parseInt(localStorage.getItem('driverId'), 10);
-    return this.permissionService.check('DRIVER')
+    return this.index === 0
+      && this.permissionService.check('DRIVER')
       && this.driverId === savedDriverId
-      && this.cargo.status === 'IN_PROGRESS';
+      && this.cargo.status === 'IN_PROGRESS'
+      && this.checkCoordinates();
+  }
+
+  checkCoordinates() {
+    return Math.abs(this.dischargeLoc.latitude - this.truck.latitude) < this.delta
+      || Math.abs(this.dischargeLoc.longitude - this.truck.longitude) < this.delta;
   }
 
   checkPermissionForAdmin(): boolean {

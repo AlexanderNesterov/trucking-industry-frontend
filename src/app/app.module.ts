@@ -55,6 +55,7 @@ import {UpdateOrderCargoListInfoComponent} from './forms/update-components/updat
 import {UpdateOrderTruckInfoComponent} from './forms/update-components/update-order/update-order-truck-info/update-order-truck-info.component';
 import {ChangePasswordDialogComponent} from './forms/core-components/dialogs/change-password-dialog/change-password-dialog.component';
 import {DriverWayComponent} from './forms/core-components/driver-way/driver-way.component';
+import { InprogressTasksComponent } from './forms/list-components/inprogress-tasks/inprogress-tasks.component';
 
 const googleMapsCore = AgmCoreModule.forRoot({
   apiKey: '',
@@ -98,6 +99,7 @@ const googleMapsCore = AgmCoreModule.forRoot({
     UpdateOrderTruckInfoComponent,
     ChangePasswordDialogComponent,
     DriverWayComponent,
+    InprogressTasksComponent
   ],
   imports: [
     BrowserModule,
