@@ -3,7 +3,7 @@ import {DriverService} from '../../../services/driver.service';
 import {OrderService} from '../../../services/order.service';
 import {Driver} from '../../../models/driver';
 import {Subscription} from 'rxjs';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import {MatBottomSheet, MatDialog, MatDialogRef} from '@angular/material';
 import {ConfirmationDialogComponent} from '../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {PermissionService} from '../../../services/permision.service';
 import {User} from '../../../models/user';
@@ -12,6 +12,7 @@ import {Router} from '@angular/router';
 import {Order} from '../../../models/order';
 import {CargoService} from '../../../services/cargo.service';
 import {ChangePasswordDialogComponent} from '../dialogs/change-password-dialog/change-password-dialog.component';
+import {DriverWayComponent} from '../driver-way/driver-way.component';
 
 @Component({
   selector: 'app-driver-info',
@@ -34,7 +35,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   constructor(private driverService: DriverService, private dialog: MatDialog,
               private orderService: OrderService, private permissionService: PermissionService,
               private managerService: ManagerService, private cargoService: CargoService,
-              private router: Router) {
+              private router: Router, private bottomSheet: MatBottomSheet) {
   }
 
   ngOnInit() {
@@ -120,8 +121,8 @@ export class HomepageComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.cargoService.setDeliveredStatus(cargoId, this.order.id, this.driverId).subscribe(res => {
-        if (res) {
+      this.cargoService.setDeliveredStatus(cargoId, this.order.id, this.driverId).subscribe(result => {
+        if (result) {
           this.getOrder();
         }
       });
@@ -133,6 +134,12 @@ export class HomepageComponent implements OnInit, OnDestroy {
       data: {
         login: this.login
       }
+    });
+  }
+
+  openBottomSheet(): void {
+    this.bottomSheet.open(DriverWayComponent, {
+      data: this.order
     });
   }
 

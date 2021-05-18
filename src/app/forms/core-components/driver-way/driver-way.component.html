@@ -1,0 +1,14 @@
+<!--   check this https://github.com/stephane-monnot/marker-map-svg I used it for markers on the map   -->
+<agm-map [latitude]="order.theBestWay[0].latitude" [longitude]="order.theBestWay[0].longitude">
+  <agm-marker *ngFor="let city of order.theBestWay; let i = index"
+              [latitude]="city.latitude" [longitude]="city.longitude"
+              iconUrl="https://marker.nanoka.fr/map_pin-FFF-000-000-{{i + 1}}-40.svg">
+  </agm-marker>
+  <agm-polyline>
+    <agm-polyline-point *ngFor="let city of order.theBestWay"
+                        [latitude]="city.latitude"
+                        [longitude]="city.longitude">
+    </agm-polyline-point>
+  </agm-polyline>
+</agm-map>
+

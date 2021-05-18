@@ -46,6 +46,9 @@
         <div *ngIf="order.status === 'CREATED'">
           <button mat-flat-button color="primary" (click)="accept()">Accept</button>
           <button mat-flat-button class="driver-action-button" color="warn" (click)="refuse()">Refuse</button>
+          <button mat-flat-button color="primary" class="driver-action-button" (click)="openBottomSheet()">
+            Open possible best way
+          </button>
         </div>
       </div>
     </div>

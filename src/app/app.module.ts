@@ -54,6 +54,7 @@ import {UpdateOrderCargoListInfoComponent} from './forms/update-components/updat
 // tslint:disable-next-line:max-line-length
 import {UpdateOrderTruckInfoComponent} from './forms/update-components/update-order/update-order-truck-info/update-order-truck-info.component';
 import {ChangePasswordDialogComponent} from './forms/core-components/dialogs/change-password-dialog/change-password-dialog.component';
+import {DriverWayComponent} from './forms/core-components/driver-way/driver-way.component';
 
 const googleMapsCore = AgmCoreModule.forRoot({
   apiKey: '',
@@ -95,7 +96,8 @@ const googleMapsCore = AgmCoreModule.forRoot({
     UpdateOrderComponent,
     UpdateOrderCargoListInfoComponent,
     UpdateOrderTruckInfoComponent,
-    ChangePasswordDialogComponent
+    ChangePasswordDialogComponent,
+    DriverWayComponent,
   ],
   imports: [
     BrowserModule,
@@ -121,8 +123,14 @@ const googleMapsCore = AgmCoreModule.forRoot({
       useClass: Interceptor,
       multi: true
     }],
-  entryComponents: [CargoDetailDialogComponent, ConfirmationDialogComponent, CargoDialogInfoComponent,
-    CityBottomSheetComponent, ChangePasswordDialogComponent],
+  entryComponents: [
+    CargoDetailDialogComponent,
+    ConfirmationDialogComponent,
+    CargoDialogInfoComponent,
+    CityBottomSheetComponent,
+    ChangePasswordDialogComponent,
+    DriverWayComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
