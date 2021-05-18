@@ -1,0 +1,84 @@
+<div *ngIf="selectedOrder !== undefined" align="center">
+  <agm-map [fitBounds]="bounds">
+    <agm-marker [latitude]="selectedOrder.cargoList[0].loadLocation.latitude" [longitude]="selectedOrder.cargoList[0].loadLocation.longitude"></agm-marker>
+    <agm-marker [latitude]="selectedOrder.truck.latitude" [longitude]="selectedOrder.truck.longitude" [title]="str"></agm-marker>
+    <agm-marker [latitude]="selectedOrder.cargoList[0].dischargeLocation.latitude" [longitude]="selectedOrder.cargoList[0].dischargeLocation.longitude"></agm-marker>
+  </agm-map>
+</div>
+
+<!--<div class="nav">
+  <div class="left">
+    <app-filter (onFilterInput)="doSearch($event)"></app-filter>
+  </div>
+  <div class="right">
+    <app-navigation [setPage]="page"
+                    (onSizeChange)="sizeChange($event)" (onPageChange)="pageChange($event)"></app-navigation>
+  </div>
+</div>-->
+
+<app-spinner *ngIf="orderList === undefined; else emptyList"></app-spinner>
+<ng-template #emptyList>
+  <p *ngIf="orderList !== undefined && orderList.length === 0; else table">List is empty</p>
+</ng-template>
+
+<ng-template #table>
+  <table mat-table [dataSource]="orderList">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>Id</th>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let order; let i = index">
+        {{order.id}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="drivers">
+      <th mat-header-cell *matHeaderCellDef>Drivers</th>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let order; let i = index">
+        {{order.driver.user.firstName}} {{order.driver.user.lastName}}
+        <br>
+        {{order.coDriver.user.firstName}} {{order.coDriver.user.lastName}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="truck">
+      <th mat-header-cell *matHeaderCellDef>Truck</th>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let order; let i = index">
+        {{order.truck.registrationNumber}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalWeight">
+      <th mat-header-cell *matHeaderCellDef>Total weight</th>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let order; let i = index">
+        {{order.totalWeight}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let order; let i = index">
+        {{order.status}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell [ngClass]="{'grey': i % 2 === 0}" *matCellDef="let order; let i = index">
+<!--        <button color="accent" mat-button [matMenuTriggerFor]="menu">Actions</button>-->
+
+          <button mat-menu-item (click)="setCargo(order)">Details</button>
+<!--          <button mat-menu-item *ngIf="order.status === 'REFUSED_BY_DRIVER'" (click)="updateCargo(order.id)">
+            Edit
+          </button>
+          <button mat-menu-item *ngIf="order.status !== 'DELIVERED' && order.status !== 'CANCELED'"
+                  (click)="cancel(order.id)">
+            Cancel
+          </button>-->
+
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</ng-template>

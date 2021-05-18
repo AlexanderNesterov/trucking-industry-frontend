@@ -26,6 +26,10 @@ export class OrderService {
     return this.http.get<Order[]>(`${this.orderUrl}/search`, {params});
   }
 
+  public getInProgressOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.orderUrl}/in-progress`);
+  }
+
   public addOrder(order: Order): Observable<boolean> {
     return this.http.post<boolean>(this.orderUrl, order);
   }
