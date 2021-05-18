@@ -24,8 +24,8 @@
     <p>Email: {{order.coDriver.user.email}}</p>
   </mat-tab>
   <mat-tab label="Cargo list">
-    <app-cargo-info *ngFor="let cargo of order.cargoList" [setCargo]="cargo"
-                    [setDriverId]="order.driver.id" (onDeliver)="deliver($event)">
+    <app-cargo-info *ngFor="let cargo of order.cargoList; let i = index" [setCargo]="cargo" [setTruck]="order.truck"
+                    [setIndex] = "i" [setDriverId]="order.driver.id" (onDeliver)="deliver($event)">
     </app-cargo-info>
   </mat-tab>
 </mat-tab-group>

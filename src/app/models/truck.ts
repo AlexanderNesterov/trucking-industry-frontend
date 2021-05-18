@@ -3,5 +3,7 @@ export interface Truck {
   registrationNumber: string;
   model: string;
   capacity: number;
+  latitude?: number;
+  longitude?: number;
   condition?: string;
 }

@@ -4,6 +4,7 @@
   <button *ngIf="checkRole('ADMIN')" mat-button routerLink="/drivers">Drivers</button>
   <button *ngIf="checkRole('ADMIN')" mat-button routerLink="/trucks">Trucks</button>
   <button *ngIf="checkRole('ADMIN')" mat-button routerLink="/order">Orders</button>
+  <button *ngIf="checkRole('ADMIN')" mat-button routerLink="/in_progress">In Progress</button>
   <button *ngIf="checkRole('ADMIN')" mat-button routerLink="/managers">Managers</button>
   <button *ngIf="checkRole('ADMIN')" mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>more_vert</mat-icon>
